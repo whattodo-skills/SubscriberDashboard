@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Goal Practice Card | What To Do!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#F7F4ED;--navy:#182047;--blue:#4F5DAD;--blue-bg:#edf1f8;--mint:#B4DACD;--mint-bg:#eaf4f0;--orange:#FF6903;--orange-bg:#fff0e7;--red:#BD3A59;--red-bg:#f7e0e6;--text:#1e1e1e;--muted:#667085;--border:#ded8ce;--white:#fff;--shadow:0 2px 14px rgba(0,0,0,.08);--radius:14px}body{font-family:'Source Sans 3','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}.site-header{width:100%;background:var(--navy);color:white;padding:20px 24px;text-align:center;border-bottom:4px solid var(--mint)}.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mint);font-weight:800;margin-bottom:5px}.site-header h1{font-size:clamp(1.35rem,4vw,1.9rem);font-weight:800;line-height:1.15}.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 70px}.intro{background:white;border-radius:18px;box-shadow:var(--shadow);padding:22px;margin-bottom:18px}.intro h2{color:var(--navy);font-size:1.35rem;line-height:1.2;margin-bottom:8px}.intro p{color:var(--muted);line-height:1.65}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{border:1.5px solid var(--border);background:white;color:var(--muted);border-radius:999px;padding:9px 14px;font:inherit;font-weight:800;cursor:pointer}.tab.active{background:var(--navy);color:white;border-color:var(--navy)}.screen{display:none}.screen.active{display:block}.panel{background:white;border-radius:18px;box-shadow:var(--shadow);padding:20px;margin-bottom:16px}.panel h2,.panel h3{color:var(--navy);line-height:1.2;margin-bottom:10px}.panel p{color:var(--muted);line-height:1.65;font-size:.95rem}.goal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.goal-card{border:1.5px solid var(--border);border-radius:16px;padding:16px;background:#fff}.goal-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--mint-bg);color:#2a6357;font-weight:900;margin-bottom:10px}.label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:900;margin:12px 0 6px}input,textarea,select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font:inherit;background:white;color:var(--text)}textarea{min-height:76px;resize:vertical}input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn-primary{background:var(--navy);color:white}.btn-secondary{background:var(--blue-bg);color:var(--blue);border:1.5px solid #cbd4ee}.btn-full{width:100%}.practice-card{background:white;border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px}.practice-head{background:var(--navy);color:white;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center}.practice-head h2{font-size:1.1rem}.date-row{display:grid;grid-template-columns:1.2fr repeat(7,1fr);border-bottom:1px solid var(--border);background:#faf8f3}.cell{padding:9px;border-right:1px solid var(--border);min-height:42px}.cell:last-child{border-right:0}.day{text-align:center;font-weight:900;color:var(--navy);font-size:.82rem}.tracker-row{display:grid;grid-template-columns:1.2fr repeat(7,1fr);border-bottom:1px solid var(--border)}.row-label{font-weight:900;color:var(--navy);font-size:.88rem}.row-help{font-size:.72rem;color:var(--muted);line-height:1.3;margin-top:2px}.check-cell{display:flex;align-items:center;justify-content:center}.check-cell button{width:30px;height:30px;border-radius:8px;border:2px solid var(--border);background:white;cursor:pointer;font-weight:900;color:white}.check-cell button.on{background:var(--blue);border-color:var(--blue)}.rating{width:100%;padding:6px;border-radius:8px;font-size:.8rem}.mood-row{display:grid;grid-template-columns:1.2fr repeat(7,1fr);border-bottom:1px solid var(--border)}.notes{display:grid;grid-template-columns:1fr 1fr;gap:14px}.summary{background:var(--mint-bg);border-left:4px solid var(--mint);border-radius:12px;padding:14px;line-height:1.65;color:var(--navy)}.summary strong{color:var(--navy)}.category-chip{display:inline-block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:900;padding:5px 9px;border-radius:999px;margin-left:6px}.Focus{background:var(--mint-bg);color:#2a6357}.Coping{background:var(--red-bg);color:#8a1a35}.Feelings{background:var(--blue-bg);color:#2d3880}.Connecting{background:var(--orange-bg);color:#9a3f00}.save-status{font-size:.86rem;color:var(--muted);font-weight:800;margin-top:10px}.save-status.ok{color:#2a6357}.save-status.err{color:#8a1a35}
+.preset-select{min-height:46px}.suggestions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.suggestion-chip{border:1.5px solid #cbd4ee;background:var(--blue-bg);color:var(--blue);border-radius:999px;padding:6px 9px;font-size:.78rem;font-weight:900;cursor:pointer}.progress-wrap{margin-top:10px}.progress-track{height:12px;background:#eee8dc;border-radius:999px;overflow:hidden;border:1px solid var(--border)}.progress-fill{height:100%;width:0;background:var(--mint);border-radius:999px;transition:width .25s ease}.progress-meta{display:flex;justify-content:space-between;gap:8px;font-size:.78rem;color:var(--muted);font-weight:800;margin-top:5px}.closed-section{margin-top:22px}.closed-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px}.closed-card{border:1.5px solid var(--border);border-radius:14px;background:#faf8f3;padding:14px}.closed-card h4{color:var(--navy);margin-bottom:6px}.closed-card p{font-size:.88rem;line-height:1.45;color:var(--muted);margin-bottom:4px}.closed-note{font-size:.82rem;color:var(--muted);font-weight:700}.mini-action{border:0;background:transparent;color:var(--blue);font:inherit;font-weight:900;cursor:pointer;text-decoration:underline;padding:4px 0;margin-top:8px}.goal-card.closed-flash{animation:softPulse .7s ease}@keyframes softPulse{0%{box-shadow:0 0 0 rgba(180,218,205,0)}50%{box-shadow:0 0 0 8px rgba(180,218,205,.35)}100%{box-shadow:0 0 0 rgba(180,218,205,0)}}@media(max-width:900px){.closed-list{grid-template-columns:1fr}}
+.footer{text-align:center;color:var(--muted);font-size:.76rem;line-height:1.6;padding:8px 16px 24px}@media(max-width:900px){.goal-grid,.notes{grid-template-columns:1fr}.date-row,.tracker-row,.mood-row{grid-template-columns:1fr repeat(7,minmax(42px,1fr));font-size:.84rem}.cell{padding:7px 5px}.row-label{font-size:.78rem}.row-help{display:none}}@media(max-width:600px){.wrap{padding:18px 10px 60px}.practice-card{overflow-x:auto}.date-row,.tracker-row,.mood-row{min-width:760px}.btn{width:100%}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="eyebrow">Focus</div><h1>Three Goal Practice Card</h1></header>
+<main class="wrap">
+  <section class="intro"><h2>Choose three goals. Track one objective and one skill for each.</h2><p>This practice card helps you turn broad intentions into a simple weekly plan. Each day, check whether you practiced the skill, rate how the day went, and notice what helped.</p></section>
+  <div class="tabs"><button class="tab active" onclick="showScreen('setup',this)">1. Build Goals</button><button class="tab" onclick="showScreen('practice',this)">2. Daily Card</button><button class="tab" onclick="showScreen('summary',this)">3. Summary</button></div>
+
+  <section class="screen active" id="setup">
+    <div class="panel"><h2>Build your three-goal card</h2><p>For each goal, name one objective and one skill to learn. Keep each objective specific enough that you can tell whether you practiced it this week.</p></div>
+    <div class="goal-grid" id="goalSetup"></div>
+    <div class="closed-section" id="closedGoalsSetup"></div>
+    <div class="btns"><button class="btn btn-primary" onclick="saveGoals();showById('practice')">Save and open daily card →</button><button class="btn btn-secondary" onclick="fillExamples()">Use sample ideas</button></div><div class="save-status" id="saveStatus">Saved on this device. Connect to Wix to save across devices.</div>
+  </section>
+
+  <section class="screen" id="practice">
+    <div class="practice-card"><div class="practice-head"><h2>Weekly Practice Card</h2><span id="weekLabel"></span></div><div id="practiceTable"></div></div>
+    <div class="notes"><div class="panel"><h3>What got in the way?</h3><textarea id="obstacles" oninput="saveState()" placeholder="Example: I was tired, I avoided starting, I got pulled into my phone, I wasn't clear on the next step."></textarea></div><div class="panel"><h3>What helped?</h3><textarea id="helped" oninput="saveState()" placeholder="Example: I made the task smaller, put my phone away, asked for support, took a pause."></textarea></div></div>
+    <div class="btns"><button class="btn btn-primary" onclick="showById('summary')">View summary →</button><button class="btn btn-secondary" onclick="resetWeek()">Reset week</button></div><div class="closed-section" id="closedGoalsPractice"></div>
+  </section>
+
+  <section class="screen" id="summary">
+    <div class="panel"><h2>Your three-goal summary</h2><div id="summaryBox" class="summary"></div><div class="btns"><button class="btn btn-primary" onclick="copySummary()">Copy my plan</button><button class="btn btn-secondary" onclick="showById('setup')">Edit goals</button></div></div><div class="closed-section" id="closedGoalsSummary"></div>
+  </section>
+</main>
+<div class="footer">What To Do! — self-guided skill building for everyday life.</div>
+<script>
+const categories=['Focus','Coping','Feelings','Connecting'];
+const progressLevels=['None','Minimal','Some','Significant','Achieved','Closed'];
+const progressPercent={None:0,Minimal:20,Some:45,Significant:70,Achieved:90,Closed:100};
+const progressHelp={None:'Not started yet.',Minimal:'You have begun.',Some:'You are building momentum.',Significant:'You are seeing real movement.',Achieved:'You reached this goal. Close it when you are ready to start a new one.',Closed:'This goal is complete and will move to your closed goals.'};
+const presetGoals={
+  Focus:[
+    'I want to stop overthinking and come back to what is happening right now.',
+    'I want to start tasks instead of waiting until I feel ready or motivated.',
+    'I want to follow through on small commitments without getting stuck in all-or-nothing thinking.',
+    'I want to notice my thoughts without letting them take over my whole mood or day.',
+    'I want to build a simple routine that helps me feel more grounded and less scattered.'
+  ],
+  Coping:[
+    'I want to calm my body down when stress, anxiety, or overwhelm spike.',
+    'I want to get through hard moments without making things worse.',
+    'I want to have a plan for what to do when I feel stuck, flooded, or shut down.',
+    'I want to stop reacting immediately and give myself time to choose my next move.',
+    'I want to take better care of myself during stressful seasons instead of running on empty.'
+  ],
+  Feelings:[
+    'I want to understand what I am feeling instead of ignoring it, judging it, or getting lost in it.',
+    'I want to reduce self-criticism and learn how to respond to myself with more compassion.',
+    'I want to handle guilt, dread, resentment, sadness, and anger without letting them control my behavior.',
+    'I want to learn the difference between a feeling, a thought, and a fact.',
+    'I want to feel more emotionally steady, even when life or relationships are stressful.'
+  ],
+  Connecting:[
+    'I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else’s reaction.',
+    'I want to communicate what I need more clearly instead of shutting down, hinting, or exploding.',
+    'I want to stop over-functioning in relationships and let other people carry their part.',
+    'I want to repair after conflict without abandoning myself or taking all the blame.',
+    'I want to build healthier connection with people who feel safe, supportive, and respectful.'
+  ]
+};
+const skillIdeas={
+  Focus:['Begin Again','Single-Task Focus','Start the Task','Stone Focus Practice','Thought Labeling'],
+  Coping:['Calm Tool','Ride the Wave','STOP Skill','Connecting After Conflict'],
+  Feelings:['Inner Critic Reset','Feelings Wheel','Thought-Mood Connection','Name the Feeling'],
+  Connecting:['Great Listening','Saying No Without Guilt','Healthy Boundaries','Hard Conversations']
+};
+const goalSkillMap={
+  'overthinking':['Begin Again','Thought Labeling','Stone Focus Practice'],
+  'start tasks':['Start the Task','Begin Again','Single-Task Focus'],
+  'follow through':['Single-Task Focus','Begin Again','Start the Task'],
+  'notice my thoughts':['Thought Labeling','Begin Again','Stone Focus Practice'],
+  'simple routine':['Single-Task Focus','Begin Again','Start the Task'],
+  'calm my body':['Calm Tool','Ride the Wave','STOP Skill'],
+  'hard moments':['Ride the Wave','STOP Skill','Calm Tool'],
+  'stuck, flooded, or shut down':['STOP Skill','Calm Tool','Ride the Wave'],
+  'stop reacting':['STOP Skill','Ride the Wave','Calm Tool'],
+  'stressful seasons':['Calm Tool','Ride the Wave','Start the Task'],
+  'understand what I am feeling':['Feelings Wheel','Name the Feeling','Thought-Mood Connection'],
+  'self-criticism':['Inner Critic Reset','Thought Labeling','Self-Validation'],
+  'guilt, dread, resentment':['Feelings Wheel','Thought-Mood Connection','Inner Critic Reset'],
+  'feeling, a thought, and a fact':['Thought Labeling','Thought-Mood Connection','Inner Critic Reset'],
+  'emotionally steady':['Feelings Wheel','Calm Tool','Thought-Mood Connection'],
+  'set boundaries':['Healthy Boundaries','Saying No Without Guilt','Hard Conversations'],
+  'communicate what I need':['Hard Conversations','Great Listening','Healthy Boundaries'],
+  'over-functioning':['Healthy Boundaries','Saying No Without Guilt','Hard Conversations'],
+  'repair after conflict':['Connecting After Conflict','Hard Conversations','Great Listening'],
+  'healthier connection':['Great Listening','Healthy Boundaries','Hard Conversations']
+};
+const DEFAULT_GOALS=[{goal:'',customGoal:'',objective:'',category:'Focus',skill:'',progress:'None'},{goal:'',customGoal:'',objective:'',category:'Coping',skill:'',progress:'None'},{goal:'',customGoal:'',objective:'',category:'Connecting',skill:'',progress:'None'}];
+function $(id){return document.getElementById(id)}
+function escapeHtml(str){return String(str||'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
+function cleanCategory(c,fallback){return categories.includes(c)?c:fallback}
+function cleanProgress(p){return progressLevels.includes(p)?p:'None'}
+function blankGoal(i){return {...DEFAULT_GOALS[i%DEFAULT_GOALS.length]}}
+function normalizeGoals(input){let arr=Array.isArray(input)?input:[];return [0,1,2].map(i=>{let g={...blankGoal(i),...(arr[i]||{})};g.category=cleanCategory(g.category,blankGoal(i).category);g.progress=cleanProgress(g.progress);return g})}
+function normalizeClosed(input){return Array.isArray(input)?input.map(g=>({...g,category:cleanCategory(g.category,'Focus'),progress:'Closed',archived:true})):[]}
+function getStoredJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(e){return fallback}}
+let rawStoredGoals=getStoredJson('wtd_3_goal_goals',null);
+let goals=normalizeGoals(Array.isArray(rawStoredGoals)?rawStoredGoals.filter(g=>!g.archived):rawStoredGoals);
+let closedGoals=normalizeClosed(getStoredJson('wtd_3_goal_closed_goals',Array.isArray(rawStoredGoals)?rawStoredGoals.filter(g=>g.archived):[]));
+let checks=getStoredJson('wtd_3_goal_checks',{});
+let ratings=getStoredJson('wtd_3_goal_ratings',{});
+function goalText(g){return g.goal==='__custom__'?(g.customGoal||''):g.goal}
+function suggestedSkillsFor(goal,category){let text=(goalText(goal)||'').toLowerCase();for(const key in goalSkillMap){if(text.includes(key))return goalSkillMap[key]}return skillIdeas[category]||skillIdeas.Focus}
+function saveLocal(){localStorage.setItem('wtd_3_goal_goals',JSON.stringify(goals));localStorage.setItem('wtd_3_goal_closed_goals',JSON.stringify(closedGoals))}
+function showScreen(id,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');if(id==='summary')renderSummary();renderClosedGoals();window.scrollTo({top:0,behavior:'smooth'})}
+function showById(id){let i={setup:0,practice:1,summary:2}[id];let tabs=document.querySelectorAll('.tab');tabs.forEach(t=>t.classList.remove('active'));if(tabs[i])tabs[i].classList.add('active');showScreen(id,tabs[i])}
+function presetOptions(selected){let html='<option value="">Choose a preset goal...</option>';categories.forEach(cat=>{html+=`<optgroup label="${cat} Goals">`;presetGoals[cat].forEach(goal=>{html+=`<option value="${escapeHtml(goal)}" ${selected===goal?'selected':''}>${escapeHtml(goal)}</option>`});html+='</optgroup>'});html+=`<option value="__custom__" ${selected==='__custom__'?'selected':''}>Write my own goal</option>`;return html}
+function progressControl(g,i){let pct=progressPercent[g.progress]||0;return `<div class="progress-wrap"><div class="label">Progress</div><select id="progress_${i}" onchange="updateProgress(${i})">${progressLevels.map(p=>`<option ${g.progress===p?'selected':''}>${p}</option>`).join('')}</select><div class="progress-track" aria-label="Progress"><div class="progress-fill" style="width:${pct}%"></div></div><div class="progress-meta"><span>${g.progress}</span><span>${pct}%</span></div><p class="closed-note">${progressHelp[g.progress]}</p></div>`}
+function renderSetup(){goals=normalizeGoals(goals);$('goalSetup').innerHTML=goals.map((g,i)=>`<div class="goal-card" id="goalCard_${i}"><div class="goal-num">${i+1}</div><h3 style="color:var(--navy);margin-bottom:6px">Goal ${i+1}</h3><div class="label">Preset goal</div><select class="preset-select" id="goal_${i}" onchange="applyPreset(${i})">${presetOptions(g.goal)}</select><div id="customWrap_${i}" style="display:${g.goal==='__custom__'?'block':'none'}"><div class="label">Your goal</div><textarea id="customGoal_${i}" placeholder="Write your own goal here.">${escapeHtml(g.customGoal||'')}</textarea></div><div class="label">One objective</div><textarea id="objective_${i}" placeholder="What specific result or practice would show progress?">${escapeHtml(g.objective||'')}</textarea><div class="label">Category</div><select id="category_${i}" onchange="updateSkillOptions(${i})">${categories.map(c=>`<option ${g.category===c?'selected':''}>${c}</option>`).join('')}</select><div class="label">Suggested skill to practice</div><select id="skill_${i}"></select><div class="suggestions" id="suggestions_${i}"></div>${progressControl(g,i)}</div>`).join('');goals.forEach((_,i)=>updateSkillOptions(i,true));renderClosedGoals()}
+function findCategoryForPreset(goal){for(const cat of categories){if(presetGoals[cat].includes(goal))return cat}return null}
+function applyPreset(i){let val=$(`goal_${i}`).value;let cat=findCategoryForPreset(val);if(cat)$(`category_${i}`).value=cat;$(`customWrap_${i}`).style.display=val==='__custom__'?'block':'none';if(val!=='__custom__' && !($(`objective_${i}`).value||'').trim()){$(`objective_${i}`).value=objectiveForGoal(val)}updateSkillOptions(i);saveGoals(false)}
+function objectiveForGoal(goal){if(!goal)return '';if(goal.includes('start tasks'))return 'Choose one task and complete the first small step within five minutes.';if(goal.includes('overthinking'))return 'Practice returning attention to one present-moment activity once a day.';if(goal.includes('boundaries'))return 'Set one clear limit without overexplaining.';if(goal.includes('reacting'))return 'Pause for 60 seconds before responding when I feel pulled to react.';if(goal.includes('self-criticism'))return 'Notice the self-critical thought and write one kinder, more accurate response.';return 'Practice one small action that supports this goal at least three times this week.'}
+function updateSkillOptions(i,keep){let cat=cleanCategory($(`category_${i}`).value,goals[i]?.category||'Focus');let temp={...goals[i],goal:$(`goal_${i}`)?.value||goals[i].goal,customGoal:$(`customGoal_${i}`)?.value||goals[i].customGoal,category:cat};let suggestions=suggestedSkillsFor(temp,cat);let full=[...new Set([...suggestions,...(skillIdeas[cat]||[])])];let current=keep?goals[i].skill:'';if(current && !full.includes(current))full.unshift(current);$(`skill_${i}`).innerHTML=full.map(s=>`<option ${current===s?'selected':''}>${escapeHtml(s)}</option>`).join('')+`<option ${current==='Other'?'selected':''}>Other</option>`;$(`suggestions_${i}`).innerHTML=suggestions.map(s=>`<button type="button" class="suggestion-chip" onclick="chooseSkill(${i},'${escapeHtml(s)}')">${escapeHtml(s)}</button>`).join('')}
+function chooseSkill(i,skill){$(`skill_${i}`).value=skill;saveGoals(false)}
+function updateProgress(i){let p=cleanProgress($(`progress_${i}`).value);if(p==='Closed'){closeGoal(i);return}goals[i].progress=p;saveGoals()}
+function syncGoalsFromInputs(){goals=normalizeGoals(goals).map((g,i)=>({goal:$(`goal_${i}`)?.value||g.goal||'',customGoal:($(`customGoal_${i}`)?.value||g.customGoal||'').trim(),objective:($(`objective_${i}`)?.value||g.objective||'').trim(),category:cleanCategory($(`category_${i}`)?.value||g.category,'Focus'),skill:$(`skill_${i}`)?.value||g.skill||'',progress:cleanProgress($(`progress_${i}`)?.value||g.progress)}));saveLocal()}
+function saveGoals(redraw=true){syncGoalsFromInputs();if(redraw){renderPractice();renderSummary();renderClosedGoals()}sendSaveToWix()}
+function fillExamples(){goals=[{goal:presetGoals.Focus[1],objective:'Choose one task and complete the first small step within five minutes.',category:'Focus',skill:'Start the Task',progress:'Minimal'},{goal:presetGoals.Coping[3],objective:'Pause for 60 seconds before responding when I feel pulled to react.',category:'Coping',skill:'STOP Skill',progress:'Some'},{goal:presetGoals.Connecting[0],objective:'Set one clear limit without overexplaining.',category:'Connecting',skill:'Healthy Boundaries',progress:'None'}];renderSetup();saveGoals()}
+function closeGoal(i){syncGoalsFromInputs();let finished={...goals[i],closedAt:new Date().toISOString(),progress:'Closed',archived:true};closedGoals.unshift(finished);goals[i]=blankGoal(i);saveLocal();renderSetup();renderPractice();renderSummary();renderClosedGoals();sendSaveToWix();setTimeout(()=>{let card=$(`goalCard_${i}`);if(card)card.classList.add('closed-flash')},50);statusMsg('Goal closed. A fresh goal card is ready.', 'ok')}
+function reopenGoal(index){let g=closedGoals.splice(index,1)[0];let slot=goals.findIndex(x=>!goalText(x));if(slot<0)slot=0;goals[slot]={...g,progress:'Achieved',archived:false,closedAt:''};saveLocal();renderSetup();renderPractice();renderSummary();renderClosedGoals();sendSaveToWix()}
+function weekDays(){let arr=[];let now=new Date();for(let i=0;i<7;i++){let d=new Date(now);d.setDate(now.getDate()+i);arr.push(d)}return arr}
+function keyFor(d){return d.toISOString().slice(0,10)}
+function renderPractice(){let days=weekDays();$('weekLabel').textContent='Starting '+days[0].toLocaleDateString('en-US',{month:'short',day:'numeric'});let html='<div class="date-row"><div class="cell row-label">Practice Area</div>'+days.map(d=>`<div class="cell day">${d.toLocaleDateString('en-US',{weekday:'short'})}<br>${d.getMonth()+1}/${d.getDate()}</div>`).join('')+'</div>';goals.forEach((g,i)=>{let pct=progressPercent[g.progress]||0;html+=`<div class="tracker-row"><div class="cell"><div class="row-label">Goal ${i+1}: ${escapeHtml(goalText(g)||'Choose a goal')} <span class="category-chip ${g.category}">${g.category}</span></div><div class="row-help">Objective: ${escapeHtml(g.objective||'Add one objective')}<br>Skill: ${escapeHtml(g.skill||'Choose one skill')}<br>Progress: ${g.progress} (${pct}%)</div></div>`+days.map(d=>{let k=`g${i}_${keyFor(d)}`;return `<div class="cell check-cell"><button class="${checks[k]?'on':''}" onclick="toggleCheck('${k}',this)">${checks[k]?'✓':''}</button></div>`}).join('')+'</div>'});html+=`<div class="mood-row"><div class="cell"><div class="row-label">How did the day go?</div><div class="row-help">1 = rough, 5 = strong</div></div>`+days.map(d=>{let k=keyFor(d);return `<div class="cell"><select class="rating" onchange="setRating('${k}',this.value)"><option value="">–</option>${[1,2,3,4,5].map(n=>`<option ${ratings[k]==n?'selected':''}>${n}</option>`).join('')}</select></div>`}).join('')+'</div>';$('practiceTable').innerHTML=html;$('obstacles').value=localStorage.getItem('wtd_3_goal_obstacles')||'';$('helped').value=localStorage.getItem('wtd_3_goal_helped')||'';renderClosedGoals()}
+function toggleCheck(k,btn){checks[k]=!checks[k];localStorage.setItem('wtd_3_goal_checks',JSON.stringify(checks));btn.classList.toggle('on');btn.textContent=checks[k]?'✓':'';sendSaveToWix()}
+function setRating(k,v){if(v)ratings[k]=v;else delete ratings[k];localStorage.setItem('wtd_3_goal_ratings',JSON.stringify(ratings));sendSaveToWix()}
+function saveState(){localStorage.setItem('wtd_3_goal_obstacles',$('obstacles').value);localStorage.setItem('wtd_3_goal_helped',$('helped').value);sendSaveToWix()}
+function renderSummary(){syncGoalsFromInputs();let total=0,done=0;goals.forEach((g,i)=>weekDays().forEach(d=>{total++;if(checks[`g${i}_${keyFor(d)}`])done++}));let lines=goals.map((g,i)=>`<p><strong>Goal ${i+1}:</strong> ${escapeHtml(goalText(g)||'Not set')}<br><strong>Objective:</strong> ${escapeHtml(g.objective||'Not set')}<br><strong>Skill:</strong> ${escapeHtml(g.skill||'Not set')} (${g.category})<br><strong>Progress:</strong> ${g.progress} — ${progressPercent[g.progress]||0}%</p>`).join('');$('summaryBox').innerHTML=`${lines}<p><strong>This week:</strong> ${done} of ${total} possible practice check-ins completed.</p><p><strong>What got in the way:</strong> ${escapeHtml(localStorage.getItem('wtd_3_goal_obstacles')||'Nothing noted yet.')}</p><p><strong>What helped:</strong> ${escapeHtml(localStorage.getItem('wtd_3_goal_helped')||'Nothing noted yet.')}</p>`;renderClosedGoals()}
+function renderClosedGoals(){let html='';if(closedGoals.length){html=`<div class="panel"><h3>Closed Goals</h3><p>These goals are saved at the bottom so subscribers can see what they have completed and keep building.</p><div class="closed-list">${closedGoals.map((g,i)=>`<div class="closed-card"><h4>${escapeHtml(goalText(g)||'Closed goal')}</h4><p><strong>Category:</strong> ${g.category}</p><p><strong>Objective:</strong> ${escapeHtml(g.objective||'Not recorded')}</p><p><strong>Skill:</strong> ${escapeHtml(g.skill||'Not recorded')}</p><p><strong>Closed:</strong> ${g.closedAt?new Date(g.closedAt).toLocaleDateString():'Today'}</p><button type="button" class="mini-action" onclick="reopenGoal(${i})">Move back to active goals</button></div>`).join('')}</div></div>`}['closedGoalsSetup','closedGoalsPractice','closedGoalsSummary'].forEach(id=>{let el=$(id);if(el)el.innerHTML=html})}
+function copySummary(){let text=$('summaryBox').innerText;navigator.clipboard.writeText(text).then(()=>alert('Copied your plan.'))}
+function resetWeek(){if(confirm('Reset this week’s check-ins and ratings?')){checks={};ratings={};localStorage.removeItem('wtd_3_goal_checks');localStorage.removeItem('wtd_3_goal_ratings');renderPractice();sendSaveToWix()}}
+function statusMsg(text,type){let el=$('saveStatus');if(!el)return;el.textContent=text;el.className='save-status '+(type||'')}
+function collectPayload(){return{goals:[...goals,...closedGoals.map(g=>({...g,archived:true,progress:'Closed'}))],checks,ratings,obstacles:localStorage.getItem('wtd_3_goal_obstacles')||'',helped:localStorage.getItem('wtd_3_goal_helped')||'',updatedAt:new Date().toISOString()}}
+let saveTimer=null;
+function sendSaveToWix(){statusMsg('Saving...', '');clearTimeout(saveTimer);saveTimer=setTimeout(()=>{try{window.parent.postMessage({type:'threeGoalSave',payload:collectPayload()},'*')}catch(e){statusMsg('Saved on this device only.', '')}},350)}
+function loadFromWix(data){if(!data)return;try{let incoming=Array.isArray(data.goals)?data.goals:[];goals=normalizeGoals(incoming.filter(g=>!g.archived));closedGoals=normalizeClosed(incoming.filter(g=>g.archived));if(data.checks)checks=data.checks;if(data.ratings)ratings=data.ratings;if(typeof data.obstacles==='string')localStorage.setItem('wtd_3_goal_obstacles',data.obstacles);if(typeof data.helped==='string')localStorage.setItem('wtd_3_goal_helped',data.helped);saveLocal();localStorage.setItem('wtd_3_goal_checks',JSON.stringify(checks));localStorage.setItem('wtd_3_goal_ratings',JSON.stringify(ratings));renderSetup();renderPractice();renderSummary();statusMsg('Loaded your saved goals from Wix.', 'ok')}catch(e){statusMsg('Could not load saved goals.', 'err')}}
+window.addEventListener('message',e=>{const msg=e.data||{};if(msg.type==='threeGoalLoad'){loadFromWix(msg.payload)}if(msg.type==='threeGoalSaved'){statusMsg(msg.success?'Saved to your account.':'Could not save to your account.',msg.success?'ok':'err')}});
+window.parent&&window.parent.postMessage({type:'threeGoalReady'},'*');
+renderSetup();renderPractice();renderSummary();
+</script>
+</body>
+</html>
