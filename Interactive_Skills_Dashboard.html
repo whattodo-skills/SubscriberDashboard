@@ -81,14 +81,36 @@ const NEEDS=[
 {id:'reset',emoji:'🌿',title:'I need a reset',sub:'Start again without spiraling'}
 ];
 const MOODS=[['Great','😊','#B4DACD'],['Steady','🙂','#B4DACD'],['Tired','😴','#edf1f8'],['Stressed','😬','#f7e0e6'],['Sad','😔','#edf1f8'],['Angry','😤','#f7e0e6'],['Overwhelmed','🌪️','#f7e0e6'],['Hopeful','🌤️','#B4DACD']];
-const PRESET_GOALS=[
-  'Stay focused on one thing at a time',
-  'Calm my body before I react',
-  'Understand what I am feeling',
-  'Communicate clearly and kindly',
-  'Start what I have been avoiding',
-  'Set a limit without guilt'
-];
+const PRESET_GOALS={
+  Focus:[
+    'I want to stop overthinking and come back to what is happening right now.',
+    'I want to start tasks instead of waiting until I feel ready or motivated.',
+    'I want to follow through on small commitments without getting stuck in all-or-nothing thinking.',
+    'I want to notice my thoughts without letting them take over my whole mood or day.',
+    'I want to build a simple routine that helps me feel more grounded and less scattered.'
+  ],
+  Coping:[
+    'I want to calm my body down when stress, anxiety, or overwhelm spike.',
+    'I want to get through hard moments without making things worse.',
+    'I want to have a plan for what to do when I feel stuck, flooded, or shut down.',
+    'I want to stop reacting immediately and give myself time to choose my next move.',
+    'I want to take better care of myself during stressful seasons instead of running on empty.'
+  ],
+  Feelings:[
+    'I want to understand what I am feeling instead of ignoring it, judging it, or getting lost in it.',
+    'I want to reduce self-criticism and learn how to respond to myself with more compassion.',
+    'I want to handle guilt, dread, resentment, sadness, and anger without letting them control my behavior.',
+    'I want to learn the difference between a feeling, a thought, and a fact.',
+    'I want to feel more emotionally steady, even when life or relationships are stressful.'
+  ],
+  Connecting:[
+    'I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else’s reaction.',
+    'I want to communicate what I need more clearly instead of shutting down, hinting, or exploding.',
+    'I want to stop over-functioning in relationships and let other people carry their part.',
+    'I want to repair after conflict without abandoning myself or taking all the blame.',
+    'I want to build healthier connection with people who feel safe, supportive, and respectful.'
+  ]
+};
 let skills=[...DEFAULT_SKILLS],activeNeed=null,currentSkillId=null;
 let saved=new Set(JSON.parse(localStorage.getItem('wtd_saved_skills')||'[]'));
 let completed=JSON.parse(localStorage.getItem('wtd_completed_skills')||'[]');
@@ -124,10 +146,13 @@ function currentGoalNumber(){let goals=activeGoals();for(let i=1;i<=3;i++){let g
 function currentGoal(){let n=currentGoalNumber();return activeGoals().find(g=>Number(g.goalNumber)===n)}
 function skillOptions(selectedId,category){let list=category?skills.filter(s=>normalizeCat(s.category)===category):skills;return list.map(s=>`<option value="${escapeHtml(s.id)}" ${s.id===selectedId?'selected':''}>${escapeHtml(s.name)}</option>`).join('')}
 function categoryOptions(selected){return ['Focus','Coping','Feelings','Connecting'].map(c=>`<option value="${c}" ${c===selected?'selected':''}>${c}</option>`).join('')}
-function presetOptions(selected){return PRESET_GOALS.map(g=>`<option value="${escapeHtml(g)}" ${g===selected?'selected':''}>${escapeHtml(g)}</option>`).join('')}
+function firstPresetGoal(){return PRESET_GOALS.Focus[0]}
+function categoryForPreset(goal){for(const cat of Object.keys(PRESET_GOALS)){if(PRESET_GOALS[cat].includes(goal))return cat}return ''}
+function presetOptions(selected){return Object.keys(PRESET_GOALS).map(cat=>`<optgroup label="${cat}">${PRESET_GOALS[cat].map(g=>`<option value="${escapeHtml(g)}" ${g===selected?'selected':''}>${escapeHtml(g)}</option>`).join('')}</optgroup>`).join('')}
 function progressButtons(goal){let pct=Number(goal?.manualProgressPercent??goal?.progressPercent??0);return [0,25,50,75,100].map(n=>`<button class="progress-chip ${pct===n?'active':''}" onclick="updateGoalProgress(${goal?.goalNumber||currentGoalNumber()},'${goal?.id||''}',${n})">${n}%</button>`).join('')}
-function renderGoals(){let grid=$('goalsGrid'), empty=$('goalsEmpty');if(!grid||!empty)return;let goals=activeGoals();let n=currentGoalNumber();let g=currentGoal();let category=normalizeCat(g?.category||'Focus');let selectedSkill=g?.suggestedSkillId||(skills.find(s=>normalizeCat(s.category)===category)||skills[0]||{}).id||'';let selected=skills.find(s=>s.id===selectedSkill)||{};let locked=n>1&&!goals.find(x=>Number(x.goalNumber)===n-1&&x.status==='complete');let completeCount=goals.filter(x=>x.status==='complete').length;let builder=completeCount>=3?`<div class="goal-builder"><div class="goal-builder-top"><div><h3>Three goals complete</h3><p>You have completed all three saved goals.</p></div><span class="cat Connecting">Complete</span></div></div>`:`<div class="goal-builder ${locked?'goal-locked':''}"><div class="goal-builder-top"><div><h3>Goal ${n}</h3><p>${locked?'Complete the previous goal to unlock this one.':'Work on one goal at a time. Save it here, then practice the suggested skill and update progress as you go.'}</p></div><span class="cat ${category}">${category}</span></div>${locked?'':`<div class="goal-form"><div class="field"><label>Preset Goal</label><select id="goalPreset">${presetOptions(g?.presetGoal||PRESET_GOALS[0])}</select></div><div class="field"><label>Category</label><select id="goalCategory" onchange="refreshGoalSkillOptions()">${categoryOptions(category)}</select></div><div class="field full"><label>One Objective</label><textarea id="goalObjective" placeholder="Name the one thing this goal is helping you practice.">${escapeHtml(g?.objective||'')}</textarea></div><div class="field full"><label>Suggested Skills to Practice</label><select id="goalSkill">${skillOptions(selectedSkill,category)}</select></div><div class="field full"><label>Progress</label><div class="goal-bar"><div class="goal-bar-fill" style="width:${Number(g?.progressPercent||0)}%"></div></div><div class="goal-progress-meta"><span>Saved progress</span><span>${Number(g?.progressPercent||0)}%</span></div></div><div class="goal-save-row"><div class="goal-progress-controls">${g?progressButtons(g):''}</div><button class="btn btn-primary" onclick="saveGoal(${n})">${g?'Save Goal':'Save Goal '+n}</button></div></div>`}</div>`;let savedCards=goals.map(goalCard).join('');grid.innerHTML=builder+(savedCards?`<div class="saved-goals">${savedCards}</div>`:'');empty.style.display=goals.length?'none':'block'}
+function renderGoals(){let grid=$('goalsGrid'), empty=$('goalsEmpty');if(!grid||!empty)return;let goals=activeGoals();let n=currentGoalNumber();let g=currentGoal();let preset=g?.presetGoal||firstPresetGoal();let category=normalizeCat(g?.category||categoryForPreset(preset)||'Focus');let selectedSkill=g?.suggestedSkillId||(skills.find(s=>normalizeCat(s.category)===category)||skills[0]||{}).id||'';let selected=skills.find(s=>s.id===selectedSkill)||{};let locked=n>1&&!goals.find(x=>Number(x.goalNumber)===n-1&&x.status==='complete');let completeCount=goals.filter(x=>x.status==='complete').length;let builder=completeCount>=3?`<div class="goal-builder"><div class="goal-builder-top"><div><h3>Three goals complete</h3><p>You have completed all three saved goals.</p></div><span class="cat Connecting">Complete</span></div></div>`:`<div class="goal-builder ${locked?'goal-locked':''}"><div class="goal-builder-top"><div><h3>Goal ${n}</h3><p>${locked?'Complete the previous goal to unlock this one.':'Work on one goal at a time. Save it here, then practice the suggested skill and update progress as you go.'}</p></div><span class="cat ${category}">${category}</span></div>${locked?'':`<div class="goal-form"><div class="field"><label>Preset Goal</label><select id="goalPreset" onchange="syncGoalPresetCategory()">${presetOptions(preset)}</select></div><div class="field"><label>Category</label><select id="goalCategory" onchange="refreshGoalSkillOptions()">${categoryOptions(category)}</select></div><div class="field full"><label>One Objective</label><textarea id="goalObjective" placeholder="Name the one thing this goal is helping you practice.">${escapeHtml(g?.objective||'')}</textarea></div><div class="field full"><label>Suggested Skills to Practice</label><select id="goalSkill">${skillOptions(selectedSkill,category)}</select></div><div class="field full"><label>Progress</label><div class="goal-bar"><div class="goal-bar-fill" style="width:${Number(g?.progressPercent||0)}%"></div></div><div class="goal-progress-meta"><span>Saved progress</span><span>${Number(g?.progressPercent||0)}%</span></div></div><div class="goal-save-row"><div class="goal-progress-controls">${g?progressButtons(g):''}</div><button class="btn btn-primary" onclick="saveGoal(${n})">${g?'Save Goal':'Save Goal '+n}</button></div></div>`}</div>`;let savedCards=goals.map(goalCard).join('');grid.innerHTML=builder+(savedCards?`<div class="saved-goals">${savedCards}</div>`:'');empty.style.display=goals.length?'none':'block'}
 function refreshGoalSkillOptions(){let cat=$('goalCategory').value;$('goalSkill').innerHTML=skillOptions('',cat)}
+function syncGoalPresetCategory(){let cat=categoryForPreset($('goalPreset').value);if(cat){$('goalCategory').value=cat;refreshGoalSkillOptions()}}
 function goalCard(g){let cat=normalizeCat(g.category||'Focus');let pct=Number(g.progressPercent||0);return `<article class="goal-progress-card ${g.status==='complete'?'goal-complete':''}"><div class="goal-kicker"><span class="goal-num">${g.goalNumber}</span><span class="cat ${cat}">${cat}</span></div><div class="label">Preset Goal</div><div class="goal-title">${escapeHtml(g.presetGoal||'Saved goal')}</div><div class="label">One objective</div><div class="goal-detail">${escapeHtml(g.objective||'Not set yet')}</div><div class="label">Suggested skill to practice</div><div class="goal-skill">${escapeHtml(g.suggestedSkillTitle||'Choose a skill')}</div><div class="goal-bar"><div class="goal-bar-fill" style="width:${pct}%"></div></div><div class="goal-progress-meta"><span>${g.status==='complete'?'Complete':'Active'}</span><span>${pct}%</span></div>${g.suggestedSkillId?`<button class="btn btn-secondary" onclick="openPractice('${g.suggestedSkillId}')">Practice Skill</button>`:''}</article>`}
 function saveGoal(goalNumber){let skill=skills.find(s=>s.id===$('goalSkill').value)||{};let payload={goalNumber,presetGoal:$('goalPreset').value,objective:$('goalObjective').value,category:$('goalCategory').value,suggestedSkillId:skill.id||'',suggestedSkillTitle:skill.name||'',suggestedSkillSlug:skill.slug||'',suggestedSkillUrl:resolveSkillUrl(skill),manualProgressPercent:Number(currentGoal()?.manualProgressPercent||0),progressPercent:Number(currentGoal()?.progressPercent||0)};sendDashboardState('goalSaved',payload);toast('Goal saved')}
 function updateGoalProgress(goalNumber,goalId,pct){let goals=activeGoals();let g=goals.find(x=>(goalId&&x.id===goalId)||Number(x.goalNumber)===goalNumber);if(g){g.manualProgressPercent=pct;g.progressPercent=Math.max(Number(g.autoProgressPercent||0),pct);g.status=g.progressPercent>=100?'complete':'active'}sendDashboardState('goalProgressUpdated',{goalNumber,goalId,manualProgressPercent:pct,progressPercent:pct});renderGoals();toast('Progress saved')}
