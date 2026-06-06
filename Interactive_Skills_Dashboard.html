@@ -14,26 +14,26 @@
 </style>
 </head>
 <body>
-<div class="mobile-top"><strong>What To Do!</strong><button class="hamb" onclick="toggleSidebar()">‚ò∞</button></div>
+<div class="mobile-top"><strong>What To Do!</strong><button class="hamb" onclick="toggleSidebar()">Menu</button></div>
 <div class="app">
 <aside class="sidebar" id="sidebar">
   <div class="brand-kicker">What To Do!</div><div class="brand-title">Subscriber Dashboard</div><div class="brand-sub">Your home base for skill practice.</div>
   <div class="nav-label">Member Area</div>
-  <button class="nav-btn active" onclick="scrollToSection('top')">üè† Subscriber Dashboard</button>
-  <a class="nav-btn" href="https://www.whattodo.coach/my-account" target="_top">üë§ My Account</a>
-  <a class="nav-btn" href="https://www.whattodo.coach/my-subscriptions" target="_top">üí≥ My Subscriptions</a>
-  <a class="nav-btn" href="https://www.whattodo.coach/my-orders" target="_top">üßæ My Orders</a>
-  <a class="nav-btn" href="https://www.whattodo.coach/my-notifications" target="_top">üîî My Notifications</a>
-  <a class="nav-btn" href="https://www.whattodo.coach/my-community" target="_top">üí¨ My Community</a>
-  <a class="nav-btn" href="https://www.whattodo.coach/profile/my/profile" target="_top">üìã Profile</a>
-  <a class="nav-btn" href="https://www.whattodo.coach/my-programs" target="_top">üìö My Programs</a>
+  <button class="nav-btn active" onclick="scrollToSection('top')">Subscriber Dashboard</button>
+  <a class="nav-btn" href="https://www.whattodo.coach/my-account" target="_top">My Account</a>
+  <a class="nav-btn" href="https://www.whattodo.coach/my-subscriptions" target="_top">My Subscriptions</a>
+  <a class="nav-btn" href="https://www.whattodo.coach/my-orders" target="_top">My Orders</a>
+  <a class="nav-btn" href="https://www.whattodo.coach/my-notifications" target="_top">My Notifications</a>
+  <a class="nav-btn" href="https://www.whattodo.coach/my-community" target="_top">My Community</a>
+  <a class="nav-btn" href="https://www.whattodo.coach/profile/my/profile" target="_top">Profile</a>
+  <a class="nav-btn" href="https://www.whattodo.coach/my-programs" target="_top">My Programs</a>
   <div class="nav-label">Dashboard</div>
-  <button class="nav-btn" onclick="scrollToSection('skill-stacks')">üß© Build Stack</button>
-  <button class="nav-btn" onclick="scrollToSection('guide')">‚ú® Find a Skill</button>
-  <button class="nav-btn" onclick="scrollToSection('mood')">üíô Mood Check</button>
-  <button class="nav-btn" onclick="scrollToSection('progress')">üìà Progress</button>
-  <button class="nav-btn" onclick="scrollToSection('recent')">üïò Recently Opened</button>
-  <button class="nav-btn" onclick="scrollToSection('wix-snippets')">üí¨ Community</button>
+  <button class="nav-btn" onclick="scrollToSection('skill-stacks')">Build Stack</button>
+  <button class="nav-btn" onclick="scrollToSection('guide')">Find a Skill</button>
+  <button class="nav-btn" onclick="scrollToSection('mood')">Mood Check</button>
+  <button class="nav-btn" onclick="scrollToSection('progress')">Progress</button>
+  <button class="nav-btn" onclick="scrollToSection('recent')">Recently Opened</button>
+  <button class="nav-btn" onclick="scrollToSection('wix-snippets')">Community</button>
   <div class="side-card"><h3>Member navigation</h3><p>Use this menu to open your account, subscriptions, community, programs, and notifications.</p></div>
 </aside>
 <main class="main" id="top">
@@ -44,7 +44,7 @@
     <section class="section" id="recent"><div class="section-head"><div class="section-title">Recently Opened Skills</div></div><div class="panel"><div class="progress-list" id="recentList"></div><div class="empty" id="recentEmpty">Open a skill to start your history.</div></div></section>
     <section class="section" id="guide"><div class="section-head"><div class="section-title">What do you need right now?</div></div><div class="panel"><div class="need-grid" id="needGrid"></div></div></section>
     <section class="section" id="recommended"><div class="section-head"><div class="section-title">Recommended Skills</div><button class="btn btn-secondary" onclick="clearNeed()">Clear</button></div><div class="grid" id="recommendedGrid"></div><div class="empty" id="recommendedEmpty">Choose a need above to get recommendations from The Skills Hub.</div></section>
-    <section class="section" id="mood"><div class="section-head"><div class="section-title">14-Day Mood Check</div><button class="btn btn-secondary" onclick="clearMoodHistory()">Reset</button></div><div class="tracker-grid"><div class="panel"><h3 style="color:var(--navy);margin-bottom:8px">How are you feeling today?</h3><p class="desc">Choose the word that fits best. This helps you notice patterns over time.</p><div class="mood-buttons" id="moodButtons"></div><div class="mood-note" id="moodPrompt">Pick a feeling to save today‚Äôs check-in.</div></div><div class="panel"><h3 style="color:var(--navy);margin-bottom:8px">Your last 14 days</h3><div class="mood-history" id="moodHistory"></div><p class="mood-note" id="moodSummary"></p></div></div></section>
+    <section class="section" id="mood"><div class="section-head"><div class="section-title">14-Day Mood Check</div><button class="btn btn-secondary" onclick="clearMoodHistory()">Reset</button></div><div class="tracker-grid"><div class="panel"><h3 style="color:var(--navy);margin-bottom:8px">How are you feeling today?</h3><p class="desc">Choose the word that fits best. This helps you notice patterns over time.</p><div class="mood-buttons" id="moodButtons"></div><div class="mood-note" id="moodPrompt">Pick a feeling to save today's check-in.</div></div><div class="panel"><h3 style="color:var(--navy);margin-bottom:8px">Your last 14 days</h3><div class="mood-history" id="moodHistory"></div><p class="mood-note" id="moodSummary"></p></div></div></section>
     <section class="section" id="wix-snippets"><div class="section-head"><div class="section-title">What To Do! Community</div></div><div class="three-grid"><div class="mini-card"><div class="card-body"><h3>Your Community Groups</h3><p class="desc">Open your What To Do! community area to view groups and conversations.</p></div><div class="card-actions"><a class="btn btn-secondary" href="https://www.whattodo.coach/my-community" target="_top">Open Community</a></div></div><div class="mini-card"><div class="card-body"><h3>Your Online Programs</h3><p class="desc">Continue any online programs connected to your subscriber account.</p></div><div class="card-actions"><a class="btn btn-secondary" href="https://www.whattodo.coach/my-programs" target="_top">Open Programs</a></div></div><div class="mini-card"><div class="card-body"><h3>Your Events</h3><p class="desc">Open the events area to view upcoming What To Do! events.</p></div><div class="card-actions"><a class="btn btn-secondary" href="https://www.whattodo.coach/events" target="_top">Open Events</a></div></div></div></section>
   </div>
 </main>
@@ -54,7 +54,7 @@
 <script>
 const SKILL_BASE_URL='https://whattodo-skills.github.io/skills/';
 const DEFAULT_SKILLS=[
-{id:'begin-again',name:'Begin Again',category:'Focus',url:SKILL_BASE_URL+'Begin_Again_Focus_Practice.html',description:'Practice noticing when your attention wanders and gently returning to one focus target without self-criticism.',outcome:'Learn that distraction is not failure ‚Äî the real skill is beginning again and coming back to what matters.',tags:['focus','attention','distraction','return','shame'],needs:['cant-focus','inner-critic','reset']},
+{id:'begin-again',name:'Begin Again',category:'Focus',url:SKILL_BASE_URL+'Begin_Again_Focus_Practice.html',description:'Practice noticing when your attention wanders and gently returning to one focus target without self-criticism.',outcome:'Learn that distraction is not failure - the real skill is beginning again and coming back to what matters.',tags:['focus','attention','distraction','return','shame'],needs:['cant-focus','inner-critic','reset']},
 {id:'single-task',name:'Single-Task Focus Practice',category:'Focus',url:SKILL_BASE_URL+'Single_Task_Focus_Practice.html',description:'Practice staying present with one meaningful moment instead of splitting attention between your phone, work, worry, and the people around you.',outcome:'Notice when your focus drifts and gently return your attention to what matters most.',tags:['phone','family','home','attention','work'],needs:['cant-focus','family','present']},
 {id:'start-task',name:'Start the Task',category:'Focus',url:SKILL_BASE_URL+'Start_The_Task_Focus_Practice.html',description:'Practice breaking through task-starting paralysis by naming what feels hard, shrinking the task, and taking one tiny first step.',outcome:'Lower overwhelm, stop the avoidance loop, and begin without waiting for urgency or perfect motivation.',tags:['task','procrastination','avoidance','overwhelm','start'],needs:['stuck','overwhelmed','cant-focus']},
 {id:'stone-focus',name:'Stone Focus Practice',category:'Focus',url:SKILL_BASE_URL+'Stone_Focus_Practice.html',description:'Use a quiet visual practice to place your attention on one calming image instead of rumination or scrolling.',outcome:'Practice moving attention away from unproductive thoughts and back to one steady focus point.',tags:['focus','rumination','scrolling','calm'],needs:['cant-focus','overwhelmed','ruminating']},
@@ -77,20 +77,20 @@ const DEFAULT_SKILLS=[
 {id:'say-no',name:'Say No Without Guilt',category:'Connecting',url:SKILL_BASE_URL+'Say_No_Without_Guilt_Connecting_Practice.html',description:'Practice saying no clearly and kindly without over-explaining, guilt, or people-pleasing.',outcome:'Set a respectful limit while staying connected to your own needs and values.',tags:['no','guilt','people pleasing','boundaries'],needs:['say-no','relationship']}
 ];
 const NEEDS=[
-{id:'cant-focus',emoji:'üéØ',title:'I can‚Äôt focus',sub:'Attention keeps drifting'},
-{id:'stuck',emoji:'üß±',title:'I can‚Äôt start',sub:'I know what to do but feel frozen'},
-{id:'overwhelmed',emoji:'üåä',title:'I feel overwhelmed',sub:'Too much is happening at once'},
-{id:'urge',emoji:'‚è∏Ô∏è',title:'I might react',sub:'I need a pause before I act'},
-{id:'inner-critic',emoji:'üóØÔ∏è',title:'I‚Äôm hard on myself',sub:'Judgment or shame is loud'},
-{id:'ruminating',emoji:'üîÅ',title:'I‚Äôm stuck in my head',sub:'I keep replaying thoughts'},
-{id:'relationship',emoji:'ü§ù',title:'I need connection help',sub:'Conversation, conflict, or repair'},
-{id:'say-no',emoji:'üöß',title:'I need to set a limit',sub:'Say no or hold a boundary'},
-{id:'family',emoji:'üè°',title:'I want to be present',sub:'Home, partner, kids, or evening time'},
-{id:'repair',emoji:'ü™°',title:'I need to repair',sub:'Come back after a hard moment'},
-{id:'present',emoji:'üëÇ',title:'I want to listen better',sub:'Stay with the person in front of me'},
-{id:'reset',emoji:'üåø',title:'I need a reset',sub:'Start again without spiraling'}
+{id:'cant-focus',title:"I can't focus",sub:'Attention keeps drifting'},
+{id:'stuck',title:"I can't start",sub:'I know what to do but feel frozen'},
+{id:'overwhelmed',title:'I feel overwhelmed',sub:'Too much is happening at once'},
+{id:'urge',title:'I might react',sub:'I need a pause before I act'},
+{id:'inner-critic',title:"I'm hard on myself",sub:'Judgment or shame is loud'},
+{id:'ruminating',title:"I'm stuck in my head",sub:'I keep replaying thoughts'},
+{id:'relationship',title:'I need connection help',sub:'Conversation, conflict, or repair'},
+{id:'say-no',title:'I need to set a limit',sub:'Say no or hold a boundary'},
+{id:'family',title:'I want to be present',sub:'Home, partner, kids, or evening time'},
+{id:'repair',title:'I need to repair',sub:'Come back after a hard moment'},
+{id:'present',title:'I want to listen better',sub:'Stay with the person in front of me'},
+{id:'reset',title:'I need a reset',sub:'Start again without spiraling'}
 ];
-const MOODS=[['Great','üòä','#B4DACD'],['Steady','üôÇ','#B4DACD'],['Tired','üò¥','#edf1f8'],['Stressed','üò¨','#f7e0e6'],['Sad','üòî','#edf1f8'],['Angry','üò§','#f7e0e6'],['Overwhelmed','üå™Ô∏è','#f7e0e6'],['Hopeful','üå§Ô∏è','#B4DACD']];
+const MOODS=[['Great','G','#B4DACD'],['Steady','S','#B4DACD'],['Tired','T','#edf1f8'],['Stressed','St','#f7e0e6'],['Sad','Sa','#edf1f8'],['Angry','A','#f7e0e6'],['Overwhelmed','O','#f7e0e6'],['Hopeful','H','#B4DACD']];
 const PRESET_GOALS={
   Focus:[
     'I want to stop overthinking and come back to what is happening right now.',
@@ -114,7 +114,7 @@ const PRESET_GOALS={
     'I want to feel more emotionally steady, even when life or relationships are stressful.'
   ],
   Connecting:[
-    'I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else‚Äôs reaction.',
+    "I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else's reaction.",
     'I want to communicate what I need more clearly instead of shutting down, hinting, or exploding.',
     'I want to stop over-functioning in relationships and let other people carry their part.',
     'I want to repair after conflict without abandoning myself or taking all the blame.',
@@ -139,7 +139,7 @@ const PRESET_STACKS={
   'I want to handle guilt, dread, resentment, sadness, and anger without letting them control my behavior.':{Focus:'observe',Coping:'ride-wave',Feelings:'check-story',Connecting:'boundaries'},
   'I want to learn the difference between a feeling, a thought, and a fact.':{Focus:'thought-labeling',Coping:'deep-breathing',Feelings:'thought-mood',Connecting:'listener'},
   'I want to feel more emotionally steady, even when life or relationships are stressful.':{Focus:'stone-focus',Coping:'calm',Feelings:'feelings-wheel',Connecting:'hard-conversations'},
-  'I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else‚Äôs reaction.':{Focus:'begin-again',Coping:'deep-breathing',Feelings:'check-story',Connecting:'boundaries'},
+  "I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else's reaction.":{Focus:'begin-again',Coping:'deep-breathing',Feelings:'check-story',Connecting:'boundaries'},
   'I want to communicate what I need more clearly instead of shutting down, hinting, or exploding.':{Focus:'single-task',Coping:'calm',Feelings:'feelings-wheel',Connecting:'hard-conversations'},
   'I want to stop over-functioning in relationships and let other people carry their part.':{Focus:'observe',Coping:'ride-wave',Feelings:'thought-mood',Connecting:'say-no'},
   'I want to repair after conflict without abandoning myself or taking all the blame.':{Focus:'begin-again',Coping:'ride-wave',Feelings:'check-story',Connecting:'conflict'},
@@ -170,8 +170,8 @@ function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');
 function toggleSidebar(){$('sidebar').classList.toggle('open')}
 function scrollToSection(id){$(id).scrollIntoView({behavior:'smooth'});$('sidebar').classList.remove('open')}
 function normalizeCat(c){return c==='SelfCare'?'Feelings':c==='Connection'?'Connecting':c}
-function card(skill){let isSaved=saved.has(skill.id);return `<article class="skill-card"><div class="card-top"><span class="cat ${normalizeCat(skill.category)}">${normalizeCat(skill.category)}</span><button class="save ${isSaved?'saved':''}" onclick="toggleSave('${skill.id}')">‚ô•</button></div><div class="card-body"><h3>${skill.name}</h3><p class="desc">${skill.description||''}</p><div class="outcome"><strong>Outcome:</strong> ${skill.outcome||skill.desiredOutcome||''}</div></div><div class="card-actions"><button class="btn btn-primary" onclick="openPractice('${skill.id}')">Practice Now</button><button class="btn btn-secondary" onclick="markComplete('${skill.id}')">Done</button></div></article>`}
-function renderNeeds(){ $('needGrid').innerHTML=NEEDS.map(n=>`<button class="need-btn ${activeNeed===n.id?'active':''}" onclick="chooseNeed('${n.id}')"><div class="need-emoji">${n.emoji}</div><div class="need-title">${n.title}</div><div class="need-sub">${n.sub}</div></button>`).join('')}
+function card(skill){let isSaved=saved.has(skill.id);return `<article class="skill-card"><div class="card-top"><span class="cat ${normalizeCat(skill.category)}">${normalizeCat(skill.category)}</span><button class="save ${isSaved?'saved':''}" onclick="toggleSave('${skill.id}')">${isSaved?'Saved':'Save'}</button></div><div class="card-body"><h3>${skill.name}</h3><p class="desc">${skill.description||''}</p><div class="outcome"><strong>Outcome:</strong> ${skill.outcome||skill.desiredOutcome||''}</div></div><div class="card-actions"><button class="btn btn-primary" onclick="openPractice('${skill.id}')">Practice Now</button><button class="btn btn-secondary" onclick="markComplete('${skill.id}')">Done</button></div></article>`}
+function renderNeeds(){ $('needGrid').innerHTML=NEEDS.map(n=>`<button class="need-btn ${activeNeed===n.id?'active':''}" onclick="chooseNeed('${n.id}')"><div class="need-title">${n.title}</div><div class="need-sub">${n.sub}</div></button>`).join('')}
 function chooseNeed(id){activeNeed=id;renderNeeds();renderRecommended();scrollToSection('recommended');sendDashboardState('needSelected',{lastNeed:id})}
 function clearNeed(){activeNeed=null;renderNeeds();renderRecommended();sendDashboardState('needCleared',{lastNeed:null})}
 function renderRecommended(){let goal=currentGoal();let goalSkill=goal?.suggestedSkillId?skills.find(s=>s.id===goal.suggestedSkillId):null;let base=activeNeed?skills.filter(s=>(s.needs||[]).includes(activeNeed)):skills;let list=goalSkill?[goalSkill,...base.filter(s=>s.id!==goalSkill.id)]:base;$('recommendedGrid').innerHTML=list.map(card).join('');$('recommendedEmpty').style.display=list.length?'none':'block'}
@@ -183,7 +183,7 @@ function markComplete(id){if(!id)return;let s=skills.find(x=>x.id===id)||{};comp
 function moodKey(d=new Date()){return d.toISOString().slice(0,10)}
 function saveMood(name){moodHistory[moodKey()]={name,date:new Date().toISOString()};localStorage.setItem('wtd_mood_history',JSON.stringify(moodHistory));renderMood();toast('Mood saved')}
 function clearMoodHistory(){moodHistory={};localStorage.setItem('wtd_mood_history',JSON.stringify(moodHistory));renderMood()}
-function renderMood(){let today=moodHistory[moodKey()]?.name;$('moodButtons').innerHTML=MOODS.map(m=>`<button class="mood-btn ${today===m[0]?'selected':''}" onclick="saveMood('${m[0]}')">${m[1]} ${m[0]}</button>`).join('');let days=[];for(let i=13;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=moodKey(d);let item=moodHistory[key];let mood=MOODS.find(m=>m[0]===item?.name);days.push(`<div class="mood-day"><div class="mood-dot" style="background:${mood?mood[2]:'#ebe7dd'}">${mood?mood[1]:'¬∑'}</div><div class="mood-label">${d.toLocaleDateString('en-US',{weekday:'short'}).slice(0,2)}</div></div>`)}$('moodHistory').innerHTML=days.join('');let count=Object.keys(moodHistory).filter(k=>{let d=new Date(k);let cutoff=new Date();cutoff.setDate(cutoff.getDate()-13);return d>=cutoff}).length;$('moodSummary').textContent=count?`${count} check-in${count===1?'':'s'} saved in the last 14 days.`:'No check-ins yet. Start with today.';$('moodPrompt').textContent=today?`Today you checked in as: ${today}.`:'Pick a feeling to save today‚Äôs check-in.'}
+function renderMood(){let today=moodHistory[moodKey()]?.name;$('moodButtons').innerHTML=MOODS.map(m=>`<button class="mood-btn ${today===m[0]?'selected':''}" onclick="saveMood('${m[0]}')">${m[0]}</button>`).join('');let days=[];for(let i=13;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=moodKey(d);let item=moodHistory[key];let mood=MOODS.find(m=>m[0]===item?.name);days.push(`<div class="mood-day"><div class="mood-dot" style="background:${mood?mood[2]:'#ebe7dd'}">${mood?mood[1]:'-'}</div><div class="mood-label">${d.toLocaleDateString('en-US',{weekday:'short'}).slice(0,2)}</div></div>`)}$('moodHistory').innerHTML=days.join('');let count=Object.keys(moodHistory).filter(k=>{let d=new Date(k);let cutoff=new Date();cutoff.setDate(cutoff.getDate()-13);return d>=cutoff}).length;$('moodSummary').textContent=count?`${count} check-in${count===1?'':'s'} saved in the last 14 days.`:'No check-ins yet. Start with today.';$('moodPrompt').textContent=today?`Today you checked in as: ${today}.`:"Pick a feeling to save today's check-in."}
 
 function renderSnippets(){}
 function escapeHtml(str){return String(str||'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
