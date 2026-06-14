@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What To Do: Your Blueprint</title>
+<style>
+  :root{--navy:#182047;--red:#BD3A59;--blue:#4F5DAD;--sky:#8BA4DC;--cream:#F7F4ED;--mint:#B4DACD;--amber:#F4A261;--yellow:#E8C547;--teal:#3DBFA8;--ink:#182047;--muted:#6b7280;--line:#e7e3da;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Poppins','Benton Sans',Arial,sans-serif;color:var(--ink);background:transparent;padding:8px}
+  .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;border:0;border-radius:9px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+  .btn.red{background:var(--red)}.btn:disabled{background:#d7c9cd;cursor:default}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 20px}
+  .item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;transition:border-color .15s,box-shadow .15s}
+  .item.open{border-color:var(--sky);box-shadow:0 6px 18px rgba(24,32,71,.06)}
+  .head{display:flex;align-items:center;gap:14px;width:100%;border:0;background:none;cursor:pointer;padding:16px 18px;font-family:inherit;text-align:left}
+  .dot{width:12px;height:12px;border-radius:4px;flex:0 0 auto}
+  .title{flex:1;font-size:16px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px}
+  .chev{width:20px;height:20px;flex:0 0 auto;transition:transform .2s;color:var(--muted)}
+  .item.open .chev{transform:rotate(180deg)}
+  .panel{max-height:0;overflow:hidden;transition:max-height .28s ease}
+  .panel-inner{padding:0 18px 18px 44px}
+  .sec-title{font-size:14px;font-weight:600;margin:18px 0 0;display:flex;align-items:center;gap:7px}
+  .info{position:relative;width:17px;height:17px;border-radius:50%;border:1.4px solid var(--sky);color:var(--sky);font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help;background:none;font-family:inherit}
+  .tt{position:absolute;top:135%;left:0;width:240px;background:var(--navy);color:#fff;font-size:12px;line-height:1.45;font-weight:400;text-transform:none;letter-spacing:0;padding:9px 11px;border-radius:8px;opacity:0;visibility:hidden;transition:opacity .12s;z-index:30;box-shadow:0 6px 18px rgba(0,0,0,.2);text-align:left}
+  .info:hover .tt,.info:focus .tt{opacity:1;visibility:visible}
+  .def{font-size:12px;color:var(--muted);font-style:italic;margin:6px 0 0;line-height:1.4}
+  .wn-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.wn-top b{font-size:13px}.wn-mark{font-size:12px;color:var(--red);cursor:pointer}
+  .wn-item{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}
+  .wn-av{width:32px;height:32px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex:0 0 auto}
+  .wn-text{flex:1;font-size:13px;color:var(--ink);line-height:1.45}.wn-right{display:flex;align-items:center;gap:7px;white-space:nowrap}.wn-time{font-size:11px;color:var(--muted)}
+  .wn-unread{width:8px;height:8px;border-radius:50%;background:var(--red)}
+  .seeall{font-size:13px;font-weight:600;color:var(--navy);text-decoration:none;display:inline-block;margin-top:10px}
+  .stack-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin:20px 0 10px;border-top:1px solid var(--line);padding-top:16px}
+  .stack{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .scard{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;display:flex;flex-direction:column}
+  .tag{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;border-radius:6px;padding:2px 8px;align-self:flex-start;margin-bottom:9px}
+  .scard h4{font-size:14px;margin:0 0 4px}.scard p{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.45;flex:1}
+  .sbtn{font-size:13px;font-weight:600;color:var(--navy);text-decoration:none}
+  .emos{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+  .emo{border:0;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer;opacity:.55;transition:.15s;font-family:inherit}
+  .emo.active{opacity:1;box-shadow:0 0 0 2px #fff,0 0 0 4px currentColor}.emo span{color:#fff}
+  .feelings{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .chip{border:1.5px solid var(--line);background:var(--cream);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--ink);font-family:inherit}
+  .chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .saverow{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}.saved-msg{color:var(--teal);font-size:13px;font-weight:600}.hide{display:none}
+  .mood-wrap{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+  .mood-pill{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600;margin-top:6px}
+  .strip-head{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 8px}
+  .strip-head h2{font-size:13px;margin:0;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.insight{font-size:12px;color:var(--muted)}
+  .strip{display:grid;grid-template-columns:repeat(14,1fr);gap:4px}
+  .day{aspect-ratio:1/1.5;border-radius:6px;background:var(--cream);border:1px solid var(--line);position:relative;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px}
+  .day.today{outline:2px solid var(--navy);outline-offset:1px}.day .dnum{font-size:8px;color:var(--muted)}.day.filled .dnum{color:#fff}
+  .tip{position:absolute;bottom:115%;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:10px;white-space:nowrap;padding:3px 7px;border-radius:5px;opacity:0;pointer-events:none;transition:.12s;z-index:5}.day:hover .tip{opacity:1}
+  .struggle{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+  .rec{border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13px;line-height:1.5;margin-top:9px}.rec b{font-weight:600}
+  .catpill{display:inline-block;background:var(--teal);color:#fff;border-radius:999px;padding:3px 11px;font-size:12px;font-weight:600}
+  .vintro{font-size:13px;color:var(--ink);line-height:1.55;margin:0 0 14px}
+  .vcounter{display:flex;align-items:center;gap:10px;background:#eef1fb;border-radius:10px;padding:9px 14px;margin-bottom:14px;font-size:13px;font-weight:600;color:var(--blue)}
+  .vcounter .cnt{background:var(--navy);color:#fff;border-radius:999px;padding:2px 10px;font-size:12px}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:9px}
+  .vcard{border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;cursor:pointer;background:#fff;transition:.12s}
+  .vcard.active{background:var(--navy);border-color:var(--navy)}.vcard h5{font-size:14px;margin:0 0 3px;color:var(--ink)}.vcard p{font-size:11px;color:var(--muted);margin:0;line-height:1.35}
+  .vcard.active h5{color:#fff}.vcard.active p{color:#c8d0ee}
+  .vslots{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:14px}
+  .vslot{border:1.5px solid var(--mint);background:#eef7f3;border-radius:10px;padding:12px;text-align:center}
+  .vslot .lab{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#2e6b58;font-weight:700}.vslot .nm{font-size:14px;font-weight:700;color:var(--ink);margin-top:5px;min-height:18px}
+  .saveval{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:13px;width:100%;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:14px}
+  .savednote{background:#e3f1ea;color:#2e6b58;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:600;margin-top:12px}
+  .skillhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:22px 0 12px;border-top:1px solid var(--line);padding-top:16px}
+  .skillhead .lab{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+  .valpill{background:#dff0ea;color:#0f6e56;border-radius:999px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:.06em}
+  .vskill{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:12px}
+  .vskill-top{display:flex;justify-content:space-between;align-items:center;padding:13px 15px 0}
+  .scat{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;border-radius:999px;padding:3px 11px}
+  .heart{cursor:pointer;color:var(--muted);font-size:17px;border:0;background:none;line-height:1}.heart.on{color:var(--red)}
+  .vskill h4{font-size:16px;margin:10px 15px 6px}.vdesc{font-size:13px;color:var(--ink);line-height:1.5;margin:0 15px 12px}
+  .outcome{background:#f1f7f4;border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:9px 13px;margin:0 15px 14px;font-size:12px;line-height:1.45}.outcome b{font-weight:700}
+  .cardbtns{display:flex;gap:8px;padding:0 15px 15px;flex-wrap:wrap}
+  .cbtn{border:0;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+  .cbtn.practice{background:var(--navy);color:#fff}.cbtn.stack{background:#e3f1ea;color:#2e6b58}.cbtn.skip{background:#fbe7da;color:#b5602e}.cbtn.close{background:#eceae4;color:#6b7280}
+  .hublink{font-size:13px;font-weight:600;color:var(--navy);text-decoration:none;display:inline-block;margin-top:4px}
+  .stacklinks{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .stacklink{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:9px;padding:11px 14px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none}
+  .skb-h{font-size:16px;font-weight:600;margin:0 0 2px}
+  .skb-lab{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;margin:14px 0 6px}
+  .skb-row{display:flex;align-items:center;gap:10px}.skb-row .iw{font-size:13px;font-weight:700;color:var(--ink);flex:0 0 auto}
+  .sksel{flex:1;width:100%;border:1.5px solid var(--line);border-radius:9px;padding:11px 12px;font-size:13px;font-family:inherit;color:var(--ink);background:#fff;cursor:pointer}
+  .sknotice{background:var(--cream);border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:13px;font-weight:600;color:var(--navy);line-height:1.45;margin-top:6px}
+  .stackgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .stackcard{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}.stackcard .in{padding:13px 15px}
+  .sc-tag{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;border-radius:999px;padding:3px 11px;display:inline-block;margin-bottom:8px}
+  .stackcard h4{font-size:15px;margin:0 0 6px}.stackcard .helps{font-size:12px;color:var(--muted);margin:0 0 14px;line-height:1.4}
+  .practicebtn{display:block;width:100%;background:#eef1fb;color:var(--blue);border:0;border-radius:9px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+  .savestack{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:14px;width:100%;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:16px}
+  .dash{max-width:100%;margin:0 auto;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--cream)}
+  .dash-banner{background:var(--navy);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .dash-banner .hi{font-size:20px;font-weight:700}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip2{background:rgba(255,255,255,.09);border-radius:8px;padding:6px 11px;min-width:64px}
+  .chip2 .l{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:#9aa3c8}.chip2 .v{font-size:12px;font-weight:600;color:#fff;margin-top:2px}
+  .dash-body{display:flex;align-items:stretch}
+  .dash-nav{width:196px;flex:0 0 auto;background:var(--navy);color:#fff;padding:14px 0}
+  .navsec{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#7f88b5;padding:14px 18px 6px}
+  .navlink{display:block;padding:8px 18px;font-size:13px;color:#dfe3f3;text-decoration:none}
+  .navlink:hover{background:rgba(255,255,255,.07)}
+  .navlink.active{background:rgba(255,255,255,.13);color:#fff;font-weight:600;border-left:3px solid var(--red)}
+  .dash-main{flex:1;min-width:0;padding:20px}.dash-main h1{font-size:24px;margin-top:4px}
+  @media(max-width:760px){.dash-body{flex-direction:column}.dash-nav{display:none}.dash-main{padding:14px}.dash-banner{padding:14px}.chip2{min-width:0;flex:1}}
+  .mock{max-width:1040px;margin:18px auto 0;font-size:11px;color:#a99;text-align:center}
+</style>
+</head>
+<body>
+<div class="dash">
+  <div class="dash-banner"><div class="hi">Hello!</div><div class="chips" id="chips"></div></div>
+  <div class="dash-body">
+    <nav class="dash-nav">
+      <div class="navsec">Dashboard</div>
+      <a class="navlink active" href="https://www.whattodo.coach/dashboard" target="_blank" rel="noopener">Subscriber Dashboard</a>
+      <a class="navlink" href="#NAV_BUILD">Build Stack</a>
+      <a class="navlink" href="#NAV_FIND">Find a Skill</a>
+      <a class="navlink" href="#NAV_MOOD">Mood Check</a>
+      <a class="navlink" href="#NAV_VALUES">My Values</a>
+      <a class="navlink" href="#NAV_PROGRESS">Progress</a>
+      <a class="navlink" href="#NAV_SAVED">Saved Skills</a>
+      <a class="navlink" href="#NAV_RECENT">Recently Opened</a>
+      <a class="navlink" href="https://www.whattodo.coach/groups" target="_blank" rel="noopener">Community</a>
+      <div class="navsec">Member Area</div>
+      <a class="navlink" href="#NAV_ACCOUNT">My Account</a>
+      <a class="navlink" href="#NAV_SUBS">My Subscriptions</a>
+      <a class="navlink" href="#NAV_ORDERS">My Orders</a>
+      <a class="navlink" href="https://www.whattodo.coach/my-notifications" target="_blank" rel="noopener">My Notifications</a>
+      <a class="navlink" href="#NAV_MYCOMMUNITY">My Community</a>
+      <a class="navlink" href="#NAV_PROFILE">Profile</a>
+      <a class="navlink" href="https://www.whattodo.coach/self-guided-programs" target="_blank" rel="noopener">My Programs</a>
+    </nav>
+    <main class="dash-main">
+      <h1><span style="color:var(--red)">What To Do!</span> &nbsp;Your Blueprint</h1>
+      <p class="sub">A practical place to sort out what's happening, what matters, and what to do next.</p>
+      <div id="acc"></div>
+    </main>
+  </div>
+</div>
+<script>
+const HUB="https://www.whattodo.coach/the-skills-hub";
+const EMOTIONS={"Anger":["aggravation","agitation","annoyance","bitterness","exasperation","frustration","fury","grouchiness","hostility","irritation","outrage","rage","resentment","scorn","spite","vengefulness","wrath"],"Disgust":["aversion","contempt","dislike","loathing","repugnance","repulsion","revulsion","scorn","sickened"],"Envy":["bitterness","covetousness","craving","desiring","greed","longing","resentment","wanting","yearning"],"Fear":["anxiety","apprehension","dread","edginess","fright","horror","jumpiness","nervousness","overwhelmed","panic","tenseness","terror","uneasiness","worry"],"Guilt":["regret","remorse","sorrow"],"Happiness":["amusement","bliss","cheerfulness","contentment","delight","ecstasy","elation","enjoyment","enthusiasm","excitement","gladness","glee","gratitude","hope","joy","optimism","pleasure","pride","relief","satisfaction","thrill","zest"],"Jealousy":["clinginess","defensiveness","distrust","insecurity","possessiveness","suspiciousness"],"Love":["adoration","affection","attraction","caring","compassion","desire","fondness","infatuation","kindness","liking","longing","passion","tenderness","warmth"],"Sadness":["agony","alienation","anguish","defeat","despair","disappointment","dismay","gloom","grief","hopelessness","hurt","insecurity","isolation","loneliness","melancholy","misery","rejection","sorrow","suffering","unhappiness","woe"],"Shame":["contrition","dishonor","embarrassment","humiliation","insult","invalidation","mortification","self-consciousness"]};
+const COLORS={Anger:"#BD3A59",Disgust:"#5B8A72",Envy:"#3DBFA8",Fear:"#4F5DAD",Guilt:"#F4A261",Happiness:"#E8C547",Jealousy:"#8BA4DC",Love:"#E08AA0",Sadness:"#182047",Shame:"#7A6BA8"};
+const MOOD={Anger:"irritable",Disgust:"jaded",Envy:"discontented",Fear:"anxious",Guilt:"remorseful",Happiness:"content",Jealousy:"insecure",Love:"warm",Sadness:"low",Shame:"self-conscious"};
+const SKILLMAP={Anger:{category:"Coping + Connecting",question:"Did a boundary, goal, or value get blocked, and does the intensity fit the facts?",prompt:"Pause before reacting. Ask: What boundary, request, or repair is actually needed?",skills:["STOP","Check the Facts","Opposite Action","DEAR MAN"]},Disgust:{category:"Feelings + Connecting",question:"Am I seeing facts, judgments, or both?",prompt:"Name the judgment, describe only the facts, and choose whether distance or kindness is more effective.",skills:["Check the Facts","Nonjudgmentally","Opposite Action","Observe/Describe"]},Envy:{category:"Feelings + Focus",question:"What value, goal, or unmet need is this pointing toward?",prompt:"Ask: What does this envy tell me I care about, and what is one skillful step toward it?",skills:["Check the Facts","Build Mastery","Accumulate Positive Emotions","Problem Solving"]},Fear:{category:"Coping + Focus",question:"Is there actual danger, uncertainty, or discomfort?",prompt:"Ask: Is this danger, uncertainty, or discomfort? Then choose protection, planning, or approach.",skills:["Paced Breathing","Check the Facts","Cope Ahead","Opposite Action"]},Guilt:{category:"Feelings + Connecting",question:"Did I actually violate my values or responsibilities?",prompt:"Ask: Did I violate my values? If yes, repair. If no, practice releasing guilt and acting from values.",skills:["Check the Facts","Repair/Apology","Self-Validation","Opposite Action"]},Happiness:{category:"Focus + Feelings",question:"How can I notice and build on this without clinging or overdoing?",prompt:"Pause and let the good moment register. Ask: How can I build more of this on purpose?",skills:["Mindfulness of Current Emotion","Accumulate Positive Emotions","Build Mastery","Participate"]},Jealousy:{category:"Feelings + Connecting",question:"What are the facts about the relationship threat?",prompt:"Ask: What are the facts, what story am I adding, and what request or boundary would be effective?",skills:["Check the Facts","DEAR MAN","Opposite Action","Wise Mind"]},Love:{category:"Connecting + Feelings",question:"Is expressing closeness effective, mutual, and values-aligned?",prompt:"Ask: How can I express care while staying grounded in my values and limits?",skills:["GIVE","Accumulate Positive Emotions","DEAR MAN","Mindfulness of Current Emotion"]},Sadness:{category:"Feelings + Coping",question:"What loss, disappointment, or need is this pointing to?",prompt:"Let yourself name the loss, then choose one small action that keeps you connected to life.",skills:["Opposite Action","Self-Soothe","Accumulate Positive Emotions","Build Mastery"]},Shame:{category:"Feelings + Connecting",question:"Is this accountability or self-attack?",prompt:"Ask: Is this accountability or self-attack? Then choose repair, truth, or self-respect.",skills:["Check the Facts","Self-Validation","Repair/Apology","Opposite Action"]}};
+const SKILL_LIB={"Check the Facts":{cat:"Feelings",title:"Check the Facts",desc:"Separate what actually happened from the story your mind added.",outcome:"Respond to reality, not the version fear or anger built."},"Opposite Action":{cat:"Feelings",title:"Opposite Action",desc:"Do the opposite of what an unhelpful urge is pushing you toward.",outcome:"Loosen an emotion's grip by acting against it on purpose."},"Problem Solving":{cat:"Focus",title:"Problem Solving",desc:"Break a stuck situation into one clear next step.",outcome:"Trade spinning for a concrete move."},"STOP":{cat:"Coping",title:"The STOP Skill",desc:"Stop, take a breath, observe, then proceed with more steadiness.",outcome:"Interrupt the reaction loop and choose what helps next."},"TIP":{cat:"Coping",title:"Cool Down Fast",desc:"Use temperature, movement, and breathing to lower a spike fast.",outcome:"Bring your body down a notch within minutes."},"DEAR MAN":{cat:"Connecting",title:"Ask for What You Need",desc:"Ask clearly and confidently for what you want.",outcome:"Make a request that's direct, fair, and hard to brush off."},"GIVE":{cat:"Connecting",title:"Keep the Relationship",desc:"Stay gentle, interested, and validating in a hard conversation.",outcome:"Get your point across without damaging the connection."},"FAST":{cat:"Connecting",title:"Keep Your Self-Respect",desc:"Be fair, hold your values, and don't over-apologize.",outcome:"Walk away from a hard talk still liking yourself."},"Mindfulness of Current Emotion":{cat:"Feelings",title:"Sit With the Feeling",desc:"Notice and ride an emotion without fighting or feeding it.",outcome:"Let the wave pass without making it worse."},"Nonjudgmentally":{cat:"Focus",title:"Drop the Judgment",desc:"Describe the facts without good-or-bad labels.",outcome:"Take the heat out of the moment."},"Observe/Describe":{cat:"Focus",title:"Observe & Describe",desc:"Notice what's here, then put just the facts into words.",outcome:"See clearly before you react."},"Accumulate Positive Emotions":{cat:"Feelings",title:"Stack Good Moments",desc:"Add small positives to your day on purpose.",outcome:"Build a reserve that makes hard days easier."},"Build Mastery":{cat:"Focus",title:"Build Mastery",desc:"Do one small thing today that makes you feel capable.",outcome:"Rebuild confidence through repeatable wins."},"Cope Ahead":{cat:"Coping",title:"Cope Ahead",desc:"Rehearse a hard moment before it happens.",outcome:"Walk in prepared instead of blindsided."},"Paced Breathing":{cat:"Coping",title:"Paced Breathing",desc:"Slow your exhale to calm your body.",outcome:"Signal safety to your nervous system."},"Wise Mind":{cat:"Focus",title:"Find Wise Mind",desc:"Blend emotion and logic into a grounded choice.",outcome:"Decide from steadiness, not panic."},"Repair/Apology":{cat:"Connecting",title:"Repair After Conflict",desc:"Own your part and reconnect after things go sideways.",outcome:"Restore trust without losing your self-respect."},"Self-Validation":{cat:"Feelings",title:"Self-Validation",desc:"Acknowledge your feelings as real and understandable.",outcome:"Stop arguing with yourself and steady from the inside."},"Self-Soothe":{cat:"Coping",title:"Self-Soothe",desc:"Calm your body through your five senses.",outcome:"Bring yourself down when everything feels like too much."},"Participate":{cat:"Focus",title:"Throw Yourself In",desc:"Fully join the moment you're in.",outcome:"Get out of your head and back into your life."}};
+const VALUE_DEFS=[["Integrity","Doing what you said you would do."],["Curiosity","Approaching problems with questions rather than judgments."],["Courage","Doing the hard thing even when you are afraid."],["Connection","Prioritizing the quality of your relationships."],["Stability","Creating a predictable and safe environment."],["Growth","Valuing the process of learning over the result."],["Reliability","Following through consistently, even in small things."],["Kindness","Choosing gentleness toward yourself and others."],["Clarity","Cutting through noise to see and communicate clearly."],["Patience","Staying steady when outcomes take time."],["Diligence","Applying consistent, focused effort."],["Excellence","Doing your best with the resources you have."],["Honesty","Speaking truthfully, even when uncomfortable."],["Creativity","Finding new ways to approach old problems."],["Balance","Tending to multiple areas of life without losing yourself."],["Compassion","Responding to pain — your own or others' — with care."],["Autonomy","Making choices that reflect your own needs and judgment."],["Accountability","Owning your actions and their impact."]];
+const CAT_STYLE={Coping:{bg:'#F8E1E7',fg:'#8E2C44'},Connecting:{bg:'#FBE7D7',fg:'#A85B22'},Feelings:{bg:'#DFF1EA',fg:'#0F6E56'},Focus:{bg:'#E3E7F6',fg:'#2E3A82'}};
+const VSKILLS={stop:SKILL_LIB["STOP"],sayno:{cat:"Connecting",title:"Say No Without Guilt",desc:"Practice saying no clearly and kindly without over-explaining, guilt, or people-pleasing.",outcome:"Set a respectful limit while staying connected to your own needs and values."},listen:{cat:"Connecting",title:"Great Listener Practice",desc:"Practice asking better questions, listening without fixing, and reflecting back what you heard.",outcome:"Help someone feel heard, understood, and less alone in the conversation."},checkfacts:SKILL_LIB["Check the Facts"],opposite:SKILL_LIB["Opposite Action"],compass:{cat:"Focus",title:"Values as a Compass",desc:"Name what matters and let it point your next small action.",outcome:"Move toward what you care about instead of away from discomfort."},onething:{cat:"Focus",title:"One Thing at a Time",desc:"Practice giving one task your full attention before moving to the next.",outcome:"Cut the mental noise and actually finish what's in front of you."},dearman:SKILL_LIB["DEAR MAN"],soothe:SKILL_LIB["Self-Soothe"],mastery:SKILL_LIB["Build Mastery"],repair:SKILL_LIB["Repair/Apology"],selfval:SKILL_LIB["Self-Validation"]};
+const VAL2SKILLS={Integrity:["compass","dearman","repair"],Curiosity:["checkfacts","listen","onething"],Courage:["stop","opposite","dearman"],Connection:["listen","sayno","repair"],Stability:["stop","soothe","onething"],Growth:["mastery","compass","opposite"],Reliability:["onething","mastery","compass"],Kindness:["listen","selfval","sayno"],Clarity:["checkfacts","onething","dearman"],Patience:["soothe","stop","onething"],Diligence:["onething","mastery","compass"],Excellence:["mastery","onething","checkfacts"],Honesty:["dearman","checkfacts","repair"],Creativity:["onething","mastery","compass"],Balance:["soothe","onething","compass"],Compassion:["selfval","listen","sayno"],Autonomy:["sayno","dearman","compass"],Accountability:["repair","checkfacts","dearman"]};
+const STACK_GOALS=[{label:"Connection: stop over-functioning in relationships and let other people carry their part.",willDo:["Identify where I am doing more than my share emotionally, mentally, or practically.","Practice letting a task stay undone instead of rescuing it."],how:["Make a two-column list: My part / Their part.","Pause before offering help and ask if it is wanted."],notice:"More balanced relationships; reduced exhaustion from over-giving; space for others to step up",cards:[{cat:"Focus",title:"Observe: Notice Before You React",helps:"Helps choose what gets attention first."},{cat:"Coping",title:"Ride the Wave",helps:"Helps the body settle before reacting."},{cat:"Feelings",title:"The Thought-Mood Connection",helps:"Helps name what is happening inside."},{cat:"Connecting",title:"Say No Without Guilt",helps:"Helps speak or listen with steadier connection."}]},{label:"Focus: quiet the mental noise and do one thing at a time.",willDo:["Pick one task and protect it from the other 47 open tabs.","Choose what matters most before I open my phone."],how:["Set a 10-minute timer and do only that one thing.","Write the one next action on a sticky note."],notice:"Less scattered; more finished; less guilt about focus",cards:[{cat:"Focus",title:"One Thing at a Time",helps:"Helps you give one task full attention."},{cat:"Coping",title:"The STOP Skill",helps:"Helps interrupt the scatter."},{cat:"Feelings",title:"Sit With the Feeling",helps:"Helps ride the urge to switch tasks."},{cat:"Connecting",title:"Ask for What You Need",helps:"Helps protect your focus with others."}]},{label:"Coping: get through hard moments without making them worse.",willDo:["Spot my early warning signs before the spiral.","Choose a calm-down skill before I react."],how:["Keep a short go-to list of calm-down skills on my phone.","Practice one skill while calm so it is ready."],notice:"Fewer blow-ups and shut-downs; faster recovery",cards:[{cat:"Coping",title:"Cool Down Fast",helps:"Helps lower a spike in minutes."},{cat:"Coping",title:"Self-Soothe",helps:"Helps calm the body with the senses."},{cat:"Focus",title:"Observe & Describe",helps:"Helps see clearly before reacting."},{cat:"Feelings",title:"Opposite Action",helps:"Helps act against an unhelpful urge."}]},{label:"Feelings: understand my emotions instead of fighting them.",willDo:["Name what I feel each day instead of numbing it.","Notice the urge to numb and pause."],how:["Do a daily check-in and look for the pattern.","Write one sentence about what the feeling is telling me."],notice:"Clearer signals; less numbing; better choices",cards:[{cat:"Feelings",title:"The Thought-Mood Connection",helps:"Helps name what is happening inside."},{cat:"Feelings",title:"Check the Facts",helps:"Helps separate facts from story."},{cat:"Focus",title:"Find Wise Mind",helps:"Helps decide from steadiness."},{cat:"Connecting",title:"Self-Validation",helps:"Helps steady from the inside."}]}];
+
+// ---- member-data state + host bridge (no browser storage) ----
+const STATE={checkins:[],values:[],stacks:[],loggedIn:false};
+const REND=[];
+function inWix(){return window.parent&&window.parent!==window;}
+function postHost(m){if(inWix())window.parent.postMessage(m,'*');}
+function renderAll(){updateHeader();REND.forEach(f=>{try{f()}catch(e){}});}
+window.addEventListener('message',e=>{const m=e.data||{};if(m.type==='data'){STATE.checkins=m.checkins||[];STATE.values=m.values||[];STATE.stacks=m.stacks||[];STATE.loggedIn=!!m.loggedIn;renderAll();}});
+function saveCheckin(entry){STATE.checkins=STATE.checkins.filter(x=>x.date!==entry.date);STATE.checkins.push(entry);postHost({type:'saveCheckin',entry});renderAll();}
+function saveValues(vals){STATE.values=vals.slice();postHost({type:'saveValues',values:vals});renderAll();}
+function saveStack(stack){STATE.stacks.unshift(stack);postHost({type:'saveStack',stack});}
+
+const PRESET_GOALS={Focus:['I want to stop overthinking and come back to what is happening right now.','I want to start tasks instead of waiting until I feel ready or motivated.','I want to follow through on small commitments without getting stuck in all-or-nothing thinking.','I want to notice my thoughts without letting them take over my whole mood or day.','I want to build a simple routine that helps me feel more grounded and less scattered.'],Coping:['I want to calm my body down when stress, anxiety, or overwhelm spike.','I want to get through hard moments without making things worse.','I want to have a plan for what to do when I feel stuck, flooded, or shut down.','I want to stop reacting immediately and give myself time to choose my next move.','I want to take better care of myself during stressful seasons instead of running on empty.'],Feelings:['I want to understand what I am feeling instead of ignoring it, judging it, or getting lost in it.','I want to reduce self-criticism and learn how to respond to myself with more compassion.','I want to handle guilt, dread, resentment, sadness, and anger without letting them control my behavior.','I want to learn the difference between a feeling, a thought, and a fact.','I want to feel more emotionally steady, even when life or relationships are stressful.'],Connecting:['I want to set boundaries without overexplaining, apologizing, or feeling responsible for everyone else’s reaction.','I want to communicate what I need more clearly instead of shutting down, hinting, or exploding.','I want to stop over-functioning in relationships and let other people carry their part.','I want to repair after conflict without abandoning myself or taking all the blame.','I want to build healthier connection with people who feel safe, supportive, and respectful.']};
+const GOAL_SKILLMAP={'overthinking':['Begin Again','Thought Labeling','Stone Focus Practice'],'start tasks':['Start the Task','Begin Again','Single-Task Focus'],'follow through':['Single-Task Focus','Begin Again','Start the Task'],'notice my thoughts':['Thought Labeling','Begin Again','Stone Focus Practice'],'simple routine':['Single-Task Focus','Begin Again','Start the Task'],'calm my body':['Calm Tool','Ride the Wave','STOP Skill'],'hard moments':['Ride the Wave','STOP Skill','Calm Tool'],'stuck, flooded, or shut down':['STOP Skill','Calm Tool','Ride the Wave'],'stop reacting':['STOP Skill','Ride the Wave','Calm Tool'],'stressful seasons':['Calm Tool','Ride the Wave','Start the Task'],'understand what i am feeling':['Feelings Wheel','Name the Feeling','Thought-Mood Connection'],'self-criticism':['Inner Critic Reset','Thought Labeling','Self-Validation'],'guilt, dread, resentment':['Feelings Wheel','Thought-Mood Connection','Inner Critic Reset'],'feeling, a thought, and a fact':['Thought Labeling','Thought-Mood Connection','Inner Critic Reset'],'emotionally steady':['Feelings Wheel','Calm Tool','Thought-Mood Connection'],'set boundaries':['Healthy Boundaries','Saying No Without Guilt','Hard Conversations'],'communicate what i need':['Hard Conversations','Great Listening','Healthy Boundaries'],'over-functioning':['Healthy Boundaries','Saying No Without Guilt','Hard Conversations'],'repair after conflict':['Connecting After Conflict','Hard Conversations','Great Listening'],'healthier connection':['Great Listening','Healthy Boundaries','Hard Conversations']};
+const SKILL_IDEAS={Focus:['Begin Again','Single-Task Focus','Start the Task','Stone Focus Practice','Thought Labeling'],Coping:['Calm Tool','Ride the Wave','STOP Skill','Connecting After Conflict'],Feelings:['Inner Critic Reset','Feelings Wheel','Thought-Mood Connection','Name the Feeling'],Connecting:['Great Listening','Saying No Without Guilt','Healthy Boundaries','Hard Conversations']};
+const SKILL_URLS={'Begin Again':'https://whattodo-skills.github.io/skills/Begin_Again_Focus_Practice.html','Single-Task Focus':'https://whattodo-skills.github.io/skills/Single_Task_Focus_Practice.html','Start the Task':'https://whattodo-skills.github.io/skills/Start_The_Task_Focus_Practice.html','Stone Focus Practice':'https://whattodo-skills.github.io/skills/Stone_Focus_Practice.html','Thought Labeling':'https://whattodo-skills.github.io/skills/thought-labeling.html','Calm Tool':'https://whattodo-skills.github.io/skills/Calm_Coping_Tool.html','Ride the Wave':'https://whattodo-skills.github.io/skills/Ride_The_Wave_Coping_Practice.html','STOP Skill':'https://whattodo-skills.github.io/skills/the-stop-skill.html','Connecting After Conflict':'https://whattodo-skills.github.io/skills/Connecting_After_Conflict.html','Inner Critic Reset':'https://whattodo-skills.github.io/skills/Inner_Critic_Focus_Practice.html','Feelings Wheel':'https://whattodo-skills.github.io/skills/the-feelings-wheel.html','Thought-Mood Connection':'https://whattodo-skills.github.io/skills/thought-mood-connection.html','Name the Feeling':'https://whattodo-skills.github.io/skills/the-feelings-wheel.html','Great Listening':'https://whattodo-skills.github.io/skills/Great_Listener_Connecting_Practice.html','Saying No Without Guilt':'https://whattodo-skills.github.io/skills/Say_No_Without_Guilt_Connecting_Practice.html','Healthy Boundaries':'https://whattodo-skills.github.io/skills/Healthy_Boundaries_Connecting_Practice.html','Hard Conversations':'https://whattodo-skills.github.io/skills/Hard_Conversations_Connecting_Practice.html'};
+const SKILL_DESC={Focus:'Use this skill to bring your attention back to one useful next step.',Coping:'Use this skill to slow things down and choose what helps instead of reacting.',Feelings:'Use this skill to understand what is happening inside without judging yourself.',Connecting:'Use this skill to communicate clearly while staying respectful of yourself and others.'};
+const CAT_NOTICE={Focus:'Less scattered; more finished; less guilt about focus.',Coping:'Fewer blow-ups and shut-downs; faster recovery.',Feelings:'Clearer signals; less numbing; steadier choices.',Connecting:'More balanced relationships; steadier, clearer conversations.'};
+const ITEMS=[{title:"My Community Stack",color:"#F4A261",type:"community",badge:"2"},{title:"My Daily Check-In",color:"#4F5DAD",type:"checkin"},{title:"My Values",color:"#3DBFA8",type:"values"},{title:"My Skills Stacks",color:"#BD3A59",type:"stacks"}];
+const acc=document.getElementById('acc');
+const chev='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+
+function skillCardsHTML(objs){return objs.map(s=>{const cs=CAT_STYLE[s.cat];return '<div class="vskill" data-skill="'+s.title+'" data-cat="'+s.cat+'"><div class="vskill-top"><span class="scat" style="background:'+cs.bg+';color:'+cs.fg+'">'+s.cat+'</span><button class="heart" aria-label="Save">♡</button></div><h4>'+s.title+'</h4><p class="vdesc">'+s.desc+'</p><div class="outcome"><b>Outcome:</b> '+s.outcome+'</div><div class="cardbtns"><button class="cbtn practice">Practice It</button><button class="cbtn stack">Stack It</button><button class="cbtn skip">Skip It</button><button class="cbtn close">Close It</button></div></div>';}).join('');}
+function wireCards(box,ctx){box.querySelectorAll('.heart').forEach(h=>h.onclick=()=>{h.classList.toggle('on');h.textContent=h.classList.contains('on')?'♥':'♡';});box.querySelectorAll('.cbtn.stack').forEach(b=>b.onclick=()=>{const card=b.closest('.vskill');const name=card.getAttribute('data-skill');const cat=card.getAttribute('data-cat')||'';postHost({type:'stackSkill',skill:{skillName:name,catKey:cat.toLowerCase(),catLabel:cat,goalText:ctx||''}});b.textContent='Stacked ✓';b.style.background='#cfe9dc';});box.querySelectorAll('.cbtn.skip, .cbtn.close').forEach(b=>b.onclick=()=>{b.closest('.vskill').remove();refreshOpen();});}
+
+function communityMarkup(){
+  const items=[{av:'TK',c:'#BD3A59',html:'<b>Terri Kern</b> posted in <b>Start Here</b>: "Welcome in! You just did something real…"',time:'20h ago',unread:true},{av:'KA',c:'#3DBFA8',html:'<b>Kim</b> replied to your comment in <b>Coping</b>',time:'1d ago',unread:true},{av:'★',c:'#4F5DAD',html:'New skill added to <b>The Skills Hub</b>: "How To Calm Down"',time:'2d ago',unread:false}];
+  let h='<div class="wn-top"><b>Recent activity</b><span class="wn-mark">Mark all as read</span></div>';
+  items.forEach(n=>{h+='<div class="wn-item"><div class="wn-av" style="background:'+n.c+'">'+n.av+'</div><div class="wn-text">'+n.html+'</div><div class="wn-right"><span class="wn-time">'+n.time+'</span>'+(n.unread?'<span class="wn-unread"></span>':'')+'</div></div>';});
+  h+='<a class="seeall" href="https://www.whattodo.coach/my-notifications" target="_blank" rel="noopener">See all activity →</a>';
+  const cards=[{t:'GROUPS',bg:'#FBE7D7',fg:'#A85B22',h:'Community Groups',p:'Start Here, Coping, Connecting. Post and connect.',cta:'Open Community Groups',url:'https://www.whattodo.coach/groups'},{t:'ARTICLES',bg:'#DFF1EA',fg:'#0F6E56',h:'Skills Articles',p:'Practical reads like "How To Calm Down."',cta:'Read Skills Articles',url:'https://www.whattodo.coach/blog'},{t:'LIVE',bg:'#E3E7F6',fg:'#2E3A82',h:'Programs & Events',p:'Self-paced programs + live sessions.',cta:'Open Self-Paced Programs',url:'https://www.whattodo.coach/self-guided-programs'},{t:'FILES',bg:'#F8E1E7',fg:'#8E2C44',h:'Digital Library',p:'Downloads, worksheets, audio.',cta:'Open Digital Library',url:'https://www.whattodo.coach/file-share'}];
+  h+='<p class="stack-label">The Stack</p><div class="stack">';
+  cards.forEach(c=>{h+='<div class="scard"><span class="tag" style="background:'+c.bg+';color:'+c.fg+'">'+c.t+'</span><h4>'+c.h+'</h4><p>'+c.p+'</p><a class="sbtn" href="'+c.url+'" target="_blank" rel="noopener">'+c.cta+' →</a></div>';});
+  return h+'</div>';
+}
+function checkinMarkup(){return '<div class="sec-title">1 · Today\'s Emotion <button class="info">i<span class="tt">Your automatic, physical response to a person, yourself, a situation, a conversation, or an action.</span></button></div><div class="emos" id="ci-emos"></div><div id="ci-step2" class="hide"><div class="sec-title">2 · How You Feel <button class="info">i<span class="tt">Your brain\'s interpretation of the response.</span></button></div><div class="feelings" id="ci-feelings"></div><div class="saverow"><button class="btn red" id="ci-save" disabled>Log Today</button><span class="saved-msg hide" id="ci-saved">Logged ✓</span></div></div><div class="mood-wrap"><div class="sec-title">Your Mood <button class="info">i<span class="tt">Your prolonged state of mind — calculated from your emotions and feelings over 14 days, tracked across 30.</span></button></div><div id="ci-mood"></div><div class="strip-head"><h2>Your last 14 days</h2><span class="insight" id="ci-insight"></span></div><div class="strip" id="ci-strip"></div></div><div class="struggle"><div class="sec-title">What Are You Struggling With Right Now?</div><div id="ci-rec"></div></div>';}
+function valuesMarkup(){return '<p class="vintro">Values are your internal compass — not destinations, but directions. Choose the 2–3 that feel most urgent and authentic to your life right now.</p><div class="vcounter">Select up to 3 <span class="cnt" id="v-cnt">0 / 3</span></div><div class="vgrid" id="v-grid"></div><div class="vslots" id="v-slots"></div><button class="saveval" id="v-save">Save My Values</button><div id="v-skills"></div>';}
+function stacksMarkup(){return '<div class="skb-h">Build Your Skills Stack</div><div class="skb-lab">Subscriber Goal</div><div class="skb-row"><span class="iw">I want to</span><select class="sksel" id="sk-goal"></select></div><div class="skb-lab">What I Will Do</div><input class="sksel" id="sk-do" placeholder="Your objective for this goal" /><div class="skb-lab">How I Will Do It</div><input class="sksel" id="sk-how" placeholder="How you\'ll practice it this week" /><div class="skb-lab">What I\'ll Notice</div><div class="sknotice" id="sk-notice"></div><div class="stackgrid" id="sk-cards"></div><button class="savestack" id="sk-save">Save Stack</button><div class="skb-lab" style="margin-top:22px">More</div><div class="stacklinks"><a class="stacklink" href="#NAV_RECENT"><span>Recently opened skills</span><span style="color:var(--muted);font-weight:400;font-size:12px">Jump back in.</span></a><a class="stacklink" href="#NAV_ARCHIVE"><span>Skills Stack Archives</span><span style="color:var(--muted);font-weight:400;font-size:12px">Past stacks.</span></a></div>';}
+
+ITEMS.forEach(it=>{
+  const item=document.createElement('div');item.className='item';
+  let inner;if(it.type==='community')inner=communityMarkup();else if(it.type==='checkin')inner=checkinMarkup();else if(it.type==='values')inner=valuesMarkup();else inner=stacksMarkup();
+  const badge=it.badge?'<span class="badge">'+it.badge+'</span>':'';
+  item.innerHTML='<button class="head" aria-expanded="false"><span class="dot" style="background:'+it.color+'"></span><span class="title">'+it.title+badge+'</span>'+chev+'</button><div class="panel"><div class="panel-inner">'+inner+'</div></div>';
+  acc.appendChild(item);
+  const head=item.querySelector('.head'),panel=item.querySelector('.panel');
+  head.addEventListener('click',()=>{const open=item.classList.contains('open');document.querySelectorAll('.item').forEach(el=>{el.classList.remove('open');const p=el.querySelector('.panel');p.style.overflow='hidden';p.style.maxHeight=null;el.querySelector('.head').setAttribute('aria-expanded','false');});if(!open){item.classList.add('open');panel.style.maxHeight=panel.scrollHeight+'px';head.setAttribute('aria-expanded','true');panel.addEventListener('transitionend',function te(){if(item.classList.contains('open'))panel.style.overflow='visible';panel.removeEventListener('transitionend',te);});}});
+  if(it.type==='checkin')wireCheckin(item);
+  if(it.type==='values')wireValues(item);
+  if(it.type==='stacks')wireStacks(item);
+});
+function refreshOpen(){const o=document.querySelector('.item.open');if(o){const p=o.querySelector('.panel');p.style.maxHeight=p.scrollHeight+'px';}}
+function updateHeader(){
+  const chips=document.getElementById('chips');if(!chips)return;
+  const cks=STATE.checkins,vals=STATE.values;
+  const todayStr=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+  const set=new Set(cks.map(c=>c.date));let streak=0;let d=new Date();
+  for(;;){const ds=d.toISOString().slice(0,10);if(set.has(ds)){streak++;d.setDate(d.getDate()-1);}else break;}
+  const wkAgo=new Date();wkAgo.setDate(wkAgo.getDate()-6);const wk=wkAgo.toISOString().slice(0,10);
+  const week=cks.filter(c=>c.date>=wk).length;
+  const counts={};cks.forEach(c=>counts[c.emotion]=(counts[c.emotion]||0)+1);
+  const top=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  const data=[['Today',todayStr],['Check-in streak',streak?streak+(streak===1?' day':' days'):'—'],['This week',week?week+(week===1?' check-in':' check-ins'):'Log one'],['Top emotion (30d)',top?top[0]:'—'],['My Values',vals.length?vals.join(' · '):'—']];
+  chips.innerHTML=data.map(c=>'<div class="chip2"><div class="l">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>').join('');
+}
+
+function wireCheckin(root){
+  let pick={emotion:null,feeling:null};
+  const today=()=>new Date().toISOString().slice(0,10);
+  const emosEl=root.querySelector('#ci-emos');
+  Object.keys(EMOTIONS).forEach(emo=>{const b=document.createElement('button');b.className='emo';b.style.background=COLORS[emo];b.style.color=COLORS[emo];const s=document.createElement('span');s.textContent=emo;b.appendChild(s);b.onclick=()=>selEmotion(emo,b);emosEl.appendChild(b);});
+  function selEmotion(emo,btn){pick.emotion=emo;pick.feeling=null;root.querySelectorAll('.emo').forEach(x=>x.classList.remove('active'));btn.classList.add('active');root.querySelector('#ci-step2').classList.remove('hide');root.querySelector('#ci-saved').classList.add('hide');const fl=root.querySelector('#ci-feelings');fl.innerHTML='';EMOTIONS[emo].forEach(w=>{const c=document.createElement('button');c.className='chip';c.textContent=w;c.onclick=()=>{pick.feeling=w;root.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');root.querySelector('#ci-save').disabled=false;refreshOpen();};fl.appendChild(c);});root.querySelector('#ci-save').disabled=true;requestAnimationFrame(refreshOpen);}
+  root.querySelector('#ci-save').onclick=()=>{if(!pick.emotion||!pick.feeling)return;saveCheckin({date:today(),emotion:pick.emotion,feeling:pick.feeling});root.querySelector('#ci-saved').classList.remove('hide');renderRec(pick.emotion,pick.feeling);requestAnimationFrame(refreshOpen);};
+  function renderRec(emo,feel){const m=SKILLMAP[emo];const objs=m.skills.map(n=>SKILL_LIB[n]).filter(Boolean);const box=root.querySelector('#ci-rec');box.innerHTML='<div class="rec">Based on your check-in (<b>'+emo+' · '+feel+'</b>), your focus is <span class="catpill">'+m.category+'</span></div><div class="rec"><b>Start by asking:</b> '+m.question+'</div><div class="rec"><b>Try this:</b> '+m.prompt+'</div><div class="skillhead"><span class="lab">Skills for this moment</span></div>'+skillCardsHTML(objs)+'<a class="hublink" href="'+HUB+'" target="_blank" rel="noopener">See all in The Skills Hub →</a>';wireCards(box, emo+' · '+feel);}
+  function last14(){const d=[];for(let i=13;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);d.push(x.toISOString().slice(0,10));}return d;}
+  function render(){const strip=root.querySelector('#ci-strip');strip.innerHTML='';const map={};STATE.checkins.forEach(e=>map[e.date]=e);const counts={};last14().forEach(ds=>{const cell=document.createElement('div');cell.className='day';cell.innerHTML='<span class="dnum">'+new Date(ds+'T00:00:00').getDate()+'</span>';if(ds===today())cell.classList.add('today');if(map[ds]){const e=map[ds];cell.classList.add('filled');cell.style.background=COLORS[e.emotion];cell.style.borderColor=COLORS[e.emotion];counts[e.emotion]=(counts[e.emotion]||0)+1;const t=document.createElement('span');t.className='tip';t.textContent=e.emotion+': '+e.feeling;cell.appendChild(t);}strip.appendChild(cell);});const tot=Object.values(counts).reduce((a,b)=>a+b,0);const moodEl=root.querySelector('#ci-mood');const ins=root.querySelector('#ci-insight');if(tot>=3){const top=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];moodEl.innerHTML='<span class="mood-pill" style="background:'+COLORS[top[0]]+'">'+MOOD[top[0]]+'</span>';ins.innerHTML='from '+tot+' check-ins';}else{moodEl.innerHTML='<span class="def" style="font-style:italic">Log a few days to calculate your mood.</span>';ins.textContent=tot===0?'No check-ins yet':tot+' so far';}const le=STATE.checkins[STATE.checkins.length-1];if(le&&!root.querySelector('#ci-rec').innerHTML)renderRec(le.emotion,le.feeling);}
+  REND.push(render);render();
+}
+
+function wireValues(root){
+  const grid=root.querySelector('#v-grid'),slots=root.querySelector('#v-slots'),cnt=root.querySelector('#v-cnt');let chosen=[];const cardEls={};
+  VALUE_DEFS.forEach(([name,desc])=>{const c=document.createElement('div');c.className='vcard';c.innerHTML='<h5>'+name+'</h5><p>'+desc+'</p>';c.onclick=()=>{const i=chosen.indexOf(name);if(i>=0){chosen.splice(i,1);c.classList.remove('active');}else if(chosen.length<3){chosen.push(name);c.classList.add('active');}update();};cardEls[name]=c;grid.appendChild(c);});
+  function update(){cnt.textContent=chosen.length+' / 3';slots.innerHTML='';for(let i=0;i<3;i++){const s=document.createElement('div');s.className='vslot';s.innerHTML='<div class="lab">Value '+(i+1)+'</div><div class="nm">'+(chosen[i]||'—')+'</div>';slots.appendChild(s);}refreshOpen();}
+  function applyState(){chosen=STATE.values.slice(0,3);Object.values(cardEls).forEach(c=>c.classList.remove('active'));chosen.forEach(n=>{if(cardEls[n])cardEls[n].classList.add('active');});update();}
+  REND.push(applyState);applyState();
+  root.querySelector('#v-save').onclick=()=>{const box=root.querySelector('#v-skills');if(!chosen.length){box.innerHTML='<p class="def">Pick at least one value to see your skills.</p>';refreshOpen();return;}const ids=[];chosen.forEach(v=>VAL2SKILLS[v].forEach(id=>{if(!ids.includes(id))ids.push(id);}));const objs=ids.map(id=>VSKILLS[id]);saveValues(chosen);box.innerHTML='<div class="savednote">✓ Saved to your account. '+chosen.join(' · ')+' now show in your dashboard header.</div><div class="skillhead"><span class="lab">Skills for your values</span><span class="valpill">'+chosen.join(' · ').toUpperCase()+'</span></div>'+skillCardsHTML(objs);wireCards(box, chosen.join(' · '));refreshOpen();};
+}
+
+function skillCat(name){for(const c of Object.keys(SKILL_IDEAS)){if(SKILL_IDEAS[c].includes(name))return c;}return null;}
+function suggestedSkills(goalTxt,cat){const t=(goalTxt||'').toLowerCase();for(const k in GOAL_SKILLMAP){if(t.includes(k))return GOAL_SKILLMAP[k];}return SKILL_IDEAS[cat]||SKILL_IDEAS.Focus;}
+function objectiveFor(goal){if(!goal)return '';if(goal.includes('start tasks'))return 'Choose one task and complete the first small step within five minutes.';if(goal.includes('overthinking'))return 'Practice returning attention to one present-moment activity once a day.';if(goal.includes('boundaries'))return 'Set one clear limit without overexplaining.';if(goal.includes('reacting'))return 'Pause for 60 seconds before responding when I feel pulled to react.';if(goal.includes('self-criticism'))return 'Notice the self-critical thought and write one kinder, more accurate response.';return 'Practice one small action that supports this goal at least three times this week.';}
+function wireStacks(root){
+  const goalSel=root.querySelector('#sk-goal'),doIn=root.querySelector('#sk-do'),howIn=root.querySelector('#sk-how'),notice=root.querySelector('#sk-notice'),cardsEl=root.querySelector('#sk-cards');
+  const goalCat={};
+  Object.keys(PRESET_GOALS).forEach(cat=>{const og=document.createElement('optgroup');og.label=cat+' Goals';PRESET_GOALS[cat].forEach(g=>{goalCat[g]=cat;const o=document.createElement('option');o.value=g;o.textContent=g;og.appendChild(o);});goalSel.appendChild(og);});
+  function fill(){const goal=goalSel.value;const cat=goalCat[goal]||'Focus';
+    doIn.value=objectiveFor(goal);
+    howIn.value='Practice your chosen skill on most days this week and check it off.';
+    notice.textContent=CAT_NOTICE[cat]||'';
+    const skills=suggestedSkills(goal,cat);
+    cardsEl.innerHTML=skills.map(name=>{const sc=skillCat(name)||cat;const cs=CAT_STYLE[sc];const url=SKILL_URLS[name]||'';const desc=SKILL_DESC[sc]||'Use this skill to support your goal this week.';return '<div class="stackcard"><div class="in"><span class="sc-tag" style="background:'+cs.bg+';color:'+cs.fg+'">'+sc+'</span><h4>'+name+'</h4><p class="helps">'+desc+'</p>'+(url?'<a class="practicebtn" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none;text-align:center">Practice →</a>':'<button class="practicebtn">Practice</button>')+'</div></div>';}).join('');
+    refreshOpen();
+  }
+  goalSel.onchange=fill;fill();
+  root.querySelector('#sk-save').onclick=()=>{const goal=goalSel.value;const cat=goalCat[goal]||'Focus';const skills=suggestedSkills(goal,cat);saveStack({goal:goal,willDo:doIn.value,how:howIn.value,notice:CAT_NOTICE[cat]||'',cards:skills.map(n=>({title:n,cat:skillCat(n)||cat}))});const b=root.querySelector('#sk-save');b.textContent='Stack Saved ✓';b.style.background='#0f6e56';};
+}
+
+// boot: ask the host for this member's data (falls back to empty in preview)
+updateHeader();
+postHost({type:'ready'});
+</script>
+</body>
+</html>
