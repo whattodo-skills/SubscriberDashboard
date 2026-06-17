@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What To Do! Dashboard Header</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#182047;color:white}
+.dashboard-header{background:#182047;color:white;padding:14px 14px 18px}
+.greeting{margin:0 0 14px;font-size:1.55rem;line-height:1.1;font-weight:900}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.card{border:1px solid rgba(255,255,255,.23);background:rgba(255,255,255,.08);border-radius:12px;min-height:104px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center}
+.label{color:rgba(255,255,255,.64);font-size:.88rem;font-weight:900;letter-spacing:.12em;line-height:1.1;text-transform:uppercase}
+.value{color:white;font-size:1.55rem;font-weight:900;line-height:1.08;margin-top:12px}
+@media(max-width:980px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.card{min-height:90px}}
+@media(max-width:560px){.dashboard-header{padding:12px}.stats{grid-template-columns:1fr}.greeting{font-size:1.35rem}.value{font-size:1.35rem}.card{min-height:76px;padding:14px 16px}}
+</style>
+</head>
+<body>
+<section class="dashboard-header" aria-label="Dashboard summary">
+  <h1 class="greeting" id="subscriberGreeting">Hello!</h1>
+  <div class="stats">
+    <div class="card">
+      <div class="label">Today</div>
+      <div class="value" id="todayStat">Today</div>
+    </div>
+    <div class="card">
+      <div class="label">Check-In Streak</div>
+      <div class="value" id="streakStat">0 days</div>
+    </div>
+    <div class="card">
+      <div class="label">This Week</div>
+      <div class="value" id="weekStat">0 check-ins</div>
+    </div>
+    <div class="card">
+      <div class="label">Top Emotion</div>
+      <div class="value" id="topEmotionStat">Not yet</div>
+    </div>
+    <div class="card">
+      <div class="label">My Values</div>
+      <div class="value" id="valuesStat">Choose values</div>
+    </div>
+  </div>
+</section>
+<script>
+var DAILY_CHECKIN_ENDPOINT="https://www.whattodo.coach/_functions/dailyCheckIn";
+var state={firstName:"",checkins:new Array()};
+function $(id){return document.getElementById(id)}
+function clientId(){var key="wtdDailyCheckInClientId";var existing=localStorage.getItem(key);if(existing){return existing}var next="dc_"+Math.random().toString(36).slice(2)+"_"+Date.now().toString(36);localStorage.setItem(key,next);return next}
+function formatToday(){return new Date().toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
+function weekStart(date){var start=new Date(date);var day=start.getDay();start.setDate(start.getDate()-day);start.setHours(0,0,0,0);return start}
+function countThisWeek(checkins){var start=weekStart(new Date());return checkins.filter(function(item){var date=new Date(item.date+"T12:00:00");return date>=start}).length}
+function streakDays(checkins){var dates={};checkins.forEach(function(item){if(item.date){dates[item.date]=true}});var streak=0;var cursor=new Date();while(dates[cursor.toISOString().slice(0,10)]){streak+=1;cursor.setDate(cursor.getDate()-1)}return streak}
+function plural(value,word){return value+" "+word+(value===1?"":"s")}
+function topEmotion(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var counts={};checkins.filter(function(item){return new Date(item.date)>=cutoff}).forEach(function(item){counts[item.emotion]=(counts[item.emotion]||0)+1});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});return keys[0]||""}
+function render(){var firstName=state.firstName||"there";$("subscriberGreeting").textContent="Hello, "+firstName+"!";$("todayStat").textContent=formatToday();$("streakStat").textContent=plural(streakDays(state.checkins),"day");$("weekStat").textContent=plural(countThisWeek(state.checkins),"check-in");$("topEmotionStat").textContent=topEmotion(state.checkins)||"Not yet";$("valuesStat").textContent="Choose values"}
+function load(){fetch(DAILY_CHECKIN_ENDPOINT,{method:"POST",mode:"cors",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"list",clientId:clientId()})}).then(function(response){return response.json()}).then(function(data){if(data&&data.ok){state.firstName=data.firstName||"";state.checkins=Array.isArray(data.checkins)?data.checkins:new Array()}render()}).catch(render)}
+render();
+load();
+</script>
+</body>
+</html>
