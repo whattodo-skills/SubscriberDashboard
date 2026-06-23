@@ -16,6 +16,9 @@ body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#182047;co
 .card{border:1px solid rgba(255,255,255,.23);background:rgba(255,255,255,.08);border-radius:12px;min-height:104px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center}
 .label{color:rgba(255,255,255,.64);font-size:.88rem;font-weight:900;letter-spacing:.12em;line-height:1.1;text-transform:uppercase}
 .value{color:white;font-size:1.55rem;font-weight:900;line-height:1.08;margin-top:12px}
+.substat{margin-top:10px;color:rgba(255,255,255,.78);font-size:.9rem;font-weight:800;line-height:1.25}
+.substat span{display:block;color:rgba(255,255,255,.52);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.disclaimer{margin:14px 0 0;color:rgba(255,255,255,.62);font-size:.82rem;line-height:1.35}
 @media(max-width:980px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.card{min-height:90px}}
 @media(max-width:560px){.dashboard-header{padding:12px}.stats{grid-template-columns:1fr}.greeting{font-size:1.35rem}.value{font-size:1.35rem}.card{min-height:76px;padding:14px 16px}}
 </style>
@@ -39,26 +42,38 @@ body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#182047;co
     <div class="card">
       <div class="label">Top Emotion</div>
       <div class="value" id="topEmotionStat">Not yet</div>
+      <div class="substat"><span>Overall Mood</span><div id="overallMoodStat">Not enough data</div></div>
     </div>
     <div class="card">
       <div class="label">My Values</div>
       <div class="value" id="valuesStat">Choose values</div>
     </div>
   </div>
+  <p class="disclaimer">This data is not therapeutic in nature. It is an assessment only and is not a diagnosis.</p>
 </section>
 <script>
 var DAILY_CHECKIN_ENDPOINT="https://www.whattodo.coach/_functions/dailyCheckIn";
+var DAILY_CHECKIN_CHANNEL="wtd-daily-checkin";
 var state={firstName:"",checkins:new Array()};
+var checkinChannel=typeof BroadcastChannel==="function"?new BroadcastChannel(DAILY_CHECKIN_CHANNEL):null;
 function $(id){return document.getElementById(id)}
 function clientId(){var key="wtdDailyCheckInClientId";var existing=localStorage.getItem(key);if(existing){return existing}var next="dc_"+Math.random().toString(36).slice(2)+"_"+Date.now().toString(36);localStorage.setItem(key,next);return next}
 function formatToday(){return new Date().toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
 function weekStart(date){var start=new Date(date);var day=start.getDay();start.setDate(start.getDate()-day);start.setHours(0,0,0,0);return start}
+function normalizeCheckins(checkins){return Array.isArray(checkins)?checkins.filter(function(item){return item&&item.date&&item.emotion}).map(function(item){return {date:String(item.date).slice(0,10),emotion:item.emotion||"",feeling:item.feeling||""}}):new Array()}
 function countThisWeek(checkins){var start=weekStart(new Date());return checkins.filter(function(item){var date=new Date(item.date+"T12:00:00");return date>=start}).length}
 function streakDays(checkins){var dates={};checkins.forEach(function(item){if(item.date){dates[item.date]=true}});var streak=0;var cursor=new Date();while(dates[cursor.toISOString().slice(0,10)]){streak+=1;cursor.setDate(cursor.getDate()-1)}return streak}
 function plural(value,word){return value+" "+word+(value===1?"":"s")}
 function topEmotion(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var counts={};checkins.filter(function(item){return new Date(item.date)>=cutoff}).forEach(function(item){counts[item.emotion]=(counts[item.emotion]||0)+1});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});return keys[0]||""}
-function render(){var firstName=state.firstName||"there";$("subscriberGreeting").textContent="Hello, "+firstName+"!";$("todayStat").textContent=formatToday();$("streakStat").textContent=plural(streakDays(state.checkins),"day");$("weekStat").textContent=plural(countThisWeek(state.checkins),"check-in");$("topEmotionStat").textContent=topEmotion(state.checkins)||"Not yet";$("valuesStat").textContent="Choose values"}
-function load(){fetch(DAILY_CHECKIN_ENDPOINT,{method:"POST",mode:"cors",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"list",clientId:clientId()})}).then(function(response){return response.json()}).then(function(data){if(data&&data.ok){state.firstName=data.firstName||"";state.checkins=Array.isArray(data.checkins)?data.checkins:new Array()}render()}).catch(render)}
+function moodScore(emotion){var scores={Happiness:4,Love:4,Envy:2,Fear:1,Anger:1,Disgust:1,Guilt:1,Sadness:1,Shame:1,Jealousy:1};return scores[emotion]||2}
+function overallMood(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var recent=checkins.filter(function(item){return item&&item.emotion&&new Date(item.date)>=cutoff});if(recent.length<3){return "Not enough data"}var avg=recent.reduce(function(sum,item){return sum+moodScore(item.emotion)},0)/recent.length;if(avg>=3.5){return "Positive"}if(avg>=2.5){return "Mixed"}if(avg>=1.75){return "Tender"}return "Activated"}
+function render(){var firstName=state.firstName||"there";$("subscriberGreeting").textContent="Hello, "+firstName+"!";$("todayStat").textContent=formatToday();$("streakStat").textContent=plural(streakDays(state.checkins),"day");$("weekStat").textContent=plural(countThisWeek(state.checkins),"check-in");$("topEmotionStat").textContent=topEmotion(state.checkins)||"Not yet";$("overallMoodStat").textContent=overallMood(state.checkins);$("valuesStat").textContent="Choose values"}
+function postToWix(message){try{window.parent&&window.parent.postMessage(message,"*")}catch(error){}}
+function applyData(data){state.firstName=data&&data.firstName?data.firstName:state.firstName;state.checkins=normalizeCheckins(data&&data.checkins);render()}
+function load(){postToWix({type:"ready"});fetch(DAILY_CHECKIN_ENDPOINT,{method:"POST",mode:"cors",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"list",clientId:clientId()})}).then(function(response){return response.json()}).then(function(data){if(data&&data.ok){applyData(data)}else{render()}}).catch(render)}
+window.addEventListener("message",function(event){var msg=event.data||{};if(typeof msg==="string"){try{msg=JSON.parse(msg)}catch(error){msg={}}}if(msg.type==="data"){applyData(msg)}});
+window.addEventListener("storage",function(event){if(event.key==="wtdDailyCheckInUpdated"){load()}});
+if(checkinChannel){checkinChannel.onmessage=function(event){var msg=event.data||{};if(msg.type==="dailyCheckInUpdated"&&Array.isArray(msg.checkins)){state.checkins=normalizeCheckins(msg.checkins);render()}else if(msg.type==="dailyCheckInUpdated"){load()}}}
 render();
 load();
 </script>
