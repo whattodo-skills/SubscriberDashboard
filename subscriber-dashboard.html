@@ -13,16 +13,16 @@
 </style>
 </head>
 <body>
-<div class="mobile-banner">What To Do! Your Blueprint</div>
+<div class="mobile-banner">What To Do! Skills Stack</div>
 <div class="dashboard">
   <aside class="side">
     <nav class="nav" aria-label="Dashboard navigation">
       <div class="nav-label">Dashboard</div>
       <a href="https://www.whattodo.coach/dashboard" target="_blank" rel="noopener" class="active">Subscriber Dashboard</a>
       <a href="#skills-stack">Build Stack</a>
-      <a href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Find a Skill</a>
-      <a href="#daily-checkin">Mood Check</a>
-      <a href="#skill-journey">My Skill Journey</a>
+      <a href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Draw a Card</a>
+      <a href="#daily-checkin">Start Here</a>
+      <a href="#skill-journey">My Skills Stack</a>
       <a href="#values">My Values</a>
       <a href="#skills-stack">Progress</a>
       <a href="#saved-skills">Saved Skills</a>
@@ -42,8 +42,8 @@
     <header class="hero">
       <div class="hero-top">
         <div>
-          <div class="hello"><span>What To Do!</span> <span>Your Blueprint</span></div>
-          <p class="subtitle">A practical place to sort out what's happening, what matters, and what to do next.</p>
+          <div class="hello"><span>What To Do!</span> <span>Skills Stack</span></div>
+          <p class="subtitle">From Doomscrolling to You Scrolling. Choose one card from each category and build the stack that helps you handle real life.</p>
         </div>
         <div class="chips" id="headerChips"></div>
       </div>
@@ -73,7 +73,7 @@
           </div>
         </article>
         <article class="acc" id="daily-checkin">
-          <button class="acc-head" type="button" data-open="daily-checkin">My Daily Check-In <span class="chev">></span></button>
+          <button class="acc-head" type="button" data-open="daily-checkin">Start Here <span class="chev">></span></button>
           <div class="acc-body">
             <div class="grid">
               <div class="panel">
@@ -89,12 +89,12 @@
                 <div class="strip" id="moodStrip"></div>
               </div>
             </div>
-            <div class="section-title">What are you struggling with right now?</div>
+            <div class="section-title">Choose a card for this moment</div>
             <div id="emotionPlan" class="panel"></div>
           </div>
         </article>
         <article class="acc" id="skill-journey">
-          <button class="acc-head" type="button" data-open="skill-journey">My Skill Journey <span class="chev">></span></button>
+          <button class="acc-head" type="button" data-open="skill-journey">My Skills Stack <span class="chev">></span></button>
           <div class="acc-body">
             <div class="journey-hero">
               <div class="panel points-card">
@@ -102,7 +102,7 @@
                 <div class="points-total" id="skillPointsTotal">0</div>
                 <div id="skillLevelName">Getting Started</div>
                 <div class="level-bar"><div class="level-fill" id="skillLevelFill"></div></div>
-                <p class="small" id="skillLevelNote" style="color:rgba(255,255,255,.72);margin:10px 0 0">Complete check-ins and practice skills to build momentum.</p>
+                <p class="small" id="skillLevelNote" style="color:rgba(255,255,255,.72);margin:10px 0 0">Choose cards, practice them, and rotate your stack as you grow.</p>
               </div>
               <div class="panel">
                 <h3>Progress This Week</h3>
@@ -111,12 +111,12 @@
             </div>
             <div class="quest-grid">
               <div class="journey-card">
-                <strong>Weekly Quest</strong>
-                <div id="weeklyQuestText" class="muted">Complete 3 Daily Check-Ins this week.</div>
+                <strong>This Week's Stack</strong>
+                <div id="weeklyQuestText" class="muted">Choose one card from each category this week.</div>
               </div>
               <div class="journey-card">
-                <strong>Mood-Based Mission</strong>
-                <div id="moodMissionText" class="muted">Log a Daily Check-In to unlock a suggested mission.</div>
+                <strong>Recommended Card</strong>
+                <div id="moodMissionText" class="muted">Use Start Here to unlock a card that fits this moment.</div>
               </div>
             </div>
             <div class="section-title">Badges</div>
@@ -143,11 +143,12 @@
           <div class="acc-body">
             <div class="panel">
               <h3>Build Your Skills Stack</h3>
+              <p class="muted small">Choose one card from each category, practice your stack, then unstack a card when it feels proficient and draw another.</p>
               <div class="field"><label for="goalSelect">Subscriber Goal - I want to</label><select id="goalSelect"></select></div>
               <div class="field"><label for="willDoSelect">What I Will Do</label><select id="willDoSelect"></select></div>
               <div class="field"><label for="howSelect">How I Will Do It</label><select id="howSelect"></select></div>
               <div class="notice" id="noticeLine">Choose a goal to build your stack.</div>
-              <div class="section-title">Suggested skill cards</div>
+              <div class="section-title">Suggested Cards</div>
               <div class="grid-3" id="stackSkills"></div>
               <div class="btn-row"><button class="btn primary" id="saveStack" type="button">Save Stack</button></div>
             </div>
@@ -255,11 +256,11 @@ function uniqueEmotionCount(){return new Set((state.checkins||[]).map(c=>c.emoti
 function uniqueSkillCategories(){const cats=new Set();(state.stacks||[]).forEach(s=>{if(s.catLabel||s.catKey)cats.add(s.catLabel||s.catKey)});(state.recentActivity||[]).forEach(a=>{if(a.catLabel||a.catKey)cats.add(a.catLabel||a.catKey)});return cats.size}
 function journeyStats(){const checkins=(state.checkins||[]).filter(c=>c.date&&c.emotion);const stacks=state.stacks||[];const recentSkills=recentSkillActivity(30);const values=(selectedValues.length?selectedValues:state.values||[]).filter(Boolean);const currentStreak=streak(checkins);const categories=uniqueSkillCategories();const points=checkins.length*10+Math.min(recentSkills.length,20)*15+stacks.length*20+values.length*10+(currentStreak>=3?20:0)+(currentStreak>=7?35:0)+(categories>=3?25:0);return{checkins,stacks,recentSkills,values,currentStreak,categories,points,weekCheckins:recentCheckins(7).length,weekSkills:recentSkillActivity(7).length,emotions:uniqueEmotionCount(),top:topEmotion(checkins)}}
 function journeyLevel(points){const levels=[{name:"Getting Started",min:0,next:75},{name:"Building Awareness",min:75,next:175},{name:"Practicing Skills",min:175,next:325},{name:"Skill Builder",min:325,next:525},{name:"Steady Navigator",min:525,next:800},{name:"Skillful Momentum",min:800,next:1000}];let level=levels[0];for(const item of levels){if(points>=item.min)level=item}const span=Math.max(1,level.next-level.min);const pct=Math.min(100,Math.round(((points-level.min)/span)*100));return{...level,pct,remaining:Math.max(0,level.next-points)}}
-function weeklyQuest(stats){if(stats.weekCheckins<3)return `Complete ${3-stats.weekCheckins} more Daily Check-In${3-stats.weekCheckins===1?"":"s"} this week.`;if(stats.weekSkills<1)return "Practice one suggested skill from your Daily Check-In or Skills Stack.";if(!stats.values.length)return "Choose 2-3 values to guide your next skill choice.";return "Keep the streak gentle: one check-in or one skill practice tomorrow."}
-function moodMission(stats){const emotion=stats.top==="Not yet"?"":stats.top;const data=emotionData[emotion];if(!data)return "Log three Daily Check-Ins to unlock a mood-based mission.";const firstSkill=(data.skills||[])[0]||"a suggested skill";if(emotion==="Happiness"||emotion==="Love")return `Build on ${emotion}: practice ${firstSkill} and notice what supports this mood.`;return `For ${emotion}: practice ${firstSkill} once, then name one next step that would help today.`}
+function weeklyQuest(stats){if(stats.weekCheckins<3)return `Use Start Here ${3-stats.weekCheckins} more time${3-stats.weekCheckins===1?"":"s"} this week to choose stronger cards.`;if(stats.weekSkills<1)return "Practice one card from your recommendations or Skills Stack.";if(!stats.values.length)return "Choose 2-3 values to guide your next card choice.";return "Keep the stack active: one check-in or one card practice tomorrow."}
+function moodMission(stats){const emotion=stats.top==="Not yet"?"":stats.top;const data=emotionData[emotion];if(!data)return "Use Start Here three times to unlock a recommended card.";const firstSkill=(data.skills||[])[0]||"a suggested card";if(emotion==="Happiness"||emotion==="Love")return `Recommended card for ${emotion}: practice ${firstSkill} and notice what supports this mood.`;return `Recommended card for ${emotion}: practice ${firstSkill} once, then name one next step that would help today.`}
 function journeyBadges(stats){return[
-  {name:"First Check-In",desc:"Logged one Daily Check-In.",earned:stats.checkins.length>=1},
-  {name:"Pattern Spotter",desc:"Logged 7 Daily Check-Ins.",earned:stats.checkins.length>=7},
+  {name:"First Card",desc:"Used Start Here once.",earned:stats.checkins.length>=1},
+  {name:"Pattern Spotter",desc:"Used Start Here 7 times.",earned:stats.checkins.length>=7},
   {name:"30-Day Tracker",desc:"Built a 30-day mood history.",earned:stats.checkins.length>=30},
   {name:"Feelings Explorer",desc:"Named 5 different emotions.",earned:stats.emotions>=5},
   {name:"Begin Again",desc:"Returned to practice this week.",earned:stats.weekCheckins>=1||stats.weekSkills>=1},
@@ -274,7 +275,7 @@ function renderLinkList(id,items,fallbackUrl,emptyText){$(id).innerHTML=(items||
 function renderCheckin(){$("emotionButtons").innerHTML=Object.keys(emotionData).map(e=>`<button class="pill ${selectedEmotion===e?"active":""}" style="border-color:${selectedEmotion===e?"#182047":CAT_COLORS[e]}" type="button" data-emotion="${esc(e)}" data-tip="${esc(emotionEducation[e]||"Emotion: an automatic body response that gives you information before you have words for it.")}">${esc(e)}</button>`).join("");const feelings=selectedEmotion?emotionData[selectedEmotion].feelings:[];$("feelingButtons").innerHTML=feelings.length?feelings.map(f=>`<button class="option-card ${selectedFeeling===f?"active":""}" type="button" data-feeling="${esc(f)}" data-tip="${esc(feelingTip(f,selectedEmotion))}"><strong>${esc(f)}</strong><span>${selectedFeeling===f?"Selected feeling":"Feeling word"}</span></button>`).join(""):`<div class="empty">Choose an emotion first.</div>`;document.querySelectorAll("[data-emotion]").forEach(b=>b.addEventListener("click",()=>{selectedEmotion=b.dataset.emotion;selectedFeeling="";renderAll()}));document.querySelectorAll("[data-feeling]").forEach(b=>b.addEventListener("click",()=>{selectedFeeling=b.dataset.feeling;renderCheckin()}));renderMood();renderEmotionPlan()}
 function feelingTip(feeling,emotion){const key=String(feeling||"").toLowerCase();const wheelKey=feelingWheelInfo[key]?key:feelingAliases[key];const wheelText=wheelKey?feelingWheelInfo[wheelKey]:"";const emotionLabel=emotion?`${emotion} emotion-family`:"core emotion";const intro=`Feeling: the conscious word your mind gives the emotion. '${feeling}' is a ${emotionLabel} feeling word.`;return wheelText?`${intro} Feelings Wheel note: ${wheelText}`:`${intro} It helps you move from a broad emotion to a more specific internal experience.`}
 function renderMood(){const recent=[...state.checkins].sort((a,b)=>a.date.localeCompare(b.date)).slice(-14);const dominant=recent.length>=3?topEmotion(recent):"";const moods=dominant&&emotionData[dominant]?.moods?emotionData[dominant].moods.join(", "):"";$("moodSummary").textContent=dominant?`${moods||dominant} mood pattern, led by ${dominant}.`:"Log at least three check-ins to see a mood pattern.";$("moodStrip").innerHTML=Array.from({length:14},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(13-i));const key=d.toISOString().slice(0,10);const hit=state.checkins.find(c=>c.date===key);const title=hit?`${hit.date}: ${hit.emotion} - ${hit.feeling||""}`:key;return `<div class="day" title="${esc(title)}" style="background:${hit?CAT_COLORS[hit.emotion]||"#e9e3d7":"#e9e3d7"}"></div>`}).join("")}
-function renderEmotionPlan(){const data=emotionData[selectedEmotion]||emotionData[topEmotion(state.checkins)]||null;if(!data){$("emotionPlan").innerHTML='<div class="empty">Choose or log an emotion to see a starting question and recommended skills.</div>';return}$("emotionPlan").innerHTML=`<h3>${esc(data.wtdCategory||data.cat)} support</h3><p class="muted small"><strong>DBT skills:</strong> ${esc(data.dbt||"")}</p><p class="muted"><strong>Start by asking:</strong> ${esc(data.question)}</p><p class="muted"><strong>Practice prompt:</strong> ${esc(data.prompt)}</p><div class="grid-3">${data.skills.map(s=>skillCard(s,categoryForSkill(s),selectedEmotion||"today's check-in")).join("")}</div>`}
+function renderEmotionPlan(){const data=emotionData[selectedEmotion]||emotionData[topEmotion(state.checkins)]||null;if(!data){$("emotionPlan").innerHTML='<div class="empty">Choose or log an emotion to see a starting question and recommended cards.</div>';return}$("emotionPlan").innerHTML=`<h3>${esc(data.wtdCategory||data.cat)} cards</h3><p class="muted small"><strong>This card practices:</strong> ${esc(data.dbt||"")}</p><p class="muted"><strong>Start by asking:</strong> ${esc(data.question)}</p><p class="muted"><strong>Try this card when:</strong> ${esc(data.prompt)}</p><div class="grid-3">${data.skills.map(s=>skillCard(s,categoryForSkill(s),selectedEmotion||"today's check-in")).join("")}</div>`}
 function skillCard(name,cat,goal){const url=skillUrls[name]||"#";return `<article class="skill-card"><div class="top"><span class="cat ${esc(cat)}">${esc(cat)}</span><button class="btn ghost" type="button" data-stack-skill="${esc(name)}" data-cat="${esc(cat)}" data-goal="${esc(goal)}">Stack It</button></div><div class="body"><h4>${esc(name)}</h4><p class="muted small">${esc(skillMeta[cat]||"Helps support this goal.")}</p><p class="muted small"><strong>Outcome:</strong> ${esc(outcomeFor(name))}</p></div><div class="actions"><a class="btn primary" href="${esc(url)}" target="_blank" rel="noopener" data-open-skill="${esc(name)}" data-cat="${esc(cat)}">Practice It</a><button class="btn secondary" type="button" data-stack-skill="${esc(name)}" data-cat="${esc(cat)}" data-goal="${esc(goal)}">Stack It</button><button class="btn ghost" type="button">Skip It</button><button class="btn warn" type="button">Close It</button></div></article>`}
 function outcomeFor(name){if(name.includes("Boundary")||name.includes("No"))return "Set a respectful limit while staying connected to your values.";if(name.includes("Calm")||name.includes("STOP")||name.includes("Wave"))return "Pause, settle, and choose what helps next.";if(name.includes("Feeling")||name.includes("Mood")||name.includes("Critic"))return "Name what is happening inside with more clarity.";return "Return to one useful next step."}
 function renderValues(){selectedValues=selectedValues.length?selectedValues:(state.values||[]).slice(0,3);$("valueCount").textContent=selectedValues.length+" / 3";$("valueGrid").innerHTML=values.map(v=>`<button type="button" class="value-card ${selectedValues.includes(v[0])?"active":""}" data-value="${esc(v[0])}"><strong>${esc(v[0])}</strong><span>${esc(v[1])}</span></button>`).join("");$("valueSlots").innerHTML=[0,1,2].map(i=>`<div class="slot">Value ${i+1}: ${esc(selectedValues[i]||"")}</div>`).join("");$("valueSkills").innerHTML=valueSkillNames().map(s=>skillCard(s,categoryForSkill(s),selectedValues.join(", "))).join("")||'<div class="empty">Choose values to see suggested skills.</div>';document.querySelectorAll("[data-value]").forEach(btn=>btn.addEventListener("click",()=>{const v=btn.dataset.value;if(selectedValues.includes(v))selectedValues=selectedValues.filter(x=>x!==v);else if(selectedValues.length<3)selectedValues.push(v);else toast("Choose up to 3 values.");renderValues();renderHeader()}))}

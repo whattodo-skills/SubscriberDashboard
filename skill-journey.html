@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What To Do! Skill Journey</title>
+<title>What To Do! Skills Stack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -48,8 +48,8 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
 <body>
 <main class="wrap">
   <header class="head">
-    <h1>My Skill Journey</h1>
-    <p>Build momentum with Skills Points, weekly practice, mood-based missions, and badges.</p>
+    <h1>My Skills Stack</h1>
+    <p>Choose one card from each category, practice your stack, then unstack a card when it feels proficient and draw another.</p>
   </header>
   <section class="journey-hero">
     <div class="panel points-card">
@@ -57,7 +57,7 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
       <div class="points-total" id="skillPointsTotal">0</div>
       <div class="level-name" id="skillLevelName">Getting Started</div>
       <div class="level-bar"><div class="level-fill" id="skillLevelFill"></div></div>
-      <p class="level-note" id="skillLevelNote">Complete check-ins and practice skills to build momentum.</p>
+      <p class="level-note" id="skillLevelNote">Choose cards, practice them, and rotate your stack as you grow.</p>
     </div>
     <div class="panel">
       <h2>Progress This Week</h2>
@@ -67,12 +67,12 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
   </section>
   <section class="quest-grid">
     <div class="journey-card">
-      <strong>Weekly Quest</strong>
-      <div id="weeklyQuestText" class="muted">Complete 3 Daily Check-Ins this week.</div>
+      <strong>This Week's Stack</strong>
+      <div id="weeklyQuestText" class="muted">Choose one card from each category this week.</div>
     </div>
     <div class="journey-card">
-      <strong>Mood-Based Mission</strong>
-      <div id="moodMissionText" class="muted">Log a Daily Check-In to unlock a suggested mission.</div>
+      <strong>Recommended Card</strong>
+      <div id="moodMissionText" class="muted">Use Start Here to unlock a card that fits this moment.</div>
     </div>
   </section>
   <div class="section-title">Badges</div>
@@ -113,11 +113,11 @@ function uniqueEmotionCount(){return new Set((state.checkins||[]).map(function(i
 function uniqueSkillCategories(){var cats=new Set();(state.stacks||[]).forEach(function(item){if(item.catLabel||item.catKey)cats.add(item.catLabel||item.catKey)});(state.recentActivity||[]).forEach(function(item){if(item.catLabel||item.catKey)cats.add(item.catLabel||item.catKey)});return cats.size}
 function journeyStats(){var checkins=(state.checkins||[]).filter(function(item){return item.date&&item.emotion});var stacks=state.stacks||[];var recentSkills=recentSkillActivity(30);var values=(state.values||[]).filter(Boolean);var currentStreak=streak(checkins);var categories=uniqueSkillCategories();var points=checkins.length*10+Math.min(recentSkills.length,20)*15+stacks.length*20+values.length*10+(currentStreak>=3?20:0)+(currentStreak>=7?35:0)+(categories>=3?25:0);return{checkins:checkins,stacks:stacks,recentSkills:recentSkills,values:values,currentStreak:currentStreak,categories:categories,points:points,weekCheckins:recentCheckins(7).length,weekSkills:recentSkillActivity(7).length,emotions:uniqueEmotionCount(),top:topEmotion(checkins)}}
 function journeyLevel(points){var levels=[{name:"Getting Started",min:0,next:75},{name:"Building Awareness",min:75,next:175},{name:"Practicing Skills",min:175,next:325},{name:"Skill Builder",min:325,next:525},{name:"Steady Navigator",min:525,next:800},{name:"Skillful Momentum",min:800,next:1000}];var level=levels[0];levels.forEach(function(item){if(points>=item.min)level=item});var span=Math.max(1,level.next-level.min);var pct=Math.min(100,Math.round(((points-level.min)/span)*100));return{name:level.name,min:level.min,next:level.next,pct:pct,remaining:Math.max(0,level.next-points)}}
-function weeklyQuest(stats){if(stats.weekCheckins<3)return "Complete "+(3-stats.weekCheckins)+" more Daily Check-In"+(3-stats.weekCheckins===1?"":"s")+" this week.";if(stats.weekSkills<1)return "Practice one suggested skill from your Daily Check-In or Skills Stack.";if(!stats.values.length)return "Choose 2-3 values to guide your next skill choice.";return "Keep the streak gentle: one check-in or one skill practice tomorrow."}
-function moodMission(stats){var emotion=stats.top==="Not yet"?"":stats.top;var skills=emotionSkills[emotion]||[];if(!emotion||!skills.length)return "Log three Daily Check-Ins to unlock a mood-based mission.";var firstSkill=skills[0];if(emotion==="Happiness"||emotion==="Love")return "Build on "+emotion+": practice "+firstSkill+" and notice what supports this mood.";return "For "+emotion+": practice "+firstSkill+" once, then name one next step that would help today."}
+function weeklyQuest(stats){if(stats.weekCheckins<3)return "Use Start Here "+(3-stats.weekCheckins)+" more time"+(3-stats.weekCheckins===1?"":"s")+" this week to choose stronger cards.";if(stats.weekSkills<1)return "Practice one card from your recommendations or Skills Stack.";if(!stats.values.length)return "Choose 2-3 values to guide your next card choice.";return "Keep the stack active: one check-in or one card practice tomorrow."}
+function moodMission(stats){var emotion=stats.top==="Not yet"?"":stats.top;var skills=emotionSkills[emotion]||[];if(!emotion||!skills.length)return "Use Start Here three times to unlock a recommended card.";var firstSkill=skills[0];if(emotion==="Happiness"||emotion==="Love")return "Recommended card for "+emotion+": practice "+firstSkill+" and notice what supports this mood.";return "Recommended card for "+emotion+": practice "+firstSkill+" once, then name one next step that would help today."}
 function journeyBadges(stats){return[
-  {name:"First Check-In",desc:"Logged one Daily Check-In.",earned:stats.checkins.length>=1},
-  {name:"Pattern Spotter",desc:"Logged 7 Daily Check-Ins.",earned:stats.checkins.length>=7},
+  {name:"First Card",desc:"Used Start Here once.",earned:stats.checkins.length>=1},
+  {name:"Pattern Spotter",desc:"Used Start Here 7 times.",earned:stats.checkins.length>=7},
   {name:"30-Day Tracker",desc:"Built a 30-day mood history.",earned:stats.checkins.length>=30},
   {name:"Feelings Explorer",desc:"Named 5 different emotions.",earned:stats.emotions>=5},
   {name:"Begin Again",desc:"Returned to practice this week.",earned:stats.weekCheckins>=1||stats.weekSkills>=1},
