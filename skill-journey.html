@@ -34,8 +34,13 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
 .quest-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
 .journey-card{background:#fffaf2;padding:13px}
 .journey-card strong{display:block;color:#182047;margin-bottom:4px}
-.points-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
-.guide-list{display:grid;gap:7px}
+.points-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.guide-drop{border:1px solid #e1ddd4;border-radius:8px;background:#fffaf2;overflow:hidden}
+.guide-drop summary{list-style:none;cursor:pointer;padding:10px 12px;color:#182047;font-weight:900;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.guide-drop summary::-webkit-details-marker{display:none}
+.guide-drop summary::after{content:">";transition:.2s}
+.guide-drop[open] summary::after{transform:rotate(90deg)}
+.guide-list{display:grid;gap:7px;padding:0 12px 12px}
 .guide-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #e1ddd4;padding-bottom:6px}
 .guide-row:last-child{border-bottom:0;padding-bottom:0}
 .guide-row span{color:#667085}
@@ -84,8 +89,8 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
     </div>
   </section>
   <section class="points-guide">
-    <div class="journey-card">
-      <strong>How Skills Points Work</strong>
+    <details class="guide-drop">
+      <summary>How Skills Points Work</summary>
       <div class="guide-list">
         <div class="guide-row"><span>Daily Check-In</span><strong>+10</strong></div>
         <div class="guide-row"><span>Practice or open a skill card</span><strong>+15</strong></div>
@@ -95,9 +100,9 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
         <div class="guide-row"><span>7-day check-in streak</span><strong>+35</strong></div>
         <div class="guide-row"><span>Touch 3 skill categories</span><strong>+25</strong></div>
       </div>
-    </div>
-    <div class="journey-card">
-      <strong>Level Legend</strong>
+    </details>
+    <details class="guide-drop">
+      <summary>Level Legend</summary>
       <div class="guide-list">
         <div class="guide-row"><span>Getting Started</span><strong>0-74</strong></div>
         <div class="guide-row"><span>Building Awareness</span><strong>75-174</strong></div>
@@ -106,7 +111,7 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
         <div class="guide-row"><span>Steady Navigator</span><strong>525-799</strong></div>
         <div class="guide-row"><span>Skillful Momentum</span><strong>800+</strong></div>
       </div>
-    </div>
+    </details>
   </section>
   <div class="section-title">Badges</div>
   <section class="badge-grid" id="badgeGrid"></section>
