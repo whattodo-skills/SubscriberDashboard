@@ -16,7 +16,8 @@ body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#F7F4ED;co
 .head{background:#182047;color:white;border-bottom:4px solid #B4DACD;border-radius:8px 8px 0 0;padding:18px 20px;margin-bottom:14px}
 .head h1{margin:0;font-size:1.45rem;line-height:1.1}
 .head p{margin:5px 0 0;color:rgba(255,255,255,.74);line-height:1.4}
-.journey-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:14px;margin-bottom:14px}
+.journey-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:14px;margin-bottom:10px}
+.journey-stack{display:grid;gap:12px;align-content:start}
 .points-card{background:#182047;color:white;border-color:#182047}
 .points-label{color:rgba(255,255,255,.68);font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
 .points-total{font-size:2.65rem;font-weight:900;line-height:1;margin:8px 0}
@@ -49,13 +50,14 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
 .badge-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .badge{padding:10px;min-height:104px;display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:center}
 .badge.earned{border-color:#B4DACD;background:#e8f5f0}
-.badge-icon{width:56px;height:56px;object-fit:contain}
+.badge-icon{width:56px;height:56px;object-fit:contain;filter:grayscale(1);opacity:.5}
+.badge.earned .badge-icon{filter:none;opacity:1}
 .badge-copy{min-width:0}
 .badge-name{font-weight:900;color:#182047;line-height:1.15}
 .badge-meta{color:#667085;font-size:.82rem;line-height:1.3;margin-top:4px}
 .empty{border:1px dashed #d4cec3;border-radius:8px;padding:14px;color:#667085;background:#fffaf2}
 .disclaimer{margin:14px 0 0;color:#667085;font-size:.82rem;line-height:1.35}
-@media(max-width:860px){.wrap{padding:10px}.journey-hero,.quest-grid,.points-guide,.progress-metrics,.badge-grid{grid-template-columns:1fr}.points-total{font-size:2.25rem}}
+@media(max-width:860px){.wrap{padding:10px}.journey-hero,.journey-stack,.quest-grid,.points-guide,.progress-metrics,.badge-grid{grid-template-columns:1fr}.points-total{font-size:2.25rem}}
 </style>
 </head>
 <body>
@@ -65,27 +67,29 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
     <p>You're here, and that's already a win. See how many Skills Points you can earn while You Scrolling.</p>
   </header>
   <section class="journey-hero">
-    <div class="panel points-card">
-      <div class="points-label">Skills Points</div>
-      <div class="points-total" id="skillPointsTotal">0</div>
-      <div class="level-name" id="skillLevelName">Getting Started</div>
-      <div class="level-bar"><div class="level-fill" id="skillLevelFill"></div></div>
-      <p class="level-note" id="skillLevelNote">Choose cards, practice them, and rotate your stack as you grow.</p>
+    <div class="journey-stack">
+      <div class="panel points-card">
+        <div class="points-label">Skills Points</div>
+        <div class="points-total" id="skillPointsTotal">0</div>
+        <div class="level-name" id="skillLevelName">Current Level: Getting Started</div>
+        <div class="level-bar"><div class="level-fill" id="skillLevelFill"></div></div>
+        <p class="level-note" id="skillLevelNote">Choose cards, practice them, and rotate your stack as you grow.</p>
+      </div>
+      <div class="journey-card">
+        <strong>Recommended Card</strong>
+        <div id="moodMissionText" class="muted">Use Start Here to unlock a card that fits this moment.</div>
+      </div>
     </div>
-    <div class="panel">
-      <h2>Progress This Week</h2>
-      <p class="muted small">A quick view of recent practice signals.</p>
-      <div class="progress-metrics" id="journeyMetrics"></div>
-    </div>
-  </section>
-  <section class="quest-grid">
-    <div class="journey-card">
-      <strong>This Week's Stack</strong>
-      <div id="weeklyQuestText" class="muted">Choose one card from each category this week.</div>
-    </div>
-    <div class="journey-card">
-      <strong>Recommended Card</strong>
-      <div id="moodMissionText" class="muted">Use Start Here to unlock a card that fits this moment.</div>
+    <div class="journey-stack">
+      <div class="panel">
+        <h2>Progress This Week</h2>
+        <p class="muted small">A quick view of recent practice signals.</p>
+        <div class="progress-metrics" id="journeyMetrics"></div>
+      </div>
+      <div class="journey-card">
+        <strong>Last Week's Progress</strong>
+        <div id="lastWeekProgressText" class="muted">Build a little data this week, then compare your progress here.</div>
+      </div>
     </div>
   </section>
   <section class="points-guide">
@@ -134,6 +138,7 @@ var emotionSkills={
   Sadness:["Feelings Wheel","Calm Tool","Great Listening"],
   Shame:["Inner Critic Reset","Connecting After Conflict","Healthy Boundaries"]
 };
+var skillUrls={"Begin Again":"https://whattodo-skills.github.io/skills/Begin_Again_Focus_Practice.html","Single-Task Focus":"https://whattodo-skills.github.io/skills/Single_Task_Focus_Practice.html","Start the Task":"https://whattodo-skills.github.io/skills/Start_The_Task_Focus_Practice.html","Calm Tool":"https://whattodo-skills.github.io/skills/Calm_Coping_Tool.html","STOP Skill":"https://whattodo-skills.github.io/skills/the-stop-skill.html","Feelings Wheel":"https://whattodo-skills.github.io/skills/the-feelings-wheel.html","Great Listening":"https://whattodo-skills.github.io/skills/Great_Listener_Connecting_Practice.html","Healthy Boundaries":"https://whattodo-skills.github.io/skills/Healthy_Boundaries_Connecting_Practice.html","Hard Conversations":"https://whattodo-skills.github.io/skills/Hard_Conversations_Connecting_Practice.html","Check the Story":"https://whattodo-skills.github.io/skills/Check_The_Story_Feelings_Practice.html","Thought Labeling":"https://whattodo-skills.github.io/skills/thought-labeling.html","Inner Critic Reset":"https://whattodo-skills.github.io/skills/Inner_Critic_Focus_Practice.html","Connecting After Conflict":"https://whattodo-skills.github.io/skills/Connecting_After_Conflict.html","Participate: Be In It":"https://whattodo-skills.github.io/skills/Participate_Be_In_It_Focus_Practice.html"};
 function $(id){return document.getElementById(id)}
 function esc(value){return String(value||"").replace(/[&<>'"]/g,function(mark){return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[mark]})}
 function clientId(){var key="wtdDailyCheckInClientId";var existing=localStorage.getItem(key);if(existing){return existing}var next="dc_"+Math.random().toString(36).slice(2)+"_"+Date.now().toString(36);localStorage.setItem(key,next);return next}
@@ -145,25 +150,27 @@ function loadCheckins(){postToWix({type:"ready"});fetch(DAILY_CHECKIN_ENDPOINT,{
 function postToWix(message){try{window.parent&&window.parent.postMessage(message,"*")}catch(error){}}
 function recentCheckins(days){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-(days-1));cutoff.setHours(0,0,0,0);return (state.checkins||[]).filter(function(item){return item.date&&new Date(item.date+"T12:00:00")>=cutoff})}
 function recentSkillActivity(days){var cutoff=Date.now()-(days-1)*86400000;return (state.recentActivity||[]).filter(function(item){return /opened|practice|skill/i.test(item.text||"")&&(!item.when||new Date(item.when).getTime()>=cutoff)})}
+function activityBetween(daysStart,daysEnd){var start=Date.now()-daysStart*86400000;var end=Date.now()-daysEnd*86400000;return (state.recentActivity||[]).filter(function(item){return /opened|practice|skill/i.test(item.text||"")&&item.when&&new Date(item.when).getTime()>=start&&new Date(item.when).getTime()<end})}
+function checkinsBetween(daysStart,daysEnd){var start=new Date();start.setDate(start.getDate()-daysStart);start.setHours(0,0,0,0);var end=new Date();end.setDate(end.getDate()-daysEnd);end.setHours(0,0,0,0);return (state.checkins||[]).filter(function(item){return item.date&&new Date(item.date+"T12:00:00")>=start&&new Date(item.date+"T12:00:00")<end})}
 function streak(checkins){var dates=new Set(checkins.map(function(item){return item.date}));var count=0;var cursor=new Date();while(dates.has(cursor.toISOString().slice(0,10))){count+=1;cursor.setDate(cursor.getDate()-1)}return count}
 function topEmotion(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var counts={};checkins.filter(function(item){return new Date(item.date)>=cutoff}).forEach(function(item){counts[item.emotion]=(counts[item.emotion]||0)+1});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});return keys[0]||"Not yet"}
 function uniqueEmotionCount(){return new Set((state.checkins||[]).map(function(item){return item.emotion}).filter(Boolean)).size}
 function uniqueSkillCategories(){var cats=new Set();(state.stacks||[]).forEach(function(item){if(item.catLabel||item.catKey)cats.add(item.catLabel||item.catKey)});(state.recentActivity||[]).forEach(function(item){if(item.catLabel||item.catKey)cats.add(item.catLabel||item.catKey)});return cats.size}
 function journeyStats(){var checkins=(state.checkins||[]).filter(function(item){return item.date&&item.emotion});var stacks=state.stacks||[];var recentSkills=recentSkillActivity(30);var values=(state.values||[]).filter(Boolean);var currentStreak=streak(checkins);var categories=uniqueSkillCategories();var points=checkins.length*10+Math.min(recentSkills.length,20)*15+stacks.length*20+values.length*10+(currentStreak>=3?20:0)+(currentStreak>=7?35:0)+(categories>=3?25:0);return{checkins:checkins,stacks:stacks,recentSkills:recentSkills,values:values,currentStreak:currentStreak,categories:categories,points:points,weekCheckins:recentCheckins(7).length,weekSkills:recentSkillActivity(7).length,emotions:uniqueEmotionCount(),top:topEmotion(checkins)}}
 function journeyLevel(points){var levels=[{name:"Getting Started",min:0,next:75},{name:"Building Awareness",min:75,next:175},{name:"Practicing Skills",min:175,next:325},{name:"Skill Builder",min:325,next:525},{name:"Steady Navigator",min:525,next:800},{name:"Skillful Momentum",min:800,next:1000}];var level=levels[0];levels.forEach(function(item){if(points>=item.min)level=item});var span=Math.max(1,level.next-level.min);var pct=Math.min(100,Math.round(((points-level.min)/span)*100));return{name:level.name,min:level.min,next:level.next,pct:pct,remaining:Math.max(0,level.next-points)}}
-function weeklyQuest(stats){if(stats.weekCheckins<3)return "Use Start Here "+(3-stats.weekCheckins)+" more time"+(3-stats.weekCheckins===1?"":"s")+" this week to choose stronger cards.";if(stats.weekSkills<1)return "Practice one card from your recommendations or Skills Stack.";if(!stats.values.length)return "Choose 2-3 values to guide your next card choice.";return "Keep the stack active: one check-in or one card practice tomorrow."}
-function moodMission(stats){var emotion=stats.top==="Not yet"?"":stats.top;var skills=emotionSkills[emotion]||[];if(!emotion||!skills.length)return "Use Start Here three times to unlock a recommended card.";var firstSkill=skills[0];if(emotion==="Happiness"||emotion==="Love")return "Recommended card for "+emotion+": practice "+firstSkill+" and notice what supports this mood.";return "Recommended card for "+emotion+": practice "+firstSkill+" once, then name one next step that would help today."}
+function recommendedCard(stats){var emotion=stats.top==="Not yet"?"":stats.top;var skills=emotionSkills[emotion]||[];if(!emotion||!skills.length)return{text:"Use Start Here to unlock a card that fits this moment.",name:"Start Here",url:"https://www.whattodo.coach/dashboard"};var name=skills[0];return{text:"Recommended card for "+emotion+": "+name,name:name,url:skillUrls[name]||"https://whattodo-skills.github.io/skills/The_Skills_Hub.html"}}
+function lastWeekProgress(){var checkins=checkinsBetween(14,7).length;var skills=activityBetween(14,7).length;var points=checkins*10+Math.min(skills,20)*15;if(!checkins&&!skills)return "No activity logged last week. Try one Start Here check-in and one card this week.";return "Last week: "+checkins+" check-in"+(checkins===1?"":"s")+", "+skills+" skill card"+(skills===1?"":"s")+", about "+points+" Skills Points."}
 function journeyBadges(stats){return[
-  {name:"First Check-In",desc:"Logged one Daily Check-In.",icon:"assets/badges/first-check-in.png?v=7cebb79",earned:stats.checkins.length>=1},
-  {name:"Pattern Spotter",desc:"Logged 7 Daily Check-Ins and can start noticing patterns.",icon:"assets/badges/pattern-spotter.png?v=7cebb79",earned:stats.checkins.length>=7},
-  {name:"30-Day Tracker",desc:"Built a 30-day mood history.",icon:"assets/badges/thirty-day-tracker.png?v=7cebb79",earned:stats.checkins.length>=30},
-  {name:"Feelings Explorer",desc:"Named 5 different emotions.",icon:"assets/badges/feelings-explorer.png?v=7cebb79",earned:stats.emotions>=5},
-  {name:"Begin Again",desc:"Returned to practice this week.",icon:"assets/badges/begin-again.png?v=7cebb79",earned:stats.weekCheckins>=1||stats.weekSkills>=1},
-  {name:"Stack Builder",desc:"Saved a Skills Stack.",icon:"assets/badges/stack-builder.png?v=7cebb79",earned:stats.stacks.length>=1},
-  {name:"Values Compass",desc:"Saved at least 2 values.",icon:"assets/badges/values-compass.png?v=7cebb79",earned:stats.values.length>=2},
-  {name:"Skill Sampler",desc:"Touched 3 skill categories.",icon:"assets/badges/skill-sampler.png?v=7cebb79",earned:stats.categories>=3}
+  {name:"First Check-In",desc:"Logged one Daily Check-In.",icon:"assets/badges/first-check-in.png?v=color-20260623",earned:stats.checkins.length>=1},
+  {name:"Pattern Spotter",desc:"Logged 7 Daily Check-Ins and can start noticing patterns.",icon:"assets/badges/pattern-spotter.png?v=color-20260623",earned:stats.checkins.length>=7},
+  {name:"30-Day Tracker",desc:"Built a 30-day mood history.",icon:"assets/badges/thirty-day-tracker.png?v=color-20260623",earned:stats.checkins.length>=30},
+  {name:"Feelings Explorer",desc:"Named 5 different emotions.",icon:"assets/badges/feelings-explorer.png?v=color-20260623",earned:stats.emotions>=5},
+  {name:"Begin Again",desc:"Returned to practice this week.",icon:"assets/badges/begin-again.png?v=color-20260623",earned:stats.weekCheckins>=1||stats.weekSkills>=1},
+  {name:"Stack Builder",desc:"Saved a Skills Stack.",icon:"assets/badges/stack-builder.png?v=color-20260623",earned:stats.stacks.length>=1},
+  {name:"Values Compass",desc:"Saved at least 2 values.",icon:"assets/badges/values-compass.png?v=color-20260623",earned:stats.values.length>=2},
+  {name:"Skill Sampler",desc:"Touched 3 skill categories.",icon:"assets/badges/skill-sampler.png?v=color-20260623",earned:stats.categories>=3}
 ]}
-function renderJourney(){var stats=journeyStats();var level=journeyLevel(stats.points);$("skillPointsTotal").textContent=stats.points;$("skillLevelName").textContent=level.name;$("skillLevelFill").style.width=level.pct+"%";$("skillLevelNote").textContent=level.remaining?level.remaining+" Skills Points to "+journeyLevel(level.next).name+".":"You are building steady skill momentum.";$("journeyMetrics").innerHTML=[["Check-ins",stats.checkins.length],["This week",stats.weekCheckins],["Skills practiced",stats.recentSkills.length],["Badges",journeyBadges(stats).filter(function(item){return item.earned}).length]].map(function(item){return '<div class="metric"><span>'+esc(item[0])+'</span><strong>'+esc(item[1])+'</strong></div>'}).join("");$("weeklyQuestText").textContent=weeklyQuest(stats);$("moodMissionText").textContent=moodMission(stats);$("badgeGrid").innerHTML=journeyBadges(stats).map(function(badge){return '<div class="badge '+(badge.earned?"earned":"")+'"><img class="badge-icon" src="'+esc(badge.icon)+'" alt="" loading="lazy"><div class="badge-copy"><div class="badge-name">'+esc(badge.name)+'</div><div class="badge-meta">'+esc(badge.desc)+'</div><div class="badge-meta">'+(badge.earned?"Earned":"Not yet")+'</div></div></div>'}).join("")}
+function renderJourney(){var stats=journeyStats();var level=journeyLevel(stats.points);var rec=recommendedCard(stats);$("skillPointsTotal").textContent=stats.points;$("skillLevelName").textContent="Current Level: "+level.name;$("skillLevelFill").style.width=level.pct+"%";$("skillLevelNote").textContent=level.remaining?level.remaining+" Skills Points to "+journeyLevel(level.next).name+".":"You are building steady skill momentum.";$("journeyMetrics").innerHTML=[["Check-ins",stats.checkins.length],["This week",stats.weekCheckins],["Skills practiced",stats.recentSkills.length],["Badges",journeyBadges(stats).filter(function(item){return item.earned}).length]].map(function(item){return '<div class="metric"><span>'+esc(item[0])+'</span><strong>'+esc(item[1])+'</strong></div>'}).join("");$("moodMissionText").innerHTML=esc(rec.text)+' <a href="'+esc(rec.url)+'" target="_blank" rel="noopener">Open card</a>';$("lastWeekProgressText").textContent=lastWeekProgress();$("badgeGrid").innerHTML=journeyBadges(stats).map(function(badge){return '<div class="badge '+(badge.earned?"earned":"")+'"><img class="badge-icon" src="'+esc(badge.icon)+'" alt="" loading="lazy"><div class="badge-copy"><div class="badge-name">'+esc(badge.name)+'</div><div class="badge-meta">'+esc(badge.desc)+'</div><div class="badge-meta">'+(badge.earned?"Earned":"Not yet")+'</div></div></div>'}).join("")}
 window.addEventListener("message",function(event){var msg=event.data||{};if(typeof msg==="string"){try{msg=JSON.parse(msg)}catch(error){msg={}}}if(msg.type==="data"){applyData(msg)}})
 window.addEventListener("storage",function(event){if(event.key==="wtdDailyCheckInUpdated"){loadCheckins()}})
 if(checkinChannel){checkinChannel.onmessage=function(event){var msg=event.data||{};if(msg.type==="dailyCheckInUpdated"&&Array.isArray(msg.checkins)){applyData({checkins:msg.checkins})}else if(msg.type==="dailyCheckInUpdated"){loadCheckins()}}}
