@@ -8,247 +8,163 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box}body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#F7F4ED;color:#1f2433}.wrap{max-width:1120px;margin:0 auto;padding:18px}.header{background:#182047;color:white;border-bottom:4px solid #B4DACD;padding:18px 20px;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:1.5rem;line-height:1.1}.header p{margin:5px 0 0;color:rgba(255,255,255,.75);line-height:1.4}.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:14px;margin-top:14px}.panel{background:white;border:1px solid #e1ddd4;border-radius:8px;padding:16px;box-shadow:0 2px 12px rgba(24,32,71,.06)}h2,h3{color:#182047;margin:0 0 9px;line-height:1.15}.muted{color:#667085;line-height:1.45}.small{font-size:.9rem}.tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#edf1f8;color:#4F5DAD;font-weight:900;font-size:.78rem;margin-left:5px}.tip:hover::after{content:attr(data-tip);position:absolute;left:0;top:24px;z-index:10;width:280px;background:#182047;color:white;padding:10px;border-radius:8px;font-size:.82rem;line-height:1.35;font-weight:600}.emotion-grid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}.pill{border:2px solid #e1ddd4;background:white;border-radius:999px;padding:8px 12px;font:inherit;font-weight:900;cursor:pointer;color:#475467;position:relative}.pill.active{border-color:#182047;background:#182047;color:white}.pill:hover::after,.feeling[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);z-index:20;width:min(360px,82vw);background:#182047;color:white;padding:10px 12px;border-radius:8px;font-size:.84rem;line-height:1.35;font-weight:600;white-space:normal;box-shadow:0 10px 26px rgba(24,32,71,.22);text-align:left}.feeling-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.feeling{position:relative;border:1.5px solid #e1ddd4;background:white;border-radius:8px;padding:10px;text-align:left;font:inherit;cursor:pointer;min-height:48px}.feeling strong{display:block;color:#182047}.feeling span{display:block;color:#667085;font-size:.86rem;line-height:1.35;margin-top:2px}.feeling.active{background:#182047;border-color:#182047}.feeling.active strong,.feeling.active span{color:white}.empty{border:1px dashed #d4cec3;border-radius:8px;padding:14px;color:#667085;background:#fffaf2}.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:8px;padding:10px 13px;font:inherit;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn.primary{background:#182047;color:white}.btn.secondary{background:#edf1f8;color:#4F5DAD;border:1px solid #ccd5ee}.notice{background:#edf1f8;border-left:4px solid #4F5DAD;border-radius:8px;padding:12px;color:#182047;font-weight:800}.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px;max-width:360px}.day{height:28px;border-radius:6px;background:#e9e3d7;border:1px solid rgba(24,32,71,.08)}.plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.values-panel{display:none;margin-top:14px;border-radius:18px;padding:26px 28px}.values-panel.show{display:block}.values-panel .values-intro{font-size:1.08rem;color:#667085;line-height:1.7;margin:0 0 22px}.core-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.core-value-card{border:2px solid #acd7ca;background:#edf8f4;border-radius:18px;min-height:156px;padding:22px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.value-kicker{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#2f6d60;font-weight:900;margin-bottom:12px}.value-name{font-size:1.15rem;color:#182047;font-weight:900;line-height:1.15;margin-bottom:12px}.value-prompt{color:#667085;font-size:.98rem;line-height:1.35;font-style:italic;font-weight:700}.history{display:grid;gap:8px;margin-top:10px}.row{border:1px solid #e1ddd4;border-radius:8px;background:#fffaf2;padding:9px 10px}.skill-card{border:1px solid #e1ddd4;border-radius:8px;background:#fff;display:flex;flex-direction:column;min-height:184px}.skill-card .top{padding:11px 12px;border-bottom:1px solid #e1ddd4;display:flex;align-items:center;justify-content:space-between;gap:8px}.skill-card .body{padding:12px;flex:1}.skill-card h3{font-size:1rem;margin:0 0 7px}.cat{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:4px 8px;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;font-weight:900;line-height:1;min-height:24px}.Focus{background:#e8f5f0;color:#1e6d5f}.Coping{background:#f7e0e6;color:#8a1a35}.Feelings{background:#edf1f8;color:#2d3880}.Connecting{background:#fff0e2;color:#8a4a00}.toast{position:fixed;right:18px;bottom:18px;z-index:30;background:#182047;color:white;border-radius:8px;padding:12px 14px;box-shadow:0 8px 30px rgba(24,32,71,.22);font-weight:900;display:none}.toast.show{display:block}@media(max-width:860px){.grid,.feeling-grid,.plan,.core-values{grid-template-columns:1fr}.wrap{padding:10px}.values-panel{padding:20px 16px}.tip:hover::after,.pill:hover::after,.feeling[data-tip]:hover::after{left:auto;right:0}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#F7F4ED;color:#1f2433}
+.wrap{max-width:1120px;margin:0 auto;padding:18px}
+.header{background:#182047;color:white;border-bottom:4px solid #B4DACD;padding:18px 20px;border-radius:8px 8px 0 0}
+.header h1{margin:0;font-size:1.5rem;line-height:1.1}
+.header p{margin:5px 0 0;color:rgba(255,255,255,.75);line-height:1.4}
+.top-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr);gap:14px;margin-top:14px;align-items:start}
+.panel{background:white;border:1px solid #e1ddd4;border-radius:8px;padding:16px;box-shadow:0 2px 12px rgba(24,32,71,.06)}
+h2,h3{color:#182047;margin:0 0 9px;line-height:1.15}
+.muted{color:#667085;line-height:1.45}
+.small{font-size:.9rem}
+.tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#edf1f8;color:#4F5DAD;font-weight:900;font-size:.78rem;margin-left:5px}
+.tip:hover::after{content:attr(data-tip);position:absolute;left:0;top:24px;z-index:10;width:280px;background:#182047;color:white;padding:10px;border-radius:8px;font-size:.82rem;line-height:1.35;font-weight:600}
+.emotion-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.pill{border:2px solid #e1ddd4;background:white;border-radius:999px;padding:9px 12px;font:inherit;font-weight:900;cursor:pointer;color:#475467;position:relative;min-height:42px}
+.pill.active{border-color:#182047;background:#182047;color:white}
+.pill:hover::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);z-index:20;width:min(340px,82vw);background:#182047;color:white;padding:10px 12px;border-radius:8px;font-size:.84rem;line-height:1.35;font-weight:600;white-space:normal;box-shadow:0 10px 26px rgba(24,32,71,.22);text-align:left}
+.empty{border:1px dashed #d4cec3;border-radius:8px;padding:14px;color:#667085;background:#fffaf2}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:8px;padding:10px 13px;font:inherit;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn.primary{background:#182047;color:white}
+.notice{background:#edf1f8;border-left:4px solid #4F5DAD;border-radius:8px;padding:12px;color:#182047;font-weight:800}
+.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px;max-width:380px}
+.day{height:26px;border-radius:6px;background:#e9e3d7;border:1px solid rgba(24,32,71,.08)}
+.history{display:grid;gap:8px;margin-top:10px}
+.row{border:1px solid #e1ddd4;border-radius:8px;background:#fffaf2;padding:9px 10px}
+.values-panel{display:none;margin-top:14px;border-radius:18px;padding:26px 28px}
+.values-panel.show{display:block}
+.values-panel .values-intro{font-size:1.08rem;color:#667085;line-height:1.7;margin:0 0 22px}
+.core-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.core-value-card{border:2px solid #acd7ca;background:#edf8f4;border-radius:18px;min-height:156px;padding:22px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.value-kicker{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#2f6d60;font-weight:900;margin-bottom:12px}
+.value-name{font-size:1.15rem;color:#182047;font-weight:900;line-height:1.15;margin-bottom:12px}
+.value-prompt{color:#667085;font-size:.98rem;line-height:1.35;font-style:italic;font-weight:700}
+.skills-panel{margin-top:14px}
+.plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.skill-card{border:1px solid #e1ddd4;border-radius:8px;background:#fff;display:flex;flex-direction:column;min-height:184px}
+.skill-card .top{padding:11px 12px;border-bottom:1px solid #e1ddd4;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.skill-card .body{padding:12px;flex:1}
+.skill-card h3{font-size:1rem;margin:0 0 7px}
+.cat{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:4px 8px;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;font-weight:900;line-height:1;min-height:24px}
+.Focus{background:#e8f5f0;color:#1e6d5f}.Coping{background:#f7e0e6;color:#8a1a35}.Feelings{background:#edf1f8;color:#2d3880}.Connecting{background:#fff0e2;color:#8a4a00}
+.toast{position:fixed;right:18px;bottom:18px;z-index:30;background:#182047;color:white;border-radius:8px;padding:12px 14px;box-shadow:0 8px 30px rgba(24,32,71,.22);font-weight:900;display:none}.toast.show{display:block}
+@media(max-width:900px){.top-grid,.plan,.core-values{grid-template-columns:1fr}.emotion-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:10px}.values-panel{padding:20px 16px}.tip:hover::after,.pill:hover::after{left:auto;right:0}}
+@media(max-width:420px){.emotion-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main class="wrap">
   <header class="header">
     <h1>My Daily Check-In</h1>
-    <p>Name the emotion, choose the specific feeling, and notice the pattern over time.</p>
+    <p>Name the emotion that is strongest right now, then notice the pattern over time.</p>
   </header>
-  <section class="grid">
+
+  <section class="top-grid">
     <div class="panel">
-      <h2>Today's strongest emotion <span class="tip" data-tip="Emotion: your automatic body-and-brain response. It happens quickly and gives you information before you have words for it.">?</span></h2>
+      <h2>Today's strongest emotion <span class="tip" data-tip="Emotion: your body-and-brain response to what is happening. Naming it helps you choose what to do next.">?</span></h2>
       <div class="emotion-grid" id="emotionButtons"></div>
-      <h2>It made you feel <span class="tip" data-tip="Feeling: the conscious word your mind gives an emotion. Feelings help you get more specific than the broad emotion family.">?</span></h2>
-      <div class="feeling-grid" id="feelingButtons"></div>
       <div class="btn-row">
-        <button class="btn primary" type="button" id="logCheckin">Log today's feelings</button>
+        <button class="btn primary" type="button" id="logCheckin">Log today's emotion</button>
       </div>
     </div>
+
     <div class="panel">
-      <h2>Your Mood <span class="tip" data-tip="Mood: a longer-lasting emotional state. This dashboard looks for patterns across recent check-ins.">?</span></h2>
-      <div id="moodSummary" class="notice">Log at least three check-ins to see a mood pattern.</div>
+      <h2>Your Mood <span class="tip" data-tip="Mood: a longer-lasting emotional pattern. This card looks for the emotion that shows up most often across recent check-ins.">?</span></h2>
+      <div id="moodSummary" class="notice">Log at least seven check-ins to see a mood pattern.</div>
       <div class="strip" id="moodStrip"></div>
       <h3 style="margin-top:18px">Recent Check-Ins</h3>
       <div class="history" id="history"></div>
     </div>
   </section>
+
   <section class="panel values-panel" id="coreValuesPanel">
     <p class="values-intro">Your core values are not a performance checklist. They are attention anchors. When stress scatters your focus, these are the places you can come back to.</p>
     <div class="core-values" id="coreValues"></div>
   </section>
-  <section class="panel" style="margin-top:14px">
+
+  <section class="panel skills-panel">
     <h2>Suggested skills from The Skills Hub</h2>
     <div id="emotionPlan" class="plan"></div>
   </section>
 </main>
 <div class="toast" id="toast"></div>
 <script>
-var CAT_COLORS={Anger:"#BD3A59",Disgust:"#6f8f54",Envy:"#3DBFA8",Fear:"#4F5DAD",Guilt:"#8BA4DC",Happiness:"#E8C547",Jealousy:"#F4A261",Love:"#B4DACD",Sadness:"#8BA4DC",Shame:"#BD3A59"};
-var emotionData={
-Anger:{feelings:["aggravation","agitation","annoyance","bitterness","exasperation","ferocity","frustration","fury","grouchiness","grumpiness","hostility","hate","irritation","outrage","rage","resentment","scorn","spite","vengefulness","wrath"],moods:["irritable","cranky","grumpy","on edge","resentful","hostile"],question:"Did a boundary, goal, or value get blocked, and does the intensity fit the facts?",prompt:"Pause before reacting. Ask what boundary, request, or repair is actually needed."},
-Disgust:{feelings:["aversion","contempt","dislike","loathing","repugnance","repulsion","revulsion","scorn","sickened"],moods:["contemptuous","put off","jaded","cynical"],question:"What are the facts, and what judgment am I adding?",prompt:"Name the judgment, describe only the facts, and choose whether distance or kindness is more effective."},
-Envy:{feelings:["bitterness","covetousness","craving","desiring","greed","longing","resentment","wanting","yearning"],moods:["bitter","covetous","discontented","begrudging"],question:"What value, goal, or unmet need is this pointing toward?",prompt:"Ask what this envy tells you that you care about, then choose one skillful step toward it."},
-Fear:{feelings:["anxiety","apprehension","dread","edginess","fright","horror","hysteria","jumpiness","nervousness","overwhelmed","panic","shock","tenseness","terror","uneasiness","worry"],moods:["anxious","tense","uneasy","apprehensive","worried","on edge"],question:"Is there actual danger, uncertainty, or discomfort?",prompt:"Choose protection for danger, planning for uncertainty, or gentle approach for discomfort."},
-Guilt:{feelings:["regret","remorse","sorrow"],moods:["remorseful","regretful","guilt-ridden"],question:"Did I actually violate my values or responsibilities?",prompt:"If yes, repair. If no, practice releasing guilt and acting from values."},
-Happiness:{feelings:["amusement","bliss","cheerfulness","contentment","delight","eagerness","ecstasy","elation","enjoyment","enthusiasm","excitement","exhilaration","gladness","glee","gratitude","hope","joy","jubilation","optimism","pleasure","pride","relief","satisfaction","thrill","zest"],moods:["cheerful","content","upbeat","optimistic","light","good"],question:"How can I notice and build on this without clinging or overdoing?",prompt:"Savor what is here, name what supports it, and take one steady next step."},
-Jealousy:{feelings:["clinginess","defensiveness","distrust","insecurity","possessiveness","suspiciousness"],moods:["insecure","guarded","suspicious","activated"],question:"What am I afraid of losing, and what facts do I actually have?",prompt:"Separate facts from fear, then choose a clear request or self-soothing step."},
-Love:{feelings:["affection","adoration","caring","compassion","fondness","kindness","liking","tenderness","warmth"],moods:["connected","warm","open","caring"],question:"What connection or value is this pointing me toward?",prompt:"Let the feeling inform one caring action without abandoning your own boundaries."},
-Sadness:{feelings:["agony","alienation","anguish","defeat","dejection","disappointment","dismay","displeasure","gloom","grief","homesickness","hopelessness","isolation","loneliness","melancholy","misery","neglect","rejection","sorrow","suffering","unhappiness","woe"],moods:["down","heavy","lonely","discouraged","low"],question:"What loss, need, or disappointment matters here?",prompt:"Name what mattered, reduce isolation, and choose one small care action."},
-Shame:{feelings:["contrition","culpability","dishonor","embarrassment","humiliation","invalidation","mortification","self-consciousness"],moods:["small","exposed","worthless","self-critical"],question:"Am I evaluating a behavior, or attacking my whole self?",prompt:"Move from 'I am bad' to the specific facts, then choose repair or self-compassion."}
+var CHECKIN_MINIMUM = 7;
+var CAT_COLORS = {Happy:"#E8C547",Calm:"#B4DACD",Excited:"#F4A261",Interested:"#3DBFA8",Sad:"#8BA4DC",Lonely:"#8BA4DC",Afraid:"#4F5DAD",Anxious:"#4F5DAD",Angry:"#BD3A59",Frustrated:"#BD3A59",Hurt:"#BD3A59",Ashamed:"#9B5CA8",Guilty:"#8BA4DC",Disgusted:"#6f8f54",Surprised:"#F4A261",Confused:"#4F5DAD"};
+var emotionAliases = {Happiness:"Happy",Fear:"Afraid",Sadness:"Sad",Shame:"Ashamed",Disgust:"Disgusted",Anger:"Angry",Guilt:"Guilty",Jealousy:"Anxious",Envy:"Interested",Love:"Happy"};
+var emotionData = {
+  Happy:{moods:["upbeat","hopeful","light","good"],tip:"A pleasant emotion that can include joy, gratitude, relief, or satisfaction."},
+  Calm:{moods:["settled","steady","peaceful","grounded"],tip:"A regulated state where your body and mind feel more settled."},
+  Excited:{moods:["energized","eager","activated","anticipating"],tip:"High positive energy about something happening or possible."},
+  Interested:{moods:["curious","engaged","open","drawn in"],tip:"Attention and curiosity moving toward something meaningful or useful."},
+  Sad:{moods:["down","heavy","low","discouraged"],tip:"A heavy feeling connected to loss, disappointment, or something that mattered."},
+  Lonely:{moods:["alone","disconnected","isolated","longing"],tip:"A painful awareness of wanting more connection or feeling unseen."},
+  Afraid:{moods:["scared","guarded","on alert","threatened"],tip:"A protective emotion that shows up when danger or vulnerability feels close."},
+  Anxious:{moods:["worried","tense","uneasy","on edge"],tip:"Uneasy alertness around uncertainty, risk, or what might happen next."},
+  Angry:{moods:["irritable","resentful","hot","activated"],tip:"A powerful emotion that often signals a blocked goal, value, or boundary."},
+  Frustrated:{moods:["blocked","impatient","stuck","fed up"],tip:"A tense feeling that comes when something is getting in the way."},
+  Hurt:{moods:["wounded","tender","rejected","raw"],tip:"Emotional pain that often points to affected respect, care, or connection."},
+  Ashamed:{moods:["small","exposed","self-critical","worthless"],tip:"A painful self-focused emotion that says something is wrong with me."},
+  Guilty:{moods:["regretful","remorseful","responsible","uneasy"],tip:"A moral emotion that can guide repair when you believe you did something wrong."},
+  Disgusted:{moods:["repelled","put off","averse","contemptuous"],tip:"A strong aversion that may signal something feels unsafe, unwanted, or out of line."},
+  Surprised:{moods:["startled","caught off guard","alert","stunned"],tip:"A quick response to something unexpected."},
+  Confused:{moods:["unclear","uncertain","foggy","unsure"],tip:"A state of not yet knowing what something means or what to do next."}
 };
-var emotionEducation={
-Anger:"A powerful emotion that arises when you feel threatened, disrespected, violated, or when something unfair has happened. Anger protects boundaries and values.",
-Fear:"A sharp, immediate emotional response to a perceived threat, real or imagined. Fear is protective at its core.",
-Sadness:"A heavy, low feeling that arises in response to loss, disappointment, or unmet needs. Sadness acknowledges that something mattered.",
-Shame:"A painful self-focused emotion that says something is wrong with me. Shame is different from guilt.",
-Guilt:"A moral emotion that arises when you believe you did something wrong or failed to do something right. Healthy guilt can guide repair.",
-Jealousy:"A protective, comparison-based emotion that often involves fear of losing connection, status, attention, or something important.",
-Love:"A warm connecting emotion that pulls you toward care, closeness, tenderness, and protection.",
-Happiness:"A pleasant emotion that can include joy, contentment, gratitude, hope, pride, or relief.",
-Disgust:"An emotion of aversion that can signal something feels unsafe, unwanted, violating, or out of line with your values.",
-Envy:"An emotion that points toward something you want, miss, value, or believe someone else has access to."
+var skillUrls = {"Calm Tool":"https://whattodo-skills.github.io/skills/Calm_Coping_Tool.html","Ride the Wave":"https://whattodo-skills.github.io/skills/Ride_The_Wave_Coping_Practice.html","STOP Skill":"https://whattodo-skills.github.io/skills/the-stop-skill.html","Feelings Wheel":"https://whattodo-skills.github.io/skills/the-feelings-wheel.html","Thought-Mood Connection":"https://whattodo-skills.github.io/skills/thought-mood-connection.html","Check the Story":"https://whattodo-skills.github.io/skills/Check_The_Story_Feelings_Practice.html","Inner Critic Reset":"https://whattodo-skills.github.io/skills/Inner_Critic_Focus_Practice.html","Healthy Boundaries":"https://whattodo-skills.github.io/skills/Healthy_Boundaries_Connecting_Practice.html","Hard Conversations":"https://whattodo-skills.github.io/skills/Hard_Conversations_Connecting_Practice.html","Connecting After Conflict":"https://whattodo-skills.github.io/skills/Connecting_After_Conflict.html","Start the Task":"https://whattodo-skills.github.io/skills/Start_The_Task_Focus_Practice.html","Begin Again":"https://whattodo-skills.github.io/skills/Begin_Again_Focus_Practice.html","Thought Labeling":"https://whattodo-skills.github.io/skills/thought-labeling.html"};
+var skillMeta = {Focus:"Return attention to one useful next step.",Coping:"Slow the reaction loop and steady your body.",Feelings:"Name what is happening inside with more clarity.",Connecting:"Communicate clearly while respecting yourself and others."};
+var emotionSkills = {
+  Happy:["Begin Again","Thought Labeling","Start the Task"],
+  Calm:["Start the Task","Begin Again","Thought Labeling"],
+  Excited:["Start the Task","Begin Again","Thought Labeling"],
+  Interested:["Start the Task","Begin Again","Thought Labeling"],
+  Sad:["Feelings Wheel","Ride the Wave","Begin Again"],
+  Lonely:["Feelings Wheel","Connecting After Conflict","Begin Again"],
+  Afraid:["Calm Tool","STOP Skill","Ride the Wave"],
+  Anxious:["Calm Tool","STOP Skill","Ride the Wave"],
+  Angry:["STOP Skill","Healthy Boundaries","Hard Conversations"],
+  Frustrated:["STOP Skill","Start the Task","Begin Again"],
+  Hurt:["Check the Story","Healthy Boundaries","Connecting After Conflict"],
+  Ashamed:["Inner Critic Reset","Check the Story","Feelings Wheel"],
+  Guilty:["Connecting After Conflict","Hard Conversations","Inner Critic Reset"],
+  Disgusted:["Check the Story","Thought Labeling","Hard Conversations"],
+  Surprised:["Feelings Wheel","STOP Skill","Thought Labeling"],
+  Confused:["Feelings Wheel","Check the Story","Thought Labeling"]
 };
-var feelingWheelInfo={
-joy:"A bright, energized feeling that comes when something good happens, when you feel connected, or when life feels meaningful.",
-grateful:"A warm feeling of deep appreciation for what you have, what someone did, or the goodness already present.",
-content:"A quiet, peaceful satisfaction with how things are. Not excitement, just a calm sense that things are okay right now.",
-excited:"A heightened, anticipatory energy about something upcoming or happening. Excitement and anxiety can feel similar in the body.",
-proud:"A feeling of satisfaction from your own growth, effort, or achievement. Healthy pride is self-respect, not arrogance.",
-hopeful:"A forward-looking feeling that things can get better or that something good is possible.",
-loved:"A feeling of being cared for, seen, and valued. Love connects you to something larger than yourself.",
-disappointed:"A deflated, sad feeling when something you hoped for does not happen. Disappointment means you cared.",
-jealous:"A complex feeling combining fear, insecurity, and comparison, often pointing to something you want or fear losing.",
-sad:"A heavy, low feeling in response to loss, disappointment, or unmet needs. Sadness acknowledges that something mattered.",
-angry:"A powerful feeling that arises when you feel threatened, disrespected, violated, or treated unfairly.",
-fearful:"A sharp, immediate emotional response to a perceived threat - real or imagined. Fear is protective at its core; it's your nervous system saying \"danger is here, right now.\"",
-frustrated:"A tense, blocked feeling when something gets in the way of what you need or want.",
-ashamed:"A painful belief that you are flawed or unworthy. Shame is different from guilt: guilt says I did something; shame says I am bad.",
-guilty:"A feeling that you did something wrong or failed to act rightly. Healthy guilt motivates repair.",
-lonely:"A painful awareness of disconnection, feeling unseen, isolated, or longing for meaningful contact.",
-overwhelmed:"A flooded feeling when there are too many demands, emotions, or stimuli to process at once.",
-hurt:"Emotional pain caused by another person's words, actions, or absence. Hurt points to affected connection, respect, or care.",
-aggravation:"Feeling increasingly bothered or irritated by something difficult or repetitive.",
-agitation:"Feeling restless, tense, or unable to settle.",
-annoyance:"A mild anger response to something irritating or inconvenient.",
-bitterness:"Lingering anger mixed with hurt or a sense of unfairness.",
-exasperation:"Feeling fed up, impatient, or at the end of your limit.",
-ferocity:"Very strong, intense anger with a forceful quality.",
-frustration:"Feeling blocked from a goal, need, or expectation.",
-fury:"Extremely intense anger that can feel overwhelming.",
-grouchiness:"A cranky, irritable mood where small things feel bothersome.",
-grumpiness:"A low, irritable mood that can make patience feel harder.",
-hostility:"Anger that creates distance, opposition, or a combative attitude.",
-hate:"An intense rejection or strong negative feeling toward someone or something.",
-irritation:"Feeling bothered, impatient, or rubbed the wrong way.",
-outrage:"Strong anger about something that feels unfair or unacceptable.",
-rage:"A powerful wave of anger that can feel difficult to contain.",
-resentment:"Anger that builds when someone feels mistreated, overlooked, or unfairly burdened.",
-scorn:"Angry contempt or judgment toward someone or something.",
-spite:"Anger with an urge to be unkind or get even.",
-vengefulness:"A strong urge to retaliate after feeling wronged.",
-wrath:"Deep, intense anger directed at serious wrongdoing.",
-aversion:"A strong desire to avoid something unpleasant or unwanted.",
-contempt:"Disgust mixed with judgment or lack of respect.",
-dislike:"A negative feeling that makes you prefer to avoid someone or something.",
-loathing:"Very strong disgust or dislike.",
-repugnance:"A strong sense that something is deeply unpleasant or unacceptable.",
-repulsion:"Feeling strongly pushed away from something unpleasant.",
-revulsion:"A sudden, intense disgust that makes you want distance.",
-sickened:"Feeling disgusted or disturbed, sometimes with a physical reaction.",
-covetousness:"Strongly wanting something someone else has.",
-craving:"An intense want that feels hard to ignore.",
-desiring:"Wanting to have, experience, or receive something.",
-greed:"Wanting more and struggling to feel satisfied.",
-longing:"A deep wish for something or someone that feels out of reach.",
-wanting:"Wishing for something you do not currently have.",
-yearning:"A strong emotional longing for something meaningful or desired.",
-anxiety:"Uneasy worry about uncertainty, threat, or what might go wrong.",
-apprehension:"Nervous caution about something difficult or unpleasant that may happen.",
-dread:"Heavy fear about something expected or approaching.",
-edginess:"Feeling tense, alert, and easily unsettled.",
-fright:"A sudden fear response to surprise or perceived danger.",
-horror:"Intense fear mixed with shock or disbelief.",
-hysteria:"Feeling overwhelmed by emotion and unable to think clearly.",
-jumpiness:"Feeling nervous, alert, and easily startled.",
-nervousness:"Uneasiness before something uncertain, important, or challenging.",
-panic:"A sudden surge of intense fear with strong body sensations.",
-shock:"Feeling stunned, frozen, or disoriented after something unexpected.",
-tenseness:"A tight or strained feeling in the body or mind.",
-terror:"Extreme fear connected to a strong sense of danger.",
-uneasiness:"A mild uncomfortable feeling that something is not quite right.",
-worry:"Repeated thoughts about what could go wrong.",
-regret:"Sadness about something you wish had gone differently.",
-remorse:"Deep regret after believing you acted against your values.",
-sorrow:"Deep sadness related to loss, hurt, or disappointment.",
-amusement:"Light enjoyment from something funny, playful, or entertaining.",
-bliss:"A deep feeling of peace, happiness, or pleasure.",
-cheerfulness:"An upbeat, positive mood.",
-contentment:"Calm satisfaction with the present moment.",
-delight:"A lively feeling of joy or happy surprise.",
-eagerness:"Excited readiness to do or experience something.",
-ecstasy:"An intensely joyful or pleasurable feeling.",
-elation:"Energized happiness after something positive or relieving.",
-enjoyment:"Pleasure from liking what you are doing or experiencing.",
-enthusiasm:"Positive energy and interest toward something.",
-excitement:"High-energy anticipation or joy.",
-exhilaration:"Energized joy that feels thrilling or freeing.",
-gladness:"Warm happiness or relief that something good happened.",
-glee:"Playful, lively joy.",
-gratitude:"Appreciation for something helpful, meaningful, or kind.",
-hope:"A sense that something good is possible.",
-jubilation:"Strong celebratory joy.",
-optimism:"A hopeful expectation that things can improve or turn out well.",
-pleasure:"Enjoyment, comfort, or satisfaction.",
-pride:"Positive feeling about effort, growth, achievement, or values.",
-relief:"Calm that comes when pressure, fear, or stress decreases.",
-satisfaction:"A fulfilled feeling after a need, goal, or expectation is met.",
-thrill:"A sudden rush of excitement or pleasure.",
-zest:"Lively energy, interest, or enjoyment.",
-clinginess:"An anxious need for closeness or reassurance.",
-defensiveness:"A protective reaction when feeling criticized, blamed, or exposed.",
-distrust:"A guarded feeling that makes it hard to feel safe or confident in someone.",
-insecurity:"Feeling uncertain about your worth, safety, connection, or adequacy.",
-possessiveness:"A fear-based urge to hold tightly to someone or something.",
-suspiciousness:"A guarded sense that something may be hidden, wrong, or unsafe.",
-affection:"Warm fondness, care, or closeness.",
-adoration:"Deep love, admiration, or tenderness.",
-caring:"Concern and investment in someone's well-being.",
-compassion:"Caring about suffering and wanting comfort or understanding.",
-fondness:"Gentle warmth or liking for someone or something.",
-kindness:"A caring attitude that moves toward gentleness and helpfulness.",
-liking:"A positive feeling of interest, comfort, or enjoyment.",
-tenderness:"Soft, gentle care or affection.",
-warmth:"Friendly, caring, or affectionate closeness.",
-agony:"Intense emotional pain.",
-alienation:"Feeling disconnected, separate, or like you do not belong.",
-anguish:"Severe emotional distress or deep pain.",
-defeat:"Discouragement after feeling you have failed, lost, or cannot continue.",
-dejection:"A low, discouraged sadness.",
-disappointment:"Sadness when hopes, needs, or expectations are not met.",
-dismay:"Sudden discouragement when something turns out worse than expected.",
-displeasure:"Mild unhappiness or dissatisfaction.",
-gloom:"A heavy, dark, or low mood.",
-grief:"Deep sadness after a loss or major change.",
-homesickness:"Longing for home, familiar people, or belonging.",
-hopelessness:"Feeling that things will not improve or options are limited.",
-isolation:"Feeling separate, alone, or disconnected from others.",
-loneliness:"Sadness from wanting more connection or companionship.",
-melancholy:"A quiet, lingering sadness.",
-misery:"Deep unhappiness or emotional distress.",
-neglect:"Feeling ignored, overlooked, or not cared for.",
-rejection:"Feeling unwanted, excluded, dismissed, or not chosen.",
-suffering:"Emotional pain or distress that feels hard to endure.",
-unhappiness:"A general feeling of sadness or dissatisfaction.",
-woe:"Deep sorrow or distress.",
-contrition:"Sincere regret after recognizing a mistake or wrongdoing.",
-culpability:"Feeling responsible for a mistake or wrongdoing.",
-dishonor:"Pain from feeling a loss of respect, dignity, or standing.",
-embarrassment:"Awkward self-consciousness about being seen or judged.",
-humiliation:"Painful shame after feeling exposed or diminished.",
-invalidation:"Hurt from feeling dismissed, misunderstood, or treated like your experience does not matter.",
-mortification:"Intense embarrassment or shame.",
-"self-consciousness":"Uncomfortable awareness of yourself and how others may see you."
-};
-var feelingAliases={amusement:"joy",bliss:"joy",cheerfulness:"joy",delight:"joy",gladness:"joy",glee:"joy",jubilation:"joy",zest:"joy",gratitude:"grateful",contentment:"content",satisfaction:"content",pleasure:"content",relief:"content",eagerness:"excited",ecstasy:"excited",elation:"excited",enthusiasm:"excited",excitement:"excited",exhilaration:"excited",thrill:"excited",pride:"proud",hope:"hopeful",optimism:"hopeful",affection:"loved",adoration:"loved",caring:"loved",compassion:"loved",fondness:"loved",kindness:"loved",liking:"loved",tenderness:"loved",warmth:"loved",disappointment:"disappointed",dismay:"disappointed",displeasure:"disappointed",clinginess:"jealous",defensiveness:"jealous",distrust:"jealous",insecurity:"jealous",possessiveness:"jealous",suspiciousness:"jealous",agony:"sad",alienation:"sad",anguish:"sad",defeat:"sad",dejection:"sad",gloom:"sad",grief:"sad",homesickness:"lonely",hopelessness:"sad",isolation:"lonely",loneliness:"lonely",melancholy:"sad",misery:"sad",neglect:"hurt",rejection:"hurt",sorrow:"sad",suffering:"sad",unhappiness:"sad",woe:"sad",aggravation:"angry",agitation:"angry",annoyance:"angry",bitterness:"angry",exasperation:"frustrated",ferocity:"angry",frustration:"frustrated",fury:"angry",grouchiness:"frustrated",grumpiness:"frustrated",hostility:"angry",hate:"angry",irritation:"frustrated",outrage:"angry",rage:"angry",resentment:"angry",scorn:"angry",spite:"angry",vengefulness:"angry",wrath:"angry",anxiety:"fearful",apprehension:"fearful",dread:"fearful",edginess:"fearful",fright:"fearful",horror:"fearful",hysteria:"fearful",jumpiness:"fearful",nervousness:"fearful",overwhelmed:"overwhelmed",panic:"fearful",shock:"fearful",tenseness:"fearful",terror:"fearful",uneasiness:"fearful",worry:"fearful",regret:"guilty",remorse:"guilty",contrition:"guilty",culpability:"guilty",dishonor:"ashamed",embarrassment:"ashamed",humiliation:"ashamed",invalidation:"ashamed",mortification:"ashamed","self-consciousness":"ashamed"};
-var skillUrls={"Calm Tool":"https://whattodo-skills.github.io/skills/Calm_Coping_Tool.html","Ride the Wave":"https://whattodo-skills.github.io/skills/Ride_The_Wave_Coping_Practice.html","STOP Skill":"https://whattodo-skills.github.io/skills/the-stop-skill.html","Feelings Wheel":"https://whattodo-skills.github.io/skills/the-feelings-wheel.html","Thought-Mood Connection":"https://whattodo-skills.github.io/skills/thought-mood-connection.html","Check the Story":"https://whattodo-skills.github.io/skills/Check_The_Story_Feelings_Practice.html","Inner Critic Reset":"https://whattodo-skills.github.io/skills/Inner_Critic_Focus_Practice.html","Healthy Boundaries":"https://whattodo-skills.github.io/skills/Healthy_Boundaries_Connecting_Practice.html","Hard Conversations":"https://whattodo-skills.github.io/skills/Hard_Conversations_Connecting_Practice.html","Connecting After Conflict":"https://whattodo-skills.github.io/skills/Connecting_After_Conflict.html","Start the Task":"https://whattodo-skills.github.io/skills/Start_The_Task_Focus_Practice.html","Begin Again":"https://whattodo-skills.github.io/skills/Begin_Again_Focus_Practice.html","Thought Labeling":"https://whattodo-skills.github.io/skills/thought-labeling.html"};
-var skillMeta={Focus:"Return attention to one useful next step.",Coping:"Slow the reaction loop and steady your body.",Feelings:"Name what is happening inside with more clarity.",Connecting:"Communicate clearly while respecting yourself and others."};
-var emotionSkills={Anger:["STOP Skill","Healthy Boundaries","Hard Conversations"],Disgust:["Check the Story","Thought Labeling","Hard Conversations"],Envy:["Check the Story","Start the Task","Begin Again"],Fear:["Calm Tool","STOP Skill","Ride the Wave"],Guilt:["Connecting After Conflict","Hard Conversations","Inner Critic Reset"],Happiness:["Begin Again","Thought Labeling","Start the Task"],Jealousy:["Check the Story","Calm Tool","Hard Conversations"],Love:["Healthy Boundaries","Connecting After Conflict","Hard Conversations"],Sadness:["Feelings Wheel","Ride the Wave","Begin Again"],Shame:["Inner Critic Reset","Check the Story","Feelings Wheel"]};
-var valuePivots={Integrity:"What would someone with integrity do right now?",Curiosity:"What question could I ask instead of assuming?",Courage:"What would I do if I were acting with courage right now?",Connection:"What would strengthen connection in this moment?",Stability:"What small action would create more steadiness right now?",Growth:"What could I learn from this situation?",Reliability:"What does following through look like right now?",Kindness:"What is the kind response in this moment?",Clarity:"What one thing could I clarify right now?",Patience:"What does patience look like in this moment?",Diligence:"What is the next steady step I can take?",Excellence:"What would doing this well look like?",Honesty:"What is the honest thing to do right now?",Creativity:"What is an unexpected approach I could try?",Balance:"What needs attention that I have been neglecting?",Compassion:"What would a compassionate response look like right now?",Autonomy:"What choice here is actually mine to make?",Accountability:"What can I take ownership of right now?"};
-var DAILY_CHECKIN_ENDPOINT="https://www.whattodo.coach/_functions/dailyCheckIn";
-var DAILY_CHECKIN_CHANNEL="wtd-daily-checkin";
-var state={loggedIn:false,checkins:new Array(),values:loadLocalValues()};
-var bridgeHasData=false;
-var checkinChannel=typeof BroadcastChannel==="function"?new BroadcastChannel(DAILY_CHECKIN_CHANNEL):null;
-var selectedEmotion="";
-var selectedFeeling="";
+var valuePivots = {Integrity:"What would someone with integrity do right now?",Curiosity:"What question could I ask instead of assuming?",Courage:"What would I do if I were acting with courage right now?",Connection:"What would strengthen connection in this moment?",Stability:"What small action would create more steadiness right now?",Growth:"What could I learn from this situation?",Reliability:"What does following through look like right now?",Kindness:"What is the kind response in this moment?",Clarity:"What one thing could I clarify right now?",Patience:"What does patience look like in this moment?",Diligence:"What is the next steady step I can take?",Excellence:"What would doing this well look like?",Honesty:"What is the honest thing to do right now?",Creativity:"What is an unexpected approach I could try?",Balance:"What needs attention that I have been neglecting?",Compassion:"What would a compassionate response look like right now?",Autonomy:"What choice here is actually mine to make?",Accountability:"What can I take ownership of right now?"};
+var DAILY_CHECKIN_ENDPOINT = "https://www.whattodo.coach/_functions/dailyCheckIn";
+var DAILY_CHECKIN_CHANNEL = "wtd-daily-checkin";
+var state = {loggedIn:false,checkins:[],values:loadLocalValues()};
+var bridgeHasData = false;
+var checkinChannel = typeof BroadcastChannel === "function" ? new BroadcastChannel(DAILY_CHECKIN_CHANNEL) : null;
+var selectedEmotion = "";
 function $(id){return document.getElementById(id)}
 function esc(value){return String(value||"").replace(/[&<>'"]/g,function(mark){return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[mark]})}
 function toast(text){$("toast").textContent=text;$("toast").classList.add("show");setTimeout(function(){$("toast").classList.remove("show")},1800)}
 function todayKey(){return new Date().toISOString().slice(0,10)}
 function clientId(){var key="wtdDailyCheckInClientId";var existing=localStorage.getItem(key);if(existing){return existing}var next="dc_"+Math.random().toString(36).slice(2)+"_"+Date.now().toString(36);localStorage.setItem(key,next);return next}
 function apiRequest(action,entry){return fetch(DAILY_CHECKIN_ENDPOINT,{method:"POST",mode:"cors",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:action,entry:entry||null,clientId:clientId()})}).then(function(response){return response.json().then(function(data){if(!response.ok||!data.ok){throw new Error((data&&data.error)||"daily_checkin_failed")}return data})})}
-function normalizeCheckins(checkins){return Array.isArray(checkins)?checkins.filter(function(item){return item&&item.date&&item.emotion}).map(function(item){return {date:String(item.date).slice(0,10),emotion:item.emotion||"",feeling:item.feeling||""}}):new Array()}
-function normalizeValues(values){return Array.isArray(values)?values.map(function(value){return String(value||"").trim()}).filter(Boolean).slice(0,3):new Array()}
-function loadLocalValues(){try{var raw=localStorage.getItem("wtd_values_v1");if(raw){var parsed=JSON.parse(raw);return normalizeValues(parsed.selected)}}catch(error){}return new Array()}
+function normalizeEmotion(name){var text=String(name||"").trim();if(emotionAliases[text]){return emotionAliases[text]}var found=Object.keys(emotionData).find(function(item){return item.toLowerCase()===text.toLowerCase()});return found||text}
+function normalizeCheckins(checkins){return Array.isArray(checkins)?checkins.filter(function(item){return item&&item.date&&(item.emotion||item.feeling)}).map(function(item){var emotion=normalizeEmotion(item.emotion||item.feeling);return {date:String(item.date).slice(0,10),emotion:emotion,feeling:item.feeling||emotion}}):[]}
+function normalizeValues(values){return Array.isArray(values)?values.map(function(value){return String(value||"").trim()}).filter(Boolean).slice(0,3):[]}
+function loadLocalValues(){try{var raw=localStorage.getItem("wtd_values_v1");if(raw){var parsed=JSON.parse(raw);return normalizeValues(parsed.selected)}}catch(error){}return []}
 function applyData(data){var values=normalizeValues(data&&data.values);state.loggedIn=!!data.loggedIn;state.checkins=normalizeCheckins(data&&data.checkins);state.values=state.loggedIn?values:(values.length?values:loadLocalValues());renderAll();broadcastCheckins()}
 function postToWix(message){try{window.parent&&window.parent.postMessage(message,"*")}catch(error){}}
 function broadcastCheckins(){try{localStorage.setItem("wtdDailyCheckInUpdated",String(Date.now()))}catch(error){}if(checkinChannel){checkinChannel.postMessage({type:"dailyCheckInUpdated",checkins:state.checkins})}}
-function loadCheckins(){postToWix({type:"ready"});setTimeout(function(){if(!bridgeHasData){apiRequest("list").then(applyData).catch(function(){state.loggedIn=false;state.checkins=new Array();renderAll()})}},450)}
+function loadCheckins(){postToWix({type:"ready"});setTimeout(function(){if(!bridgeHasData){apiRequest("list").then(applyData).catch(function(){state.loggedIn=false;state.checkins=[];renderAll()})}},450)}
 function saveCheckin(entry){postToWix({type:"saveCheckin",entry:entry});return apiRequest("save",entry).then(applyData)}
-function topEmotion(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var counts={};checkins.filter(function(item){return new Date(item.date)>=cutoff}).forEach(function(item){counts[item.emotion]=(counts[item.emotion]||0)+1});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});return keys[0]||""}
-function feelingTip(feeling){var key=String(feeling||"").toLowerCase();return feelingWheelInfo[key]?feeling+": "+feelingWheelInfo[key]:""}
-function renderCheckin(){var emotions=Object.keys(emotionData);$("emotionButtons").innerHTML=emotions.map(function(name){var active=selectedEmotion===name;return '<button class="pill '+(active?'active':'')+'" style="border-color:'+(active?'#182047':CAT_COLORS[name])+'" type="button" data-emotion="'+esc(name)+'" data-tip="'+esc(emotionEducation[name])+'">'+esc(name)+'</button>'}).join("");var feelings=selectedEmotion?emotionData[selectedEmotion].feelings:new Array();$("feelingButtons").innerHTML=feelings.length?feelings.map(function(name){var active=selectedFeeling===name;var tip=feelingTip(name);return '<button class="feeling '+(active?'active':'')+'" type="button" data-feeling="'+esc(name)+'"'+(tip?' data-tip="'+esc(tip)+'"':"")+'><strong>'+esc(name)+'</strong></button>'}).join(""):'<div class="empty">Choose an emotion first.</div>';document.querySelectorAll("[data-emotion]").forEach(function(button){button.addEventListener("click",function(){selectedEmotion=button.dataset.emotion;selectedFeeling="";renderAll()})});document.querySelectorAll("[data-feeling]").forEach(function(button){button.addEventListener("click",function(){selectedFeeling=button.dataset.feeling;renderCheckin()})})}
-function renderMood(){var recent=state.checkins.slice().sort(function(a,b){return String(a.date).localeCompare(String(b.date))}).slice(-30);var dominant=recent.length>=3?topEmotion(recent):"";var moods=dominant&&emotionData[dominant]?emotionData[dominant].moods.join(", "):"";$("moodSummary").textContent=dominant?moods+" mood pattern, led by "+dominant+".":"Log at least three check-ins to see a mood pattern.";$("moodStrip").innerHTML=Array.from({length:30},function(_,i){var d=new Date();d.setDate(d.getDate()-(29-i));var key=d.toISOString().slice(0,10);var hit=state.checkins.find(function(item){return item.date===key});var title=hit?hit.date+": "+hit.emotion+" - "+(hit.feeling||""):key;return '<div class="day" title="'+esc(title)+'" style="background:'+(hit?(CAT_COLORS[hit.emotion]||"#e9e3d7"):"#e9e3d7")+'"></div>'}).join("")}
-function renderHistory(){var items=state.checkins.slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))}).slice(0,5);$("history").innerHTML=items.length?items.map(function(item){return '<div class="row"><strong>'+esc(item.date)+': '+esc(item.emotion)+'</strong><div class="muted small">'+esc(item.feeling||"")+'</div></div>'}).join(""):'<div class="empty">No check-ins saved yet.</div>'}
+function topEmotion(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var counts={};checkins.filter(function(item){return new Date(item.date)>=cutoff}).forEach(function(item){var key=normalizeEmotion(item.emotion);counts[key]=(counts[key]||0)+1});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});return keys[0]||""}
 function categoryForSkill(name){if(["Calm Tool","Ride the Wave","STOP Skill"].includes(name)){return "Coping"}if(["Feelings Wheel","Thought-Mood Connection","Inner Critic Reset","Check the Story"].includes(name)){return "Feelings"}if(["Healthy Boundaries","Hard Conversations","Connecting After Conflict"].includes(name)){return "Connecting"}return "Focus"}
+function renderCheckin(){var emotions=Object.keys(emotionData);$("emotionButtons").innerHTML=emotions.map(function(name){var active=selectedEmotion===name;return '<button class="pill '+(active?'active':'')+'" style="border-color:'+(active?'#182047':(CAT_COLORS[name]||"#e1ddd4"))+'" type="button" data-emotion="'+esc(name)+'" data-tip="'+esc(emotionData[name].tip)+'">'+esc(name)+'</button>'}).join("");document.querySelectorAll("[data-emotion]").forEach(function(button){button.addEventListener("click",function(){selectedEmotion=button.dataset.emotion;renderAll()})})}
+function renderMood(){var recent=state.checkins.slice().sort(function(a,b){return String(a.date).localeCompare(String(b.date))}).slice(-30);var dominant=recent.length>=CHECKIN_MINIMUM?topEmotion(recent):"";var moods=dominant&&emotionData[dominant]?emotionData[dominant].moods.join(", "):"";$("moodSummary").textContent=dominant?moods+" mood pattern, led by "+dominant+".":"Log at least seven check-ins to see a mood pattern.";$("moodStrip").innerHTML=Array.from({length:30},function(_,i){var d=new Date();d.setDate(d.getDate()-(29-i));var key=d.toISOString().slice(0,10);var hit=state.checkins.find(function(item){return item.date===key});var emotion=hit?normalizeEmotion(hit.emotion):"";var title=hit?hit.date+": "+emotion:key;return '<div class="day" title="'+esc(title)+'" style="background:'+(hit?(CAT_COLORS[emotion]||"#e9e3d7"):"#e9e3d7")+'"></div>'}).join("")}
+function renderHistory(){var items=state.checkins.slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))}).slice(0,5);$("history").innerHTML=items.length?items.map(function(item){return '<div class="row"><strong>'+esc(item.date)+': '+esc(normalizeEmotion(item.emotion))+'</strong></div>'}).join(""):'<div class="empty">No check-ins saved yet.</div>'}
 function renderValues(){var values=normalizeValues(state.values);$("coreValuesPanel").classList.toggle("show",values.length>0);$("coreValues").innerHTML=values.map(function(name,index){var pivot=valuePivots[name]||"Where does my attention belong next?";return '<article class="core-value-card"><div class="value-kicker">Value '+(index+1)+'</div><div class="value-name">'+esc(name)+'</div><div class="value-prompt">"'+esc(pivot)+'"</div></article>'}).join("")}
 function renderPlan(){var emotion=selectedEmotion||topEmotion(state.checkins);var names=emotion&&emotionSkills[emotion]?emotionSkills[emotion]:["Feelings Wheel","Calm Tool","Begin Again"];$("emotionPlan").innerHTML=names.map(function(name){var cat=categoryForSkill(name);return '<article class="skill-card"><div class="top"><span class="cat '+esc(cat)+'">'+esc(cat)+'</span></div><div class="body"><h3>'+esc(name)+'</h3><p class="muted small">'+esc(skillMeta[cat]||"Practice a What To Do skill.")+'</p></div><div class="body" style="padding-top:0"><a class="btn primary" href="'+esc(skillUrls[name]||"https://whattodo-skills.github.io/skills/The_Skills_Hub.html")+'" target="_blank" rel="noopener">Practice It</a></div></article>'}).join("")}
 function renderAll(){renderCheckin();renderMood();renderHistory();renderValues();renderPlan()}
 window.addEventListener("message",function(event){var msg=event.data||{};if(typeof msg==="string"){try{msg=JSON.parse(msg)}catch(error){msg={}}}if(msg.type==="data"){bridgeHasData=true;applyData(msg)}});
-$("logCheckin").addEventListener("click",function(){if(!selectedEmotion||!selectedFeeling){toast("Choose an emotion and feeling first.");return}toast("Saving check-in...");saveCheckin({date:todayKey(),emotion:selectedEmotion,feeling:selectedFeeling}).then(function(){toast("Check-in saved.")}).catch(function(){toast("Check-in did not save.")})});
+$("logCheckin").addEventListener("click",function(){if(!selectedEmotion){toast("Choose an emotion first.");return}toast("Saving check-in...");saveCheckin({date:todayKey(),emotion:selectedEmotion,feeling:selectedEmotion}).then(function(){toast("Check-in saved.")}).catch(function(){toast("Check-in did not save.")})});
 renderAll();
 loadCheckins();
 </script>
