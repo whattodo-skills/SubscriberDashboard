@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{--navy:#182047;--cream:#f7f4ed;--white:#fff;--ink:#1f2433;--muted:#667085;--line:#ddd8ce;--mint:#b4dacd;--purple:#4f5dad;--rose:#bd3a59;--gold:#e8c547;--orange:#f4a261;--teal:#3dbfa8}
+html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:"Source Sans 3",Arial,sans-serif}
+button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.dashboard{max-width:1120px;margin:auto;padding:clamp(16px,3vw,34px)}
+.header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;border-radius:18px;background:var(--navy);padding:clamp(22px,4vw,38px);color:#fff;box-shadow:0 12px 30px rgba(24,32,71,.14)}
+.eyebrow{margin-bottom:7px;color:var(--mint);font-size:.72rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase}.header h1{margin:0 0 6px;font-size:clamp(2rem,5vw,3.25rem);line-height:1}.header p{margin:0;color:rgba(255,255,255,.74);font-size:1.05rem}
+.reinforcement{display:grid;grid-template-columns:repeat(3,minmax(92px,1fr));gap:8px}.metric{border:1px solid rgba(255,255,255,.14);border-radius:10px;background:rgba(255,255,255,.08);padding:10px 12px}.metric span{display:block;color:rgba(255,255,255,.6);font-size:.66rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.metric strong{display:block;margin-top:2px;color:#fff;font-size:1.05rem}
+.pathway{position:relative;margin-top:16px}.section{position:relative;margin-bottom:14px;border:1px solid var(--line);border-radius:16px;background:var(--white);padding:clamp(20px,3.5vw,34px);box-shadow:0 6px 20px rgba(24,32,71,.05)}.section::before{content:"";position:absolute;left:36px;bottom:-15px;width:2px;height:15px;background:var(--mint)}.section:last-child::before{display:none}
+.section-head{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:start;margin-bottom:22px}.step{display:grid;width:44px;height:44px;place-items:center;border-radius:50%;background:var(--navy);color:#fff;font-weight:900}.section h2,.section h3{margin-top:0;color:var(--navy);line-height:1.15}.section h2{margin-bottom:5px;font-size:clamp(1.45rem,3vw,2rem)}.section-head p{margin:0;color:var(--muted);line-height:1.45}
+.category-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.category{min-height:112px;border:2px solid var(--line);border-radius:12px;background:#fff;padding:16px;text-align:left;cursor:pointer}.category:hover{border-color:var(--mint);background:#f5fbf9}.category strong{display:block;margin-bottom:5px;color:var(--navy);font-size:1.18rem}.category span{display:block;color:var(--muted);font-size:.9rem;line-height:1.32}
+.guided{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;margin-top:14px;border-left:5px solid var(--purple);border-radius:10px;background:#edf1f8;padding:16px 18px}.guided h3{margin-bottom:3px;font-size:1.08rem}.guided p{margin:0;color:var(--muted);line-height:1.4}
+.primary,.secondary,.text-action{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border:0;border-radius:9px;padding:10px 14px;cursor:pointer;font-weight:900;text-decoration:none}.primary{background:var(--navy);color:#fff}.secondary{border:1px solid #ccd5ee;background:#edf1f8;color:var(--purple)}.text-action{background:transparent;color:var(--purple);text-decoration:underline;text-underline-offset:3px}
+.handoff{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;border:1px dashed #cfc8bc;border-radius:12px;background:#fffaf2;padding:17px}.handoff h3{margin-bottom:3px}.handoff p{margin:0;color:var(--muted)}.handoff.active{border-style:solid;border-color:var(--mint);background:#f5fbf9}
+.stack-states{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stack-state{border-top:4px solid var(--mint);border-radius:10px;background:#f8f8f6;padding:14px}.stack-state strong{display:block;color:var(--navy)}.stack-state span{display:block;margin-top:4px;color:var(--muted);font-size:.87rem}.stack-footer{display:flex;justify-content:flex-end;margin-top:14px}
+.resource-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;border-bottom:1px solid var(--line);padding:14px 0}.resource-row:first-of-type{padding-top:0}.resource-row:last-child{border-bottom:0;padding-bottom:0}.resource-row h3{margin-bottom:3px;font-size:1.08rem}.resource-row p{margin:0;color:var(--muted);line-height:1.4}.resource-actions{display:flex;gap:8px;align-items:center}.access{border-radius:999px;background:#f2eee6;padding:4px 8px;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase}
+.learning-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.learning-link{border:1px solid var(--line);border-radius:10px;background:#fffaf2;padding:15px}.learning-link h3{margin-bottom:5px}.learning-link p{margin:0 0 12px;color:var(--muted);line-height:1.4}
+.status{min-height:20px;margin:12px 2px 0;color:var(--muted);font-weight:700}
+@media(max-width:800px){.header{grid-template-columns:1fr}.reinforcement{width:100%}.category-grid,.stack-states{grid-template-columns:repeat(2,minmax(0,1fr))}.learning-links{grid-template-columns:1fr}}
+@media(max-width:520px){.dashboard{padding:10px}.header{border-radius:13px;padding:22px 18px}.reinforcement{grid-template-columns:1fr}.metric{display:flex;justify-content:space-between;align-items:center}.section{padding:20px 16px}.section::before{left:36px}.section-head{grid-template-columns:42px minmax(0,1fr);gap:10px}.step{width:36px;height:36px}.category-grid,.stack-states{grid-template-columns:1fr}.category{min-height:86px}.guided,.handoff,.resource-row{grid-template-columns:1fr}.guided .primary,.handoff .primary,.resource-actions .primary,.resource-actions .secondary{width:100%}.resource-actions{display:grid}.stack-footer .secondary{width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="dashboard">
+  <header class="header">
+    <div><div class="eyebrow">Subscriber Dashboard</div><h1>Your Dashboard</h1><p>Choose what to work on next and keep building your skills.</p></div>
+    <div class="reinforcement" aria-label="Progress reinforcement"><div class="metric"><span>Skills Points</span><strong id="points">105</strong></div><div class="metric"><span>Badges</span><strong id="badges">4 earned</strong></div><div class="metric"><span>Current Streak</span><strong id="streak">3 days</strong></div></div>
+  </header>
+
+  <div class="pathway">
+    <section class="section" id="find">
+      <div class="section-head"><div class="step">1</div><div><h2>Find What You Need</h2><p>Choose a Skills category, or use the Daily Check-In if you're not sure.</p></div></div>
+      <div class="category-grid">
+        <button class="category" type="button" data-category="Focus"><strong>Focus</strong><span>Find skills that help you direct attention and take a useful next step.</span></button>
+        <button class="category" type="button" data-category="Cope"><strong>Cope</strong><span>Find skills for getting through difficult moments effectively.</span></button>
+        <button class="category" type="button" data-category="Feelings"><strong>Feelings</strong><span>Find skills for naming and understanding what's happening inside.</span></button>
+        <button class="category" type="button" data-category="Connect"><strong>Connect</strong><span>Find skills for communicating and strengthening relationships.</span></button>
+      </div>
+      <div class="guided"><div><h3>Not sure what would help?</h3><p>Try the Daily Check-In. It will help you figure out what this moment requires and find a skill that fits.</p></div><button class="primary" type="button" data-action="daily-checkin">Start Daily Check-In</button></div>
+      <p class="status" id="findStatus" role="status"></p>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="section-head"><div class="step">2</div><div><h2>Practice</h2><p>Put one useful skill into practice.</p></div></div>
+      <div class="handoff" id="practiceHandoff"><div><h3 id="practiceTitle">Your next skill will appear here.</h3><p id="practiceCopy">Choose a Skills category or use the Daily Check-In to find a place to begin.</p></div><button class="primary" id="practiceButton" type="button" disabled>Practice This Skill</button></div>
+      <div style="margin-top:12px"><button class="text-action" type="button" data-action="explore-skills">Explore More Skills</button></div>
+    </section>
+
+    <section class="section" id="stack">
+      <div class="section-head"><div class="step">3</div><div><h2>My Skills Stack</h2><p>These are the tools you're learning how to use.</p></div></div>
+      <div class="stack-states"><div class="stack-state"><strong>Practicing</strong><span>Your current skill will appear here.</span></div><div class="stack-state"><strong>Learned</strong><span>Skills you've completed and can use.</span></div><div class="stack-state"><strong>Revisit</strong><span>Skills worth practicing again.</span></div><div class="stack-state"><strong>Try Next</strong><span>A relevant next skill when available.</span></div></div>
+      <div class="stack-footer"><button class="secondary" type="button" data-action="open-stack">Open My Skills Stack</button></div>
+    </section>
+
+    <section class="section" id="deeper">
+      <div class="section-head"><div class="step">4</div><div><h2>Go Deeper</h2><p>Build on the skills you're practicing.</p></div></div>
+      <div class="handoff"><div><h3>Relevant learning will appear here.</h3><p>When you're working on a skill, this section will prioritize related articles, Starter Camp, classes, or programs.</p></div><button class="secondary" type="button" data-action="explore-learning">Explore Learning</button></div>
+    </section>
+
+    <section class="section" id="support">
+      <div class="section-head"><div class="step">5</div><div><h2>Get Support</h2><p>Get help applying what you're learning.</p></div></div>
+      <div class="resource-row"><div><h3>TerriBot</h3><p>Work through what you're dealing with and identify a useful next step.</p></div><div class="resource-actions"><span class="access" data-access="terribot">Checking access…</span><button class="primary" type="button" data-action="terribot">Ask TerriBot</button></div></div>
+      <div class="resource-row"><div><h3>Community Groups</h3><p>Learn and practice with other subscribers in the groups available to you.</p></div><div class="resource-actions"><span class="access" data-access="groups">Checking access…</span><button class="secondary" type="button" data-action="groups">Open Groups</button></div></div>
+      <div class="resource-row"><div><h3>Live Q&amp;A</h3><p>Ask questions and get help applying the skills you're learning.</p></div><div class="resource-actions"><span class="access" data-access="qas">Checking access…</span><button class="secondary" type="button" data-action="qas">View Next Q&amp;A</button></div></div>
+    </section>
+
+    <section class="section" id="learning">
+      <div class="section-head"><div class="step">6</div><div><h2>Keep Learning</h2><p>Keep useful ideas in reach between active practice sessions.</p></div></div>
+      <div class="learning-links"><article class="learning-link"><h3>Newsletter</h3><p>Read the latest practical guidance.</p><button class="text-action" type="button" data-action="newsletter">Read Newsletter</button></article><article class="learning-link"><h3>Podcast</h3><p>Listen to ideas you can use in real life.</p><button class="text-action" type="button" data-action="podcast">Listen to Podcast</button></article><article class="learning-link"><h3>What's New</h3><p>See new skills, articles, and announcements.</p><button class="text-action" type="button" data-action="whats-new">See What's New</button></article></div>
+    </section>
+  </div>
+</main>
+<script>
+var TARGET_ORIGIN=location.hostname==="www.whattodo.coach"?"https://www.whattodo.coach":"*";
+function post(message){if(window.parent){window.parent.postMessage(message,TARGET_ORIGIN)}}
+document.querySelectorAll("[data-category]").forEach(function(button){button.addEventListener("click",function(){var category=button.dataset.category;document.getElementById("findStatus").textContent="Opening "+category+" skills…";post({type:"subscriberDashboard",action:"browseCategory",category:category})})});
+document.querySelectorAll("[data-action]").forEach(function(button){button.addEventListener("click",function(){post({type:"subscriberDashboard",action:button.dataset.action})})});
+window.addEventListener("message",function(event){var message=event.data||{};if(message.type!=="subscriberDashboardData"){return}if(message.progress){document.getElementById("points").textContent=message.progress.points||0;document.getElementById("badges").textContent=(message.progress.badges||0)+" earned";document.getElementById("streak").textContent=(message.progress.streak||0)+" days"}if(message.recommendedSkill){document.getElementById("practiceTitle").textContent=message.recommendedSkill.title;document.getElementById("practiceCopy").textContent=message.recommendedSkill.reason||message.recommendedSkill.shortBenefit||"This skill fits what you selected.";document.getElementById("practiceButton").disabled=false;document.getElementById("practiceButton").dataset.skillId=message.recommendedSkill.id;document.getElementById("practiceHandoff").classList.add("active")}if(message.access){Object.keys(message.access).forEach(function(key){var label=document.querySelector('[data-access="'+key+'"]');if(label){label.textContent=message.access[key].label||message.access[key].status||"Available"}})}});
+document.getElementById("practiceButton").addEventListener("click",function(){if(this.dataset.skillId){post({type:"subscriberDashboard",action:"practiceSkill",skillId:this.dataset.skillId})}});
+post({type:"subscriberDashboard",action:"ready"});
+</script>
+</body>
+</html>
