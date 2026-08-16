@@ -14,10 +14,42 @@ body{margin:0;font-family:"Source Sans 3",Arial,sans-serif;background:#F7F4ED;co
 .panel,.journey-card,.badge,.metric{border:1px solid #e1ddd4;border-radius:8px;background:white}
 .panel{padding:16px;box-shadow:0 2px 12px rgba(24,32,71,.07)}
 .head{background:#182047;color:white;border-bottom:4px solid #B4DACD;border-radius:8px 8px 0 0;padding:18px 20px;margin-bottom:14px}
-.head h1{margin:0;font-size:1.45rem;line-height:1.1}
+.head h1,.head h2{margin:0;color:white;font-size:1.45rem;line-height:1.1}
 .head p{margin:5px 0 0;color:rgba(255,255,255,.74);line-height:1.4}
+.practice-shell{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(290px,.65fr);gap:14px;margin-bottom:16px}
+.practice-primary{padding:24px;background:white;border:1px solid #e1ddd4;border-radius:8px;box-shadow:0 2px 12px rgba(24,32,71,.07)}
+.practice-primary h1{margin:0;color:#182047;font-size:clamp(1.7rem,3vw,2.35rem);line-height:1.05}
+.practice-primary>p{margin:9px 0 18px;color:#667085;font-size:1.05rem}
+.primary-action,.practice-now{border:0;border-radius:8px;background:#BD3A59;color:white;padding:12px 17px;font:inherit;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.primary-action:hover,.primary-action:focus-visible,.practice-now:hover,.practice-now:focus-visible{background:#9e2946;outline:3px solid rgba(189,58,89,.24);outline-offset:2px}
+.support-link{display:block;width:max-content;max-width:100%;margin-top:14px;color:#4F5DAD;font-weight:800;text-decoration:underline;background:none;border:0;padding:0;font:inherit;cursor:pointer;text-align:left}
+.checkin-card{padding:20px;background:#e8f5f0;border:1px solid #B4DACD;border-radius:8px;display:flex;flex-direction:column;justify-content:center}
+.checkin-card .eyebrow,.results-label{color:#1e6d5f;font-size:.72rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.checkin-card h2{margin:6px 0 8px}
+.checkin-card p{margin:0;color:#52656a;line-height:1.45}
+.checkin-card a{margin-top:14px;color:#182047;font-weight:900}
+.need-panel,.results-panel{grid-column:1/-1;border:1px solid #d8d2c8;border-radius:8px;background:#fffaf2;padding:18px}
+.need-panel[hidden],.results-panel[hidden]{display:none}
+.need-panel h2,.results-panel h2{margin-bottom:5px}
+.need-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.need-choice{min-height:92px;border:2px solid #d8d2c8;border-radius:8px;background:white;color:#182047;padding:13px;font:inherit;font-weight:900;font-size:1.03rem;cursor:pointer;text-align:left}
+.need-choice span{display:block;margin-top:4px;color:#667085;font-size:.82rem;font-weight:600;line-height:1.3}
+.need-choice:hover,.need-choice:focus-visible{border-color:#4F5DAD;outline:3px solid rgba(79,93,173,.18);outline-offset:2px}
+.results-head{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.text-action{border:0;background:transparent;color:#4F5DAD;font:inherit;font-weight:900;text-decoration:underline;cursor:pointer;padding:4px}
+.recommendation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.recommendation{border:1px solid #e1ddd4;border-radius:8px;background:white;display:flex;flex-direction:column;min-height:218px}
+.recommendation-body{padding:15px;flex:1}
+.recommendation h3{margin:5px 0 7px}
+.recommendation p{margin:0;color:#667085;line-height:1.4}
+.time{display:block;margin-top:10px;color:#52656a;font-size:.84rem;font-weight:800}
+.recommendation-actions{border-top:1px solid #e1ddd4;padding:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.save-action{border:1px solid #ccd5ee;border-radius:8px;background:#edf1f8;color:#4F5DAD;padding:10px 12px;font:inherit;font-weight:900;cursor:pointer}
+.status{min-height:1.3em;margin:10px 0 0;color:#52656a;font-size:.9rem}
 .journey-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:14px;margin-bottom:10px}
 .journey-stack{display:grid;gap:12px;align-content:start}
+.journey-hero>.panel{height:100%}
+.journey-hero>.journey-card{grid-column:1/-1}
 .points-card{background:#182047;color:white;border-color:#182047}
 .points-label{color:rgba(255,255,255,.68);font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
 .points-total{font-size:2.65rem;font-weight:900;line-height:1;margin:8px 0}
@@ -30,7 +62,7 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
 .small{font-size:.88rem}
 .progress-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
 .metric{padding:10px;background:#fffaf2}
-.metric span{display:block;color:#667085;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;font-weight:900}
+.metric span{display:block;min-height:2.35em;color:#667085;font-size:.68rem;line-height:1.18;letter-spacing:.09em;text-transform:uppercase;font-weight:900}
 .metric strong{display:block;color:#182047;font-size:1.24rem;margin-top:3px}
 .quest-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
 .journey-card{background:#fffaf2;padding:13px}
@@ -64,39 +96,64 @@ h2,h3{color:#182047;margin:0 0 8px;line-height:1.15}
 .badge-meta{color:#667085;font-size:.82rem;line-height:1.3;margin-top:4px}
 .empty{border:1px dashed #d4cec3;border-radius:8px;padding:14px;color:#667085;background:#fffaf2}
 .disclaimer{margin:14px 0 0;color:#667085;font-size:.82rem;line-height:1.35}
-@media(max-width:860px){.wrap{padding:10px}.journey-hero,.journey-stack,.quest-grid,.points-guide,.progress-metrics,.badge-grid,.stack-grid{grid-template-columns:1fr}.points-total{font-size:2.25rem}}
+@media(max-width:860px){.wrap{padding:10px}.practice-shell,.journey-hero,.journey-stack,.quest-grid,.points-guide,.progress-metrics,.badge-grid,.stack-grid,.recommendation-grid{grid-template-columns:1fr}.need-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.points-total{font-size:2.25rem}}
+@media(max-width:520px){.need-grid{grid-template-columns:1fr}.practice-primary,.checkin-card,.need-panel,.results-panel{padding:16px}.recommendation-actions>*{width:100%}}
 </style>
 </head>
 <body>
 <main class="wrap">
+  <section class="practice-shell" aria-label="Choose a practice">
+    <div class="practice-primary">
+      <h1>What do you need right now?</h1>
+      <p>Find a practical skill to help with this moment.</p>
+      <button class="primary-action" id="findSkill" type="button" aria-expanded="false" aria-controls="needPanel">Find the Right Skill</button>
+      <button class="support-link" id="openCheckin" type="button">Not sure what you need? Try the Daily Check-In.</button>
+    </div>
+    <aside class="checkin-card">
+      <div class="eyebrow">Daily Check-In</div>
+      <h2>A guided alternative</h2>
+      <p>Name what feels hardest and get a practical next step without a lengthy assessment.</p>
+      <a href="#daily-check-in" id="checkinLink">Start today’s check-in</a>
+    </aside>
+    <section class="need-panel" id="needPanel" hidden aria-labelledby="needTitle">
+      <h2 id="needTitle" tabindex="-1">Choose what would help most</h2>
+      <p class="muted">Pick the closest fit. You can always choose again.</p>
+      <div class="need-grid">
+        <button class="need-choice" type="button" data-need="Focus">Focus<span>Return to one useful next step.</span></button>
+        <button class="need-choice" type="button" data-need="Coping">Coping<span>Get through a hard moment skillfully.</span></button>
+        <button class="need-choice" type="button" data-need="Feelings">Feelings<span>Name what you feel and understand what it needs.</span></button>
+        <button class="need-choice" type="button" data-need="Connecting">Connecting<span>Communicate and stay close to what matters.</span></button>
+      </div>
+    </section>
+    <section class="results-panel" id="resultsPanel" hidden aria-labelledby="resultsTitle" aria-live="polite">
+      <div class="results-head">
+        <div><div class="results-label" id="selectedNeed">Recommended skills</div><h2 id="resultsTitle" tabindex="-1">Try one of these now</h2></div>
+        <button class="text-action" id="chooseAgain" type="button">Choose again</button>
+      </div>
+      <div class="recommendation-grid" id="recommendationGrid"></div>
+      <p class="status" id="recommendationStatus" role="status"></p>
+    </section>
+  </section>
   <header class="head">
-    <h1>My Skills Stack</h1>
-    <p>You're here, and that's already a win. See how many Skills Points you can earn while You Scrolling.</p>
+    <h2>Your practice and progress</h2>
+    <p>Small, useful practice counts. Pick up where you left off or notice what is changing.</p>
   </header>
   <section class="journey-hero">
-    <div class="journey-stack">
-      <div class="panel points-card">
-        <div class="points-label">Skills Points</div>
-        <div class="points-total" id="skillPointsTotal">0</div>
-        <div class="level-name" id="skillLevelName">Current Level: Getting Started</div>
-        <div class="level-bar"><div class="level-fill" id="skillLevelFill"></div></div>
-        <p class="level-note" id="skillLevelNote">Choose cards, practice them, and rotate your stack as you grow.</p>
-      </div>
-      <div class="journey-card">
-        <strong>Recommended Card</strong>
-        <div id="moodMissionText" class="muted">Use Start Here to unlock a card that fits this moment.</div>
-      </div>
+    <div class="panel points-card">
+      <div class="points-label">Skills Points</div>
+      <div class="points-total" id="skillPointsTotal">0</div>
+      <div class="level-name" id="skillLevelName">Current Level: Getting Started</div>
+      <div class="level-bar"><div class="level-fill" id="skillLevelFill"></div></div>
+      <p class="level-note" id="skillLevelNote">Choose cards, practice them, and rotate your stack as you grow.</p>
     </div>
-    <div class="journey-stack">
-      <div class="panel">
-        <h2>Progress This Week</h2>
-        <p class="muted small">A quick view of recent practice signals.</p>
-        <div class="progress-metrics" id="journeyMetrics"></div>
-      </div>
-      <div class="journey-card">
-        <strong>Last Week's Progress</strong>
-        <div id="lastWeekProgressText" class="muted">Build a little data this week, then compare your progress here.</div>
-      </div>
+    <div class="panel">
+      <h2>Progress This Week</h2>
+      <p class="muted small">A quick view of recent practice signals.</p>
+      <div class="progress-metrics" id="journeyMetrics"></div>
+    </div>
+    <div class="journey-card">
+      <strong>Last Week's Progress</strong>
+      <div id="lastWeekProgressText" class="muted">Build a little data this week, then compare your progress here.</div>
     </div>
   </section>
   <div class="section-title">This Week's Stack</div>
@@ -150,8 +207,17 @@ var emotionSkills={
   Shame:["Inner Critic Reset","Connecting After Conflict","Healthy Boundaries"]
 };
 var skillUrls={"Begin Again":"https://whattodo-skills.github.io/skills/Begin_Again_Focus_Practice.html","Single-Task Focus":"https://whattodo-skills.github.io/skills/Single_Task_Focus_Practice.html","Start the Task":"https://whattodo-skills.github.io/skills/Start_The_Task_Focus_Practice.html","Calm Tool":"https://whattodo-skills.github.io/skills/Calm_Coping_Tool.html","STOP Skill":"https://whattodo-skills.github.io/skills/the-stop-skill.html","Feelings Wheel":"https://whattodo-skills.github.io/skills/the-feelings-wheel.html","Great Listening":"https://whattodo-skills.github.io/skills/Great_Listener_Connecting_Practice.html","Healthy Boundaries":"https://whattodo-skills.github.io/skills/Healthy_Boundaries_Connecting_Practice.html","Hard Conversations":"https://whattodo-skills.github.io/skills/Hard_Conversations_Connecting_Practice.html","Check the Story":"https://whattodo-skills.github.io/skills/Check_The_Story_Feelings_Practice.html","Thought Labeling":"https://whattodo-skills.github.io/skills/thought-labeling.html","Inner Critic Reset":"https://whattodo-skills.github.io/skills/Inner_Critic_Focus_Practice.html","Connecting After Conflict":"https://whattodo-skills.github.io/skills/Connecting_After_Conflict.html","Participate: Be In It":"https://whattodo-skills.github.io/skills/Participate_Be_In_It_Focus_Practice.html"};
+var recommendationSets={
+  "Feelings":[["Feelings Wheel","Name what you feel so you can choose what helps.",6],["Check the Story","Separate what happened from what your mind added.",7],["Inner Critic Reset","Respond to self-attack with something more useful.",6]],
+  "Focus":[["Start the Task","Make the first step small enough to begin.",5],["Begin Again","Return without judging yourself for drifting.",4],["Thought Labeling","Notice thoughts without getting pulled into them.",5]],
+  "Coping":[["Calm Tool","Settle your body with a short, body-first reset.",5],["STOP Skill","Create a pause in a difficult moment.",4],["Single-Task Focus","Reduce overload by returning to one thing.",5]],
+  "Connecting":[["Great Listening","Listen for understanding before solving.",6],["Healthy Boundaries","Protect what matters with a clear limit.",7],["Hard Conversations","Say what needs saying with care and clarity.",8]]
+};
 function $(id){return document.getElementById(id)}
 function esc(value){return String(value||"").replace(/[&<>'"]/g,function(mark){return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[mark]})}
+function showNeedPanel(){var panel=$("needPanel");$("resultsPanel").hidden=true;panel.hidden=false;$("findSkill").setAttribute("aria-expanded","true");setTimeout(function(){$("needTitle").focus()},0)}
+function showRecommendations(need){var skills=recommendationSets[need]||recommendationSets.Focus;$("needPanel").hidden=true;$("selectedNeed").textContent=need+" recommendations";$("recommendationGrid").innerHTML=skills.map(function(skill){var url=skillUrls[skill[0]]||"https://www.whattodo.coach/the-skills-hub";return '<article class="recommendation"><div class="recommendation-body"><div class="results-label">'+esc(need)+'</div><h3>'+esc(skill[0])+'</h3><p>'+esc(skill[1])+'</p><span class="time">About '+esc(skill[2])+' minutes</span></div><div class="recommendation-actions"><a class="practice-now" href="'+esc(url)+'" target="_blank" rel="noopener" data-skill="'+esc(skill[0])+'">Practice Now</a><button class="save-action" type="button" data-save="'+esc(skill[0])+'">Save to My Skill Stack</button></div></article>'}).join("");$("resultsPanel").hidden=false;$("recommendationStatus").textContent="Three practical options are ready.";setTimeout(function(){$("resultsTitle").focus()},0);postToWix({type:"dashboardEvent",eventName:"recommendation_displayed",needCategory:need})}
+function openDailyCheckin(){postToWix({type:"dashboardEvent",eventName:"daily_checkin_started"});try{window.parent&&window.parent.postMessage({type:"openDashboardSection",section:"daily-check-in"},"*")}catch(error){}$("recommendationStatus").textContent="Open Daily Check-In below to continue."}
 function clientId(){var key="wtdDailyCheckInClientId";var existing=localStorage.getItem(key);if(existing){return existing}var next="dc_"+Math.random().toString(36).slice(2)+"_"+Date.now().toString(36);localStorage.setItem(key,next);return next}
 function normalizeDate(value){if(!value)return "";if(typeof value==="string"&&/^\d{4}-\d{2}-\d{2}/.test(value))return value.slice(0,10);var date=new Date(value);return isNaN(date.getTime())?"":date.toISOString().slice(0,10)}
 function normalizeCheckins(checkins){return Array.isArray(checkins)?checkins.filter(function(item){return item&&item.date&&item.emotion}).map(function(item){return {date:normalizeDate(item.date),emotion:item.emotion||"",feeling:item.feeling||""}}).filter(function(item){return item.date&&item.emotion}):[]}
@@ -169,7 +235,6 @@ function uniqueEmotionCount(){return new Set((state.checkins||[]).map(function(i
 function uniqueSkillCategories(){var cats=new Set();(state.stacks||[]).forEach(function(item){if(item.catLabel||item.catKey)cats.add(item.catLabel||item.catKey)});(state.recentActivity||[]).forEach(function(item){if(item.catLabel||item.catKey)cats.add(item.catLabel||item.catKey)});return cats.size}
 function journeyStats(){var checkins=(state.checkins||[]).filter(function(item){return item.date&&item.emotion});var stacks=state.stacks||[];var recentSkills=recentSkillActivity(30);var values=(state.values||[]).filter(Boolean);var currentStreak=streak(checkins);var categories=uniqueSkillCategories();var points=checkins.length*10+Math.min(recentSkills.length,20)*15+stacks.length*20+values.length*10+(currentStreak>=3?20:0)+(currentStreak>=7?35:0)+(categories>=3?25:0);return{checkins:checkins,stacks:stacks,recentSkills:recentSkills,values:values,currentStreak:currentStreak,categories:categories,points:points,weekCheckins:recentCheckins(7).length,weekSkills:recentSkillActivity(7).length,emotions:uniqueEmotionCount(),top:topEmotion(checkins)}}
 function journeyLevel(points){var levels=[{name:"Getting Started",min:0,next:75},{name:"Building Awareness",min:75,next:175},{name:"Practicing Skills",min:175,next:325},{name:"Skill Builder",min:325,next:525},{name:"Steady Navigator",min:525,next:800},{name:"Skillful Momentum",min:800,next:1000}];var level=levels[0];levels.forEach(function(item){if(points>=item.min)level=item});var span=Math.max(1,level.next-level.min);var pct=Math.min(100,Math.round(((points-level.min)/span)*100));return{name:level.name,min:level.min,next:level.next,pct:pct,remaining:Math.max(0,level.next-points)}}
-function recommendedCard(stats){var emotion=stats.top==="Not yet"?"":stats.top;var skills=emotionSkills[emotion]||[];if(!emotion||!skills.length)return{text:"Use Start Here to unlock a card that fits this moment.",name:"Start Here",url:"https://www.whattodo.coach/dashboard"};var name=skills[0];return{text:"Recommended card for "+emotion+": "+name,name:name,url:skillUrls[name]||"https://whattodo-skills.github.io/skills/The_Skills_Hub.html"}}
 function lastWeekProgress(){var checkins=checkinsBetween(14,7).length;var skills=activityBetween(14,7).length;var points=checkins*10+Math.min(skills,20)*15;if(!checkins&&!skills)return "No activity logged last week. Try one Start Here check-in and one card this week.";return "Last week: "+checkins+" check-in"+(checkins===1?"":"s")+", "+skills+" skill card"+(skills===1?"":"s")+", about "+points+" Skills Points."}
 function journeyBadges(stats){return[
   {name:"First Check-In",desc:"Logged one Daily Check-In.",icon:"assets/badges/first-check-in.png?v=color-20260623",earned:stats.checkins.length>=1},
@@ -183,10 +248,16 @@ function journeyBadges(stats){return[
 ]}
 function savedStackByCategory(){var byCategory={};(state.stacks||[]).forEach(function(item){var key=String(item.catKey||item.catLabel||"focus").toLowerCase();if(key==="connection")key="connecting";if(key==="selfcare")key="feelings";if(!byCategory[key])byCategory[key]=item});return byCategory}
 function renderSavedStack(){var grid=$("savedStackGrid");if(!grid)return;var byCategory=savedStackByCategory();var categories=[["focus","Focus"],["coping","Coping"],["feelings","Feelings"],["connecting","Connecting"]];grid.innerHTML=categories.map(function(pair){var item=byCategory[pair[0]];if(!item){return '<div class="stack-card empty"><div class="stack-cat">'+esc(pair[1])+'</div><div class="stack-name">No saved card yet</div><div class="stack-goal">Save one '+esc(pair[1])+' skill to fill this spot.</div></div>'}var url=item.practiceUrl||"#";return '<div class="stack-card"><div class="stack-cat">'+esc(item.catLabel||pair[1])+'</div><div class="stack-name">'+esc(item.skillName||"Saved skill")+'</div><div class="stack-goal">'+esc(item.goalText||"Practice this when you need support.")+'</div>'+(url&&url!=="#"?'<a href="'+esc(url)+'" target="_blank" rel="noopener">Practice</a>':"")+'</div>'}).join("")}
-function renderJourney(){var stats=journeyStats();var level=journeyLevel(stats.points);var rec=recommendedCard(stats);$("skillPointsTotal").textContent=stats.points;$("skillLevelName").textContent="Current Level: "+level.name;$("skillLevelFill").style.width=level.pct+"%";$("skillLevelNote").textContent=level.remaining?level.remaining+" Skills Points to "+journeyLevel(level.next).name+".":"You are building steady skill momentum.";$("journeyMetrics").innerHTML=[["Check-ins",stats.checkins.length],["This week",stats.weekCheckins],["Skills practiced",stats.recentSkills.length],["Badges",journeyBadges(stats).filter(function(item){return item.earned}).length]].map(function(item){return '<div class="metric"><span>'+esc(item[0])+'</span><strong>'+esc(item[1])+'</strong></div>'}).join("");$("moodMissionText").innerHTML=esc(rec.text)+' <a href="'+esc(rec.url)+'" target="_blank" rel="noopener">Open card</a>';$("lastWeekProgressText").textContent=lastWeekProgress();renderSavedStack();$("badgeGrid").innerHTML=journeyBadges(stats).map(function(badge){return '<div class="badge '+(badge.earned?"earned":"")+'"><img class="badge-icon" src="'+esc(badge.icon)+'" alt="" loading="lazy"><div class="badge-copy"><div class="badge-name">'+esc(badge.name)+'</div><div class="badge-meta">'+esc(badge.desc)+'</div><div class="badge-meta">'+(badge.earned?"Earned":"Not yet")+'</div></div></div>'}).join("")}
+function renderJourney(){var stats=journeyStats();var level=journeyLevel(stats.points);$("skillPointsTotal").textContent=stats.points;$("skillLevelName").textContent="Current Level: "+level.name;$("skillLevelFill").style.width=level.pct+"%";$("skillLevelNote").textContent=level.remaining?level.remaining+" Skills Points to "+journeyLevel(level.next).name+".":"You are building steady skill momentum.";$("journeyMetrics").innerHTML=[["Check-ins",stats.checkins.length],["This week",stats.weekCheckins],["Skills practiced",stats.recentSkills.length],["Badges",journeyBadges(stats).filter(function(item){return item.earned}).length]].map(function(item){return '<div class="metric"><span>'+esc(item[0])+'</span><strong>'+esc(item[1])+'</strong></div>'}).join("");$("lastWeekProgressText").textContent=lastWeekProgress();renderSavedStack();$("badgeGrid").innerHTML=journeyBadges(stats).map(function(badge){return '<div class="badge '+(badge.earned?"earned":"")+'"><img class="badge-icon" src="'+esc(badge.icon)+'" alt="" loading="lazy"><div class="badge-copy"><div class="badge-name">'+esc(badge.name)+'</div><div class="badge-meta">'+esc(badge.desc)+'</div><div class="badge-meta">'+(badge.earned?"Earned":"Not yet")+'</div></div></div>'}).join("")}
 window.addEventListener("message",function(event){var msg=event.data||{};if(typeof msg==="string"){try{msg=JSON.parse(msg)}catch(error){msg={}}}if(msg.type==="data"){applyData(msg)}})
 window.addEventListener("storage",function(event){if(event.key==="wtdDailyCheckInUpdated"){loadCheckins()}})
 if(checkinChannel){checkinChannel.onmessage=function(event){var msg=event.data||{};if(msg.type==="dailyCheckInUpdated"&&Array.isArray(msg.checkins)){applyData({checkins:msg.checkins})}else if(msg.type==="dailyCheckInUpdated"){loadCheckins()}}}
+$("findSkill").addEventListener("click",function(){showNeedPanel();postToWix({type:"dashboardEvent",eventName:"find_right_skill_selected"})});
+$("openCheckin").addEventListener("click",openDailyCheckin);
+$("checkinLink").addEventListener("click",function(event){event.preventDefault();openDailyCheckin()});
+$("chooseAgain").addEventListener("click",showNeedPanel);
+document.querySelectorAll("[data-need]").forEach(function(button){button.addEventListener("click",function(){var need=button.getAttribute("data-need");postToWix({type:"dashboardEvent",eventName:"need_selected",needCategory:need});showRecommendations(need)})});
+$("recommendationGrid").addEventListener("click",function(event){var save=event.target.closest("[data-save]");var practice=event.target.closest("[data-skill]");if(save){var skillName=save.getAttribute("data-save");save.textContent="Saved";save.disabled=true;$("recommendationStatus").textContent=skillName+" was sent to your Skill Stack.";postToWix({type:"saveSkill",skillName:skillName,source:"Dashboard need selection"});postToWix({type:"dashboardEvent",eventName:"skill_saved",skillName:skillName})}if(practice){postToWix({type:"practiceStarted",skillName:practice.getAttribute("data-skill"),source:"Dashboard need selection"});postToWix({type:"dashboardEvent",eventName:"practice_now_selected",skillName:practice.getAttribute("data-skill")})}});
 if(new URLSearchParams(location.search).get("preview")==="1"){state={loggedIn:true,checkins:[{date:new Date().toISOString().slice(0,10),emotion:"Fear",feeling:"anxiety"},{date:new Date(Date.now()-86400000).toISOString().slice(0,10),emotion:"Sadness",feeling:"lonely"},{date:new Date(Date.now()-2*86400000).toISOString().slice(0,10),emotion:"Fear",feeling:"worry"}],values:["Courage","Stability"],stacks:[{skillName:"Calm Tool",catLabel:"Coping"}],recentActivity:[{text:"Opened Calm Tool",catLabel:"Coping",when:new Date().toISOString()}]}}
 renderJourney();
 loadCheckins();
