@@ -29,6 +29,14 @@ h2,h3{color:#182047;margin:0 0 9px;line-height:1.15}
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .btn{border:0;border-radius:8px;padding:10px 13px;font:inherit;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .btn.primary{background:#182047;color:white}
+.btn.secondary{background:#edf1f8;color:#4F5DAD;border:1px solid #ccd5ee}
+.loop{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.loop span{font-size:.75rem;font-weight:900;color:#667085}.loop span+span::before{content:"→";margin-right:6px;color:#BD3A59}
+.step{display:none}.step.show{display:block}.step-kicker{color:#1e6d5f;font-size:.72rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.scale{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin:12px 0}.scale button,.choice{border:2px solid #e1ddd4;background:white;border-radius:8px;min-height:46px;padding:9px;font:inherit;font-weight:900;color:#182047;cursor:pointer;text-align:left}.scale button{text-align:center}.scale button.active,.choice.active{background:#182047;border-color:#182047;color:white}.scale-labels{display:flex;justify-content:space-between;color:#667085;font-size:.78rem}
+.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.choice strong{display:block}.choice span{display:block;color:#667085;font-size:.82rem;line-height:1.3;margin-top:3px;font-weight:600}.choice.active span{color:rgba(255,255,255,.8)}
+.decision-note{margin:12px 0 0;color:#667085;font-size:.88rem;line-height:1.4}
+.recommendation-primary{border:2px solid #BD3A59;border-radius:10px;background:white;padding:18px;margin-top:12px}.recommendation-primary h3{font-size:1.35rem;margin:5px 0 8px}.reason{color:#52656a;line-height:1.5}.other-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.other-option{border:1px solid #e1ddd4;border-radius:8px;padding:12px;background:#fffaf2}.other-option strong{color:#182047}
+.optional-note{margin-top:12px}.optional-note summary{cursor:pointer;color:#4F5DAD;font-weight:800}.optional-note textarea{width:100%;min-height:72px;margin-top:8px;border:1px solid #cfc8bc;border-radius:8px;padding:10px;font:inherit;resize:vertical}
 .notice{background:#edf1f8;border-left:4px solid #4F5DAD;border-radius:8px;padding:12px;color:#182047;font-weight:800}
 .strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px;max-width:380px}
 .day{height:26px;border-radius:6px;background:#e9e3d7;border:1px solid rgba(24,32,71,.08)}
@@ -51,24 +59,45 @@ h2,h3{color:#182047;margin:0 0 9px;line-height:1.15}
 .cat{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:4px 8px;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;font-weight:900;line-height:1;min-height:24px}
 .Focus{background:#e8f5f0;color:#1e6d5f}.Coping{background:#f7e0e6;color:#8a1a35}.Feelings{background:#edf1f8;color:#2d3880}.Connecting{background:#fff0e2;color:#8a4a00}
 .toast{position:fixed;right:18px;bottom:18px;z-index:30;background:#182047;color:white;border-radius:8px;padding:12px 14px;box-shadow:0 8px 30px rgba(24,32,71,.22);font-weight:900;display:none}.toast.show{display:block}
-@media(max-width:900px){.top-grid,.plan,.core-values{grid-template-columns:1fr}.emotion-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:10px}.values-panel{padding:20px 16px}.tip:hover::after,.pill:hover::after{left:auto;right:0}}
+@media(max-width:900px){.top-grid,.plan,.core-values{grid-template-columns:1fr}.emotion-grid,.choice-grid,.other-options{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:10px}.values-panel{padding:20px 16px}.tip:hover::after,.pill:hover::after{left:auto;right:0}}
 @media(max-width:420px){.emotion-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main class="wrap">
   <header class="header">
-    <h1>My Daily Check-In</h1>
-    <p>Name the emotion that is strongest right now, then notice the pattern over time.</p>
+    <h1>The What To Do! Skill Decision Loop</h1>
+    <p>Notice what is happening, decide what this moment requires, and choose a skill that fits.</p>
+    <div class="loop" aria-label="Notice, Understand, Decide, Practice, Learn"><span>Notice</span><span>Understand</span><span>Decide</span><span>Practice</span><span>Learn</span></div>
   </header>
 
   <section class="top-grid">
-    <div class="panel">
-      <h2>Today's strongest emotion <span class="tip" data-tip="Emotion: your body-and-brain response to what is happening. Naming it helps you choose what to do next.">?</span></h2>
-      <div class="emotion-grid" id="emotionButtons"></div>
-      <div class="btn-row">
-        <button class="btn primary" type="button" id="logCheckin">Log today's emotion</button>
-      </div>
+    <div class="panel" id="decisionPanel">
+      <section class="step show" id="noticeStep">
+        <div class="step-kicker">1 · Notice</div>
+        <h2>What are you feeling right now? <span class="tip" data-tip="Naming the emotion gives you one useful clue. It does not decide the skill by itself.">?</span></h2>
+        <div class="emotion-grid" id="emotionButtons"></div>
+      </section>
+      <section class="step" id="intensityStep">
+        <div class="step-kicker">1 · Notice</div><h2>How strong is it right now?</h2>
+        <div class="scale" id="intensityScale" aria-label="Emotion intensity from 1 to 10"></div>
+        <div class="scale-labels"><span>1 · Barely there</span><span>5 · Noticeable</span><span>10 · Very strong</span></div>
+      </section>
+      <section class="step" id="contextStep">
+        <div class="step-kicker">1 · Notice</div><h2>What's most connected to this feeling?</h2><div class="choice-grid" id="contextChoices"></div>
+        <details class="optional-note"><summary>Want to add a note?</summary><textarea id="optionalNote" maxlength="240" aria-label="Optional note" placeholder="A short note, if it would help"></textarea></details>
+      </section>
+      <section class="step" id="understandStep">
+        <div class="step-kicker">2 · Understand</div><h2>What seems most true right now?</h2><div class="choice-grid" id="interpretationChoices"></div>
+      </section>
+      <section class="step" id="decideStep">
+        <div class="step-kicker">3 · Decide</div><h2>What would help most right now?</h2><div class="choice-grid" id="needChoices"></div>
+        <p class="decision-note">Different moments require different kinds of responses. Choosing what you need is part of the skill.</p>
+      </section>
+      <section class="step" id="practiceStep" aria-live="polite">
+        <div class="step-kicker">4 · Practice</div><h2>Skills that fit what you need</h2><div id="rankedSkills"></div>
+        <div class="btn-row"><button class="btn secondary" type="button" id="startOver">Check in again</button></div>
+      </section>
     </div>
 
     <div class="panel">
@@ -80,15 +109,11 @@ h2,h3{color:#182047;margin:0 0 9px;line-height:1.15}
     </div>
   </section>
 
-  <section class="panel values-panel" id="coreValuesPanel">
+  <section class="panel values-panel" id="coreValuesPanel" hidden>
     <p class="values-intro">Your core values are not a performance checklist. They are attention anchors. When stress scatters your focus, these are the places you can come back to.</p>
     <div class="core-values" id="coreValues"></div>
   </section>
 
-  <section class="panel skills-panel">
-    <h2>Suggested skills from The Skills Hub</h2>
-    <div id="emotionPlan" class="plan"></div>
-  </section>
 </main>
 <div class="toast" id="toast"></div>
 <script>
@@ -139,7 +164,43 @@ var DAILY_CHECKIN_CHANNEL = "wtd-daily-checkin";
 var state = {loggedIn:false,checkins:[],values:loadLocalValues()};
 var bridgeHasData = false;
 var checkinChannel = typeof BroadcastChannel === "function" ? new BroadcastChannel(DAILY_CHECKIN_CHANNEL) : null;
-var selectedEmotion = "";
+var DRAFT_KEY = "wtd_daily_checkin_v2_draft";
+var decision = freshDecision();
+var contextOptions = [
+  {id:"event",label:"Something that happened"},{id:"thought",label:"Something I'm thinking about"},
+  {id:"relationship",label:"A relationship"},{id:"work",label:"Work or responsibilities"},
+  {id:"body",label:"Something in my body"},{id:"task",label:"A task I need to do"},{id:"unsure",label:"I'm not sure yet"}
+];
+var needOptions = [
+  {id:"calm",label:"Calm down",detail:"The feeling is too strong to think clearly."},
+  {id:"understand",label:"Understand it",detail:"Make sense of the feeling or situation."},
+  {id:"cope",label:"Cope with it",detail:"Get through this moment without making it worse."},
+  {id:"act",label:"Do something about it",detail:"Choose one useful next step."},
+  {id:"connect",label:"Connect with someone",detail:"Communicate, ask for help, or repair connection."}
+];
+var interpretationSets = {
+  angry:[{id:"calm_first",label:"I need to calm down before I respond"},{id:"change_needed",label:"Something needs to change"},{id:"boundary",label:"A boundary may have been crossed"},{id:"assumptions",label:"I may be making assumptions"},{id:"hurt_underneath",label:"There may be hurt underneath the anger"},{id:"communicate",label:"I need to communicate clearly"},{id:"unsure",label:"I'm not sure yet"}],
+  anxious:[{id:"calm_first",label:"I need to calm my body first"},{id:"future_worry",label:"I'm caught in future worry"},{id:"prepare",label:"There is something I can prepare for"},{id:"avoiding_task",label:"I may be avoiding a task"},{id:"more_information",label:"I need more information"},{id:"tolerate",label:"I may need to tolerate uncertainty"},{id:"unsure",label:"I'm not sure yet"}],
+  positive:[{id:"savor",label:"I want to notice and savor this"},{id:"act",label:"I want to use this energy well"},{id:"connect",label:"I want to share or connect"},{id:"understand",label:"I want to understand what matters here"},{id:"unsure",label:"I'm not sure yet"}],
+  tender:[{id:"soothe",label:"I need care before I decide what to do"},{id:"loss",label:"Something important feels lost or missing"},{id:"connect",label:"I need connection or support"},{id:"act",label:"There may be one small step I can take"},{id:"tolerate",label:"I may need to make room for this feeling"},{id:"unsure",label:"I'm not sure yet"}],
+  uncertain:[{id:"calm_first",label:"I need to settle before I decide"},{id:"danger_or_uncertainty",label:"Something feels unsafe or uncertain"},{id:"more_information",label:"I need more information"},{id:"prepare",label:"There is something I can prepare for"},{id:"tolerate",label:"I may need to tolerate not knowing yet"},{id:"unsure",label:"I'm not sure yet"}],
+  self:[{id:"assumptions",label:"I may be judging myself too harshly"},{id:"repair",label:"There may be something I can repair"},{id:"self_kindness",label:"I need a kinder response to myself"},{id:"boundary",label:"Something may be out of line for me"},{id:"understand",label:"I need to understand what this feeling is signaling"},{id:"unsure",label:"I'm not sure yet"}],
+  frustrated:[{id:"calm_first",label:"I need to lower the intensity first"},{id:"change_needed",label:"Something needs to change"},{id:"blocked_task",label:"A task or goal feels blocked"},{id:"assumptions",label:"I may be making assumptions"},{id:"communicate",label:"I need to communicate clearly"},{id:"unsure",label:"I'm not sure yet"}]
+};
+var skillCatalog = [
+  {id:"calm-tool",name:"Calm Tool",cat:"Coping",needs:{calm:5,cope:3},emotions:["Anxious","Afraid","Angry","Frustrated","Surprised"],contexts:["body","work"],interpretations:["calm_first"]},
+  {id:"stop-skill",name:"STOP Skill",cat:"Coping",needs:{calm:4,cope:5,act:1},emotions:["Angry","Anxious","Afraid","Frustrated","Hurt"],contexts:["relationship","event"],interpretations:["calm_first","tolerate"]},
+  {id:"ride-wave",name:"Ride the Wave",cat:"Coping",needs:{cope:5,calm:3},emotions:["Sad","Anxious","Afraid","Hurt","Ashamed"],contexts:["body","thought"],interpretations:["tolerate","soothe"]},
+  {id:"feelings-wheel",name:"Feelings Wheel",cat:"Feelings",needs:{understand:5,cope:1},emotions:["Confused","Sad","Hurt","Surprised","Lonely"],contexts:["thought","unsure"],interpretations:["understand","hurt_underneath","loss"]},
+  {id:"check-story",name:"Check the Story",cat:"Feelings",needs:{understand:5,act:2},emotions:["Angry","Hurt","Ashamed","Disgusted","Anxious"],contexts:["relationship","thought"],interpretations:["assumptions","future_worry","danger_or_uncertainty"]},
+  {id:"thought-labeling",name:"Thought Labeling",cat:"Focus",needs:{understand:4,calm:1,act:2},emotions:["Anxious","Confused","Disgusted"],contexts:["thought","work"],interpretations:["future_worry","assumptions"]},
+  {id:"start-task",name:"Start the Task",cat:"Focus",needs:{act:5},emotions:["Anxious","Frustrated","Interested"],contexts:["task","work"],interpretations:["avoiding_task","blocked_task","act"]},
+  {id:"begin-again",name:"Begin Again",cat:"Focus",needs:{act:4,cope:2},emotions:["Frustrated","Sad","Calm","Happy"],contexts:["task","work","event"],interpretations:["change_needed","prepare","act"]},
+  {id:"healthy-boundaries",name:"Healthy Boundaries",cat:"Connecting",needs:{connect:4,act:4},emotions:["Angry","Hurt","Disgusted"],contexts:["relationship"],interpretations:["boundary","change_needed"]},
+  {id:"hard-conversations",name:"Hard Conversations",cat:"Connecting",needs:{connect:5,act:3},emotions:["Angry","Guilty","Hurt"],contexts:["relationship","work"],interpretations:["communicate","repair"]},
+  {id:"connecting-after-conflict",name:"Connecting After Conflict",cat:"Connecting",needs:{connect:5,cope:1},emotions:["Lonely","Guilty","Hurt"],contexts:["relationship","event"],interpretations:["repair","connect"]},
+  {id:"inner-critic-reset",name:"Inner Critic Reset",cat:"Feelings",needs:{understand:3,cope:4},emotions:["Ashamed","Guilty","Sad"],contexts:["thought"],interpretations:["self_kindness","assumptions"]}
+];
 function $(id){return document.getElementById(id)}
 function esc(value){return String(value||"").replace(/[&<>'"]/g,function(mark){return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[mark]})}
 function toast(text){$("toast").textContent=text;$("toast").classList.add("show");setTimeout(function(){$("toast").classList.remove("show")},1800)}
@@ -147,7 +208,7 @@ function todayKey(){return new Date().toISOString().slice(0,10)}
 function clientId(){var key="wtdDailyCheckInClientId";var existing=localStorage.getItem(key);if(existing){return existing}var next="dc_"+Math.random().toString(36).slice(2)+"_"+Date.now().toString(36);localStorage.setItem(key,next);return next}
 function apiRequest(action,entry){return fetch(DAILY_CHECKIN_ENDPOINT,{method:"POST",mode:"cors",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:action,entry:entry||null,clientId:clientId()})}).then(function(response){return response.json().then(function(data){if(!response.ok||!data.ok){throw new Error((data&&data.error)||"daily_checkin_failed")}return data})})}
 function normalizeEmotion(name){var text=String(name||"").trim();if(emotionAliases[text]){return emotionAliases[text]}var found=Object.keys(emotionData).find(function(item){return item.toLowerCase()===text.toLowerCase()});return found||text}
-function normalizeCheckins(checkins){return Array.isArray(checkins)?checkins.filter(function(item){return item&&item.date&&(item.emotion||item.feeling)}).map(function(item){var emotion=normalizeEmotion(item.emotion||item.feeling);return {date:String(item.date).slice(0,10),emotion:emotion,feeling:item.feeling||emotion}}):[]}
+function normalizeCheckins(checkins){return Array.isArray(checkins)?checkins.filter(function(item){return item&&item.date&&(item.emotion||item.feeling)}).map(function(item){var copy=Object.assign({},item);copy.date=String(item.date).slice(0,10);copy.emotion=normalizeEmotion(item.emotion||item.feeling);copy.feeling=item.feeling||copy.emotion;return copy}):[]}
 function normalizeValues(values){return Array.isArray(values)?values.map(function(value){return String(value||"").trim()}).filter(Boolean).slice(0,3):[]}
 function loadLocalValues(){try{var raw=localStorage.getItem("wtd_values_v1");if(raw){var parsed=JSON.parse(raw);return normalizeValues(parsed.selected)}}catch(error){}return []}
 function applyData(data){var values=normalizeValues(data&&data.values);state.loggedIn=!!data.loggedIn;state.checkins=normalizeCheckins(data&&data.checkins);state.values=state.loggedIn?values:(values.length?values:loadLocalValues());renderAll();broadcastCheckins()}
@@ -156,15 +217,29 @@ function broadcastCheckins(){try{localStorage.setItem("wtdDailyCheckInUpdated",S
 function loadCheckins(){postToWix({type:"ready"});setTimeout(function(){if(!bridgeHasData){apiRequest("list").then(applyData).catch(function(){state.loggedIn=false;state.checkins=[];renderAll()})}},450)}
 function saveCheckin(entry){postToWix({type:"saveCheckin",entry:entry});return apiRequest("save",entry).then(applyData)}
 function topEmotion(checkins){var cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);var counts={};checkins.filter(function(item){return new Date(item.date)>=cutoff}).forEach(function(item){var key=normalizeEmotion(item.emotion);counts[key]=(counts[key]||0)+1});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});return keys[0]||""}
-function categoryForSkill(name){if(["Calm Tool","Ride the Wave","STOP Skill"].includes(name)){return "Coping"}if(["Feelings Wheel","Thought-Mood Connection","Inner Critic Reset","Check the Story"].includes(name)){return "Feelings"}if(["Healthy Boundaries","Hard Conversations","Connecting After Conflict"].includes(name)){return "Connecting"}return "Focus"}
-function renderCheckin(){var emotions=Object.keys(emotionData);$("emotionButtons").innerHTML=emotions.map(function(name){var active=selectedEmotion===name;return '<button class="pill '+(active?'active':'')+'" style="border-color:'+(active?'#182047':(CAT_COLORS[name]||"#e1ddd4"))+'" type="button" data-emotion="'+esc(name)+'" data-tip="'+esc(emotionData[name].tip)+'">'+esc(name)+'</button>'}).join("");document.querySelectorAll("[data-emotion]").forEach(function(button){button.addEventListener("click",function(){selectedEmotion=button.dataset.emotion;renderAll()})})}
+function freshDecision(){return {checkInId:"dc_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8),createdAt:new Date().toISOString(),date:todayKey(),emotion:"",intensityBefore:0,context:"",interpretation:"",need:"",note:"",recommendedSkillId:"",alternateSkillIds:[],recommendationReason:"",schemaVersion:2}}
+function persistDecision(stage){decision.note=$("optionalNote")?$("optionalNote").value.trim():decision.note;try{localStorage.setItem(DRAFT_KEY,JSON.stringify({stage:stage,entry:decision}))}catch(error){}postToWix({type:"saveCheckInDraft",stage:stage,entry:decision})}
+function showStep(id){document.querySelectorAll(".step").forEach(function(step){step.classList.toggle("show",step.id===id)});var heading=$(id).querySelector("h2");if(heading){heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true})}}
+function interpretationOptions(emotion){if(emotion==="Angry"){return interpretationSets.angry}if(emotion==="Anxious"){return interpretationSets.anxious}if(["Happy","Calm","Excited","Interested"].includes(emotion)){return interpretationSets.positive}if(["Sad","Lonely","Hurt"].includes(emotion)){return interpretationSets.tender}if(["Afraid","Surprised","Confused"].includes(emotion)){return interpretationSets.uncertain}if(["Ashamed","Guilty","Disgusted"].includes(emotion)){return interpretationSets.self}return interpretationSets.frustrated}
+function renderButtonChoices(target,items,selected,attribute){$(target).innerHTML=items.map(function(item){return '<button class="choice '+(selected===item.id?'active':'')+'" type="button" data-'+attribute+'="'+esc(item.id)+'"><strong>'+esc(item.label)+'</strong>'+(item.detail?'<span>'+esc(item.detail)+'</span>':'')+'</button>'}).join("")}
+function renderDecision(){var emotions=Object.keys(emotionData);$("emotionButtons").innerHTML=emotions.map(function(name){var active=decision.emotion===name;return '<button class="pill '+(active?'active':'')+'" style="border-color:'+(active?'#182047':(CAT_COLORS[name]||"#e1ddd4"))+'" type="button" data-emotion="'+esc(name)+'" data-tip="'+esc(emotionData[name].tip)+'">'+esc(name)+'</button>'}).join("");
+  $("intensityScale").innerHTML=Array.from({length:10},function(_,i){var n=i+1;return '<button type="button" class="'+(decision.intensityBefore===n?'active':'')+'" data-intensity="'+n+'">'+n+'</button>'}).join("");
+  renderButtonChoices("contextChoices",contextOptions,decision.context,"context");renderButtonChoices("interpretationChoices",interpretationOptions(decision.emotion),decision.interpretation,"interpretation");renderButtonChoices("needChoices",needOptions,decision.need,"need");
+  document.querySelectorAll("[data-emotion]").forEach(function(button){button.onclick=function(){decision.emotion=button.dataset.emotion;decision.intensityBefore=0;decision.context="";decision.interpretation="";decision.need="";persistDecision("emotion");renderDecision();showStep("intensityStep")}});
+  document.querySelectorAll("[data-intensity]").forEach(function(button){button.onclick=function(){decision.intensityBefore=Number(button.dataset.intensity);persistDecision("intensity");renderDecision();showStep("contextStep")}});
+  document.querySelectorAll("[data-context]").forEach(function(button){button.onclick=function(){decision.context=button.dataset.context;decision.interpretation="";persistDecision("context");renderDecision();showStep("understandStep")}});
+  document.querySelectorAll("[data-interpretation]").forEach(function(button){button.onclick=function(){decision.interpretation=button.dataset.interpretation;persistDecision("interpretation");renderDecision();showStep("decideStep")}});
+  document.querySelectorAll("[data-need]").forEach(function(button){button.onclick=function(){decision.need=button.dataset.need;renderRecommendations();persistDecision("recommendation");showStep("practiceStep")}})
+}
+function rankedSkills(){return skillCatalog.map(function(skill){var score=(skill.needs[decision.need]||0)*10+(skill.emotions.includes(decision.emotion)?3:0)+(skill.contexts.includes(decision.context)?2:0)+(skill.interpretations.includes(decision.interpretation)?8:0);if(decision.intensityBefore>=8&&decision.need==="calm"&&["calm-tool","stop-skill"].includes(skill.id)){score+=12}return {skill:skill,score:score}}).sort(function(a,b){return b.score-a.score||a.skill.name.localeCompare(b.skill.name)}).slice(0,3)}
+function recommendationReason(primary){var feelingNouns={Anxious:"anxiety",Angry:"anger",Afraid:"fear",Sad:"sadness",Ashamed:"shame",Guilty:"guilt",Frustrated:"frustration",Confused:"confusion",Lonely:"loneliness"};var feeling=feelingNouns[decision.emotion]||("feeling of "+decision.emotion.toLowerCase());if(decision.need==="calm"&&decision.intensityBefore>=8){return "Your "+feeling+" is strong right now. Settling your body first may make it easier to think clearly about what needs to happen next."}var needText={understand:"You chose to understand what is happening before deciding what comes next.",cope:"You chose support for getting through this moment skillfully.",act:"You chose to take one useful next step instead of staying stuck.",connect:"You chose connection, communication, or repair as the most helpful response.",calm:"You chose to lower the intensity before responding."};return (needText[decision.need]||"This choice fits what you said you need.")+" "+primary.name+" matches that goal and the situation you described."}
+function renderRecommendations(){var ranked=rankedSkills();var primary=ranked[0].skill;decision.recommendedSkillId=primary.id;decision.alternateSkillIds=ranked.slice(1).map(function(item){return item.skill.id});decision.recommendationReason=recommendationReason(primary);$("rankedSkills").innerHTML='<article class="recommendation-primary"><span class="cat '+esc(primary.cat)+'">Best fit · '+esc(primary.cat)+'</span><h3>'+esc(primary.name)+'</h3><p class="reason">'+esc(decision.recommendationReason)+'</p><a class="btn primary" href="'+esc(skillUrls[primary.name])+'" target="_blank" rel="noopener">Practice It</a></article><h3 style="margin-top:16px">Other good options</h3><div class="other-options">'+ranked.slice(1).map(function(item){return '<article class="other-option"><span class="cat '+esc(item.skill.cat)+'">'+esc(item.skill.cat)+'</span><p><strong>'+esc(item.skill.name)+'</strong></p><a href="'+esc(skillUrls[item.skill.name])+'" target="_blank" rel="noopener">Practice</a></article>'}).join("")+'</div>'}
 function renderMood(){var recent=state.checkins.slice().sort(function(a,b){return String(a.date).localeCompare(String(b.date))}).slice(-30);var dominant=recent.length>=CHECKIN_MINIMUM?topEmotion(recent):"";var moods=dominant&&emotionData[dominant]?emotionData[dominant].moods.join(", "):"";$("moodSummary").textContent=dominant?moods+" mood pattern, led by "+dominant+".":"Log at least seven check-ins to see a mood pattern.";$("moodStrip").innerHTML=Array.from({length:30},function(_,i){var d=new Date();d.setDate(d.getDate()-(29-i));var key=d.toISOString().slice(0,10);var hit=state.checkins.find(function(item){return item.date===key});var emotion=hit?normalizeEmotion(hit.emotion):"";var title=hit?hit.date+": "+emotion:key;return '<div class="day" title="'+esc(title)+'" style="background:'+(hit?(CAT_COLORS[emotion]||"#e9e3d7"):"#e9e3d7")+'"></div>'}).join("")}
 function renderHistory(){var items=state.checkins.slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))}).slice(0,5);$("history").innerHTML=items.length?items.map(function(item){return '<div class="row"><strong>'+esc(item.date)+': '+esc(normalizeEmotion(item.emotion))+'</strong></div>'}).join(""):'<div class="empty">No check-ins saved yet.</div>'}
-function renderValues(){var values=normalizeValues(state.values);$("coreValuesPanel").classList.toggle("show",values.length>0);$("coreValues").innerHTML=values.map(function(name,index){var pivot=valuePivots[name]||"Where does my attention belong next?";return '<article class="core-value-card"><div class="value-kicker">Value '+(index+1)+'</div><div class="value-name">'+esc(name)+'</div><div class="value-prompt">"'+esc(pivot)+'"</div></article>'}).join("")}
-function renderPlan(){var emotion=selectedEmotion||topEmotion(state.checkins);var names=emotion&&emotionSkills[emotion]?emotionSkills[emotion]:["Feelings Wheel","Calm Tool","Begin Again"];$("emotionPlan").innerHTML=names.map(function(name){var cat=categoryForSkill(name);return '<article class="skill-card"><div class="top"><span class="cat '+esc(cat)+'">'+esc(cat)+'</span></div><div class="body"><h3>'+esc(name)+'</h3><p class="muted small">'+esc(skillMeta[cat]||"Practice a What To Do skill.")+'</p></div><div class="body" style="padding-top:0"><a class="btn primary" href="'+esc(skillUrls[name]||"https://whattodo-skills.github.io/skills/The_Skills_Hub.html")+'" target="_blank" rel="noopener">Practice It</a></div></article>'}).join("")}
-function renderAll(){renderCheckin();renderMood();renderHistory();renderValues();renderPlan()}
+function renderAll(){renderDecision();renderMood();renderHistory()}
 window.addEventListener("message",function(event){var msg=event.data||{};if(typeof msg==="string"){try{msg=JSON.parse(msg)}catch(error){msg={}}}if(msg.type==="data"){bridgeHasData=true;applyData(msg)}});
-$("logCheckin").addEventListener("click",function(){if(!selectedEmotion){toast("Choose an emotion first.");return}toast("Saving check-in...");saveCheckin({date:todayKey(),emotion:selectedEmotion,feeling:selectedEmotion}).then(function(){toast("Check-in saved.")}).catch(function(){toast("Check-in did not save.")})});
+$("optionalNote").addEventListener("input",function(){decision.note=this.value.slice(0,240);persistDecision("note")});
+$("startOver").addEventListener("click",function(){decision=freshDecision();$("optionalNote").value="";try{localStorage.removeItem(DRAFT_KEY)}catch(error){}renderDecision();showStep("noticeStep")});
 renderAll();
 loadCheckins();
 </script>
