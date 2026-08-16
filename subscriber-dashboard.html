@@ -21,7 +21,7 @@
       <a href="https://www.whattodo.coach/dashboard" target="_blank" rel="noopener" class="active">Subscriber Dashboard</a>
       <a href="#skills-stack">Build Stack</a>
       <a href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Draw a Card</a>
-      <a href="#daily-checkin">Start Here</a>
+      <a href="#daily-checkin">Find the Right Skill</a>
       <a href="#skill-journey">My Skills Stack</a>
       <a href="#values">My Values</a>
       <a href="#skills-stack">Progress</a>
@@ -73,24 +73,14 @@
           </div>
         </article>
         <article class="acc" id="daily-checkin">
-          <button class="acc-head" type="button" data-open="daily-checkin">Start Here <span class="chev">></span></button>
+          <button class="acc-head" type="button" data-open="daily-checkin">Find the Right Skill <span class="chev">></span></button>
           <div class="acc-body">
-            <div class="grid">
-              <div class="panel">
-                <h3>Today's Emotion <span class="tip" data-tip="Your automatic, physical response to a person, yourself, a situation, a conversation, or an action.">?</span></h3>
-                <div class="emotion-grid" id="emotionButtons"></div>
-                <h3 style="margin-top:18px">How You Feel <span class="tip" data-tip="Your brain's interpretation of the response.">?</span></h3>
-                <div class="feeling-grid" id="feelingButtons"></div>
-                <div class="btn-row"><button class="btn primary" type="button" id="logCheckin">Log Today</button></div>
-              </div>
-              <div class="panel">
-                <h3>Your Mood <span class="tip" data-tip="Your prolonged state of mind, calculated from your emotions and feelings over 14 days and tracked across 30.">?</span></h3>
-                <div id="moodSummary" class="notice">Log at least three check-ins to see a mood pattern.</div>
-                <div class="strip" id="moodStrip"></div>
-              </div>
+            <div class="panel">
+              <h3>Find the Right Skill</h3>
+              <p class="muted">Know what you need? Choose below.</p>
+              <div class="btn-row"><a class="btn secondary" href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Calm Down</a><a class="btn secondary" href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Focus</a><a class="btn secondary" href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Cope</a><a class="btn secondary" href="https://whattodo-skills.github.io/skills/The_Skills_Hub.html" target="_blank" rel="noopener">Connect</a></div>
+              <div class="notice" style="margin-top:16px"><h3 id="checkinEntryTitle">Not sure what you need?</h3><p class="muted" id="checkinEntryText">Try the Daily Check-In. It will help you figure out what the moment requires.</p><a class="btn primary" id="checkinEntryButton" href="daily-check-in.html">Start Daily Check-In</a></div>
             </div>
-            <div class="section-title">Choose a card for this moment</div>
-            <div id="emotionPlan" class="panel"></div>
           </div>
         </article>
         <article class="acc" id="skill-journey">
@@ -315,8 +305,8 @@ function renderGoalSubselects(){const cfg=goalOptions[selectedGoal]||{whatIWillD
 function suggestedSkillsForGoal(goal){const text=(goal||"").toLowerCase();for(const key in goalSkillMap){if(text.includes(key.toLowerCase()))return goalSkillMap[key]}return []}
 function renderRecentAndArchives(){const recent=(state.recentActivity||[]).filter(a=>/opened|practice|skill/i.test(a.text||"")).slice(0,6);const hasArchives=(state.stacks||[]).length>0;$("skillHistoryGrid").classList.toggle("is-empty",!recent.length&&!hasArchives);$("recentSkills").innerHTML=recent.length?recent.map(a=>`<div class="row"><div><strong>${esc(a.text)}</strong><div class="muted small">${esc(relTime(a.when))}</div></div>${a.url?`<a href="${esc(a.url)}" target="_blank" rel="noopener">Open</a>`:""}</div>`).join(""):'<div class="empty">No recently opened skills yet.</div>';$("archives").innerHTML=hasArchives?(state.stacks||[]).slice(0,8).map(s=>`<div class="row"><div><strong>${esc(s.skillName)}</strong><div class="muted small">${esc(s.goalText||s.catLabel||"Saved skill")}</div></div></div>`).join(""):'<div class="empty">Saved skill stacks will appear here.</div>'}
 function bindDynamicActions(){document.querySelectorAll("[data-stack-skill]").forEach(btn=>btn.onclick=()=>{post({type:"stackSkill",skill:{skillName:btn.dataset.stackSkill,catKey:btn.dataset.cat,catLabel:btn.dataset.cat,goalText:btn.dataset.goal}});toast("Saving skill to stack...")});document.querySelectorAll("[data-open-skill]").forEach(a=>a.onclick=()=>post({type:"openSkill",skill:{skillName:a.dataset.openSkill,catKey:a.dataset.cat,catLabel:a.dataset.cat,goalText:"Opened from dashboard",url:a.href}}))}
-function renderAll(){renderHeader();renderCommunity();renderCheckin();renderJourney();renderValues();renderGoalSubselects();renderRecentAndArchives();bindDynamicActions()}
-$("logCheckin").addEventListener("click",()=>{if(!selectedEmotion||!selectedFeeling){toast("Choose an emotion and feeling first.");return}post({type:"saveCheckin",entry:{date:todayKey(),emotion:selectedEmotion,feeling:selectedFeeling}});toast("Saving check-in...")});
+function renderCheckinEntry(){const today=todayKey();const todays=(state.checkins||[]).filter(item=>item.date===today).sort((a,b)=>String(b.createdAt||"").localeCompare(String(a.createdAt||"")));const unfinished=todays.find(item=>item.checkInId&&!item.outcome&&!item.practiceCompletedAt);if(unfinished){$("checkinEntryTitle").textContent="Continue today's check-in";$("checkinEntryText").textContent="Pick up where you left off without losing what you already worked through.";$("checkinEntryButton").textContent="Continue Daily Check-In";return}if(todays.length){$("checkinEntryTitle").textContent="You've already checked in today.";$("checkinEntryText").textContent="See what you chose, reflect on how it went, or check in again if circumstances changed.";$("checkinEntryButton").textContent="Open Daily Check-In";return}$("checkinEntryTitle").textContent="Not sure what you need?";$("checkinEntryText").textContent="Try the Daily Check-In. It will help you figure out what the moment requires.";$("checkinEntryButton").textContent="Start Daily Check-In"}
+function renderAll(){renderHeader();renderCommunity();renderCheckinEntry();renderJourney();renderValues();renderGoalSubselects();renderRecentAndArchives();bindDynamicActions()}
 $("saveValues").addEventListener("click",()=>{post({type:"saveValues",values:selectedValues});toast("Saving values...")});
 $("goalSelect").addEventListener("change",e=>{selectedGoal=e.target.value;renderGoalSubselects();bindDynamicActions()});
 $("saveStack").addEventListener("click",()=>{if(!selectedGoal){toast("Choose a goal first.");return}const cfg=goalOptions[selectedGoal];post({type:"saveStack",stack:{goal:selectedGoal,willDo:$("willDoSelect").value,how:$("howSelect").value,notice:cfg.notice,cards:suggestedSkillsForGoal(selectedGoal).map(s=>({title:s,cat:categoryForSkill(s)}))}});toast("Saving stack...")});
