@@ -228,7 +228,6 @@ async function getSubscriber(body) {
     const member = await currentMember.getMember();
     if (member?._id) return { id: member._id, firstName: clean(member.contactDetails?.firstName || member.profile?.nickname || '', 80).split(' ')[0] };
   } catch (error) { console.log('No authenticated member', error); }
-  if (body?.clientId) return { id: `client:${clean(body.clientId, 120)}`, firstName: '' };
   return { id: '', firstName: '' };
 }
 
