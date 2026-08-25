@@ -400,3 +400,15 @@ export async function getValues(memberId) {
 export async function getStacks(memberId) {
   return (await wixData.query(STACKS).eq('memberId', memberId).limit(100).find(OPTIONS)).items.map(item => ({ skillId: item.skillId || '', skillName: item.skillName || item.title || '', status: item.status || '' }));
 }
+
+export async function saveStackForMember(memberId, skill = {}) {
+  if (!memberId || !skill || typeof skill.skillId !== 'string' || !skill.skillId.trim()) throw new Error('invalid_stack_skill');
+  const skillId = skill.skillId.trim();
+  const result = await wixData.query(STACKS).eq('memberId', memberId).eq('skillId', skillId).limit(1).find(OPTIONS);
+  const existing = result.items[0];
+  const now = new Date();
+  const values = { memberId, skillId, skillName: String(skill.skillName || skill.skillTitle || '').slice(0, 200), catKey: String(skill.category || '').toLowerCase().slice(0, 80), catLabel: String(skill.category || '').slice(0, 80), practiceUrl: String(skill.practiceUrl || '').slice(0, 500), status: 'stacked', stacked: true, lastActionAt: now, stackedAt: existing?.stackedAt || now };
+  if (existing) await wixData.update(STACKS, { ...existing, ...values }, OPTIONS);
+  else await wixData.insert(STACKS, values, OPTIONS);
+  return { ok: true, stacks: await getStacks(memberId) };
+}
