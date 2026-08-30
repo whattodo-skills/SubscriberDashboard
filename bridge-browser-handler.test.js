@@ -40,8 +40,8 @@ const dailyRequestPromise = dailyContext.api('markSkillOpened', { checkinId: 'ch
 const dailyRequest = dailySent.at(-1).message;
 assert.strictEqual(dailyRequest.type, 'dailyCheckInRequest');
 
-const dashSent = []; const dashHandlers = []; const wixWindow = { postMessage(message, origin) { dashSent.push({ message, origin }); } }; const iframeWindow = { postMessage(message, origin) { dashSent.push({ message, origin, iframe: true }); } };
-const dashContext = { DAILY_CHECKIN_ORIGIN: dailyOrigin, TARGET_ORIGIN: wixOrigin, bridgeReady: false, bridgeRequests: new Map(), bridgeSeen: new Set(), bridgePending: new Map(), checkinFrame: { contentWindow: iframeWindow }, window: { parent: wixWindow, addEventListener(type, fn) { if (type === 'message') dashHandlers.push(fn); } }, loadLiveProgress() {}, clearTimeout, setTimeout, clearInterval() {}, setInterval() { return 1; } };
+const dashSent = []; const dashHandlers = []; const wixWindow = { postMessage(message, origin) { dashSent.push({ message, origin }); } }; const iframeWindow = { postMessage(message, origin) { dashSent.push({ message, origin, iframe: true }); } }; const decisionWindow = { postMessage() {} };
+const dashContext = { DAILY_CHECKIN_ORIGIN: dailyOrigin, TARGET_ORIGIN: wixOrigin, bridgeReady: false, bridgeRequests: new Map(), bridgeSeen: new Set(), bridgePending: new Map(), checkinFrame: { contentWindow: iframeWindow }, decisionFrame: { contentWindow: decisionWindow }, window: { parent: wixWindow, addEventListener(type, fn) { if (type === 'message') dashHandlers.push(fn); } }, loadLiveProgress() {}, clearTimeout, setTimeout, clearInterval() {}, setInterval() { return 1; } };
 vm.createContext(dashContext);
 vm.runInContext(`var BRIDGE_ACTIONS=new Set(['list','previewRecommendations','startLoop','markSkillOpened','completeLoop','dismissLoop','getReflection']),bridgeRequests=new Map(),bridgeSeen=new Set(),bridgePending=new Map(),bridgeReady=false;window.addEventListener=function(type,fn){if(type==='message')this._handler=fn};${dashListener}`, dashContext);
 const dh = dashContext.window._handler; assert(dh, 'dashboard handler extracted');
@@ -58,6 +58,16 @@ const dailyRelay = dashSent.at(-1).message;
 assert.strictEqual(dailyRelay.type, 'dailyCheckInBridgeRequest');
 dh({ origin: wixOrigin, source: wixWindow, data: { type: 'dailyCheckInBridgeResponse', requestId: dailyRelay.requestId, action: dailyRelay.action, ok: true, data: { loopStatus: 'learn_pending' } } });
 assert.strictEqual((await dailyRequestPromise).loopStatus, 'learn_pending');
+
+// A Help Me Decide response must return only to the Decision Loop iframe.
+const decisionForwarded = [];
+decisionWindow.postMessage = (message, origin) => { decisionForwarded.push({ message, origin }); };
+const dailyForwardedBeforeDecision = dailyForwarded.length;
+dh({ origin: dailyOrigin, source: decisionWindow, data: { type: 'dailyCheckInRequest', requestId: 'decision-1', action: 'list', entry: {} } });
+dh({ origin: wixOrigin, source: wixWindow, data: { type: 'dailyCheckInBridgeResponse', requestId: 'decision-1', action: 'list', ok: true, data: { checkins: [] } } });
+assert.strictEqual(decisionForwarded.length, 1, 'Decision Loop response must reach its requesting iframe');
+assert.strictEqual(decisionForwarded[0].message.requestId, 'decision-1');
+assert.strictEqual(dailyForwarded.length, dailyForwardedBeforeDecision, 'Decision Loop response must not leak into Daily Check-In');
 
 // Exercise the actual dashboard request function and resolve it with a matched response.
 vm.runInContext(`var bridgeReady=true,bridgePending=new Map(),TARGET_ORIGIN='${wixOrigin}';${dashRequest}`, dashContext);
