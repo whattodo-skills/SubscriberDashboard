@@ -41,7 +41,7 @@ const dailyRequest = dailySent.at(-1).message;
 assert.strictEqual(dailyRequest.type, 'dailyCheckInRequest');
 
 const dashSent = []; const dashHandlers = []; const wixWindow = { postMessage(message, origin) { dashSent.push({ message, origin }); } }; const iframeWindow = { postMessage(message, origin) { dashSent.push({ message, origin, iframe: true }); } };
-const dashContext = { DAILY_CHECKIN_ORIGIN: dailyOrigin, TARGET_ORIGIN: wixOrigin, bridgeReady: false, bridgeRequests: new Map(), bridgeSeen: new Set(), bridgePending: new Map(), checkinFrame: { contentWindow: iframeWindow }, window: { parent: wixWindow, addEventListener(type, fn) { if (type === 'message') dashHandlers.push(fn); } }, loadLiveProgress() {}, clearTimeout, setTimeout };
+const dashContext = { DAILY_CHECKIN_ORIGIN: dailyOrigin, TARGET_ORIGIN: wixOrigin, bridgeReady: false, bridgeRequests: new Map(), bridgeSeen: new Set(), bridgePending: new Map(), checkinFrame: { contentWindow: iframeWindow }, window: { parent: wixWindow, addEventListener(type, fn) { if (type === 'message') dashHandlers.push(fn); } }, loadLiveProgress() {}, clearTimeout, setTimeout, clearInterval() {}, setInterval() { return 1; } };
 vm.createContext(dashContext);
 vm.runInContext(`var BRIDGE_ACTIONS=new Set(['list','previewRecommendations','startLoop','markSkillOpened','completeLoop','dismissLoop','getReflection']),bridgeRequests=new Map(),bridgeSeen=new Set(),bridgePending=new Map(),bridgeReady=false;window.addEventListener=function(type,fn){if(type==='message')this._handler=fn};${dashListener}`, dashContext);
 const dh = dashContext.window._handler; assert(dh, 'dashboard handler extracted');
