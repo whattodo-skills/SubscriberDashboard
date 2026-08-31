@@ -6,6 +6,7 @@ const vm = require('vm');
 const frontend = fs.readFileSync('daily-check-in.html', 'utf8');
 const dashboard = fs.readFileSync('subscriber-dashboard-shell.html', 'utf8');
 const backend = fs.readFileSync('wix-backend/http-functions.js', 'utf8');
+const webValidator = fs.readFileSync('../Subscriber-Dashboard-AUG2026/src/backend/daily-check-in.web.js', 'utf8');
 const approval = fs.readFileSync('Decision-Loop-Phase-1-Approval.md', 'utf8');
 
 function contextFor(code) {
@@ -110,6 +111,7 @@ assert(startLoop.includes('wixData.insert(DECISION_LOOPS'), 'Decision Loop start
 const dailySave = backend.slice(backend.indexOf('async function saveLegacy'), backend.indexOf('export async function getCheckins'));
 assert(dailySave.includes('wixData.insert(CHECKINS'), 'Daily Check-In must remain in MoodCheckIns');
 assert(!dailySave.includes('DECISION_LOOPS'), 'Daily Check-In must not write to DecisionLoops');
+assert(webValidator.includes("input[key] !== undefined && input[key] !== null"), 'optional intensity ratings must allow null');
 
 console.log('Decision Loop regression tests: 10/10 PASS');
 console.log(`Canonical routed ID validation: ${canonicalIds.size} skills, ${frontendRouteIds.length} frontend route slots, ${backendRouteIds.length} backend route slots PASS`);
