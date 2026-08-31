@@ -92,7 +92,7 @@ assert(!frontend.includes('var WHY='), 'generic browser rationale map must be re
 const submissionQuery = startLoop.indexOf(".eq('memberId', memberId)\n      .eq('submissionId', submissionId)");
 assert(submissionQuery > -1, 'memberId + submissionId query missing');
 assert(startLoop.indexOf('idempotentReplay: true') > submissionQuery, 'existing submission must be returned');
-assert(submissionQuery < startLoop.indexOf('const items = await memberItems(memberId)'), 'idempotency query must run before active-loop and insert logic');
+assert(submissionQuery < startLoop.indexOf('const items = await memberLoops(memberId)'), 'idempotency query must run before active-loop and insert logic');
 assert(submissionQuery < startLoop.indexOf('wixData.insert'), 'idempotency query must run before insert');
 
 // 9. Practice-stage failures retain the original action, Retry resubmits it,
@@ -103,7 +103,15 @@ assert(frontend.includes('if(st.retryAction){var retry=st.retryAction;st.saving=
 assert(frontend.includes('Your check-in was saved, but the practice page could not open.'), 'post-save handoff failure must be distinguished from save failure');
 assert(frontend.includes('Error: "+code'), 'the Wix backend error code must be visible for diagnosis');
 
-console.log('Decision Loop regression tests: 9/9 PASS');
+// 10. Help Me Decide and Daily Check-In persist to separate CMS collections.
+assert(backend.includes("const DECISION_LOOPS = 'DecisionLoops'"), 'dedicated DecisionLoops collection is required');
+assert(startLoop.includes('wixData.query(DECISION_LOOPS)'), 'Decision Loop idempotency must query DecisionLoops');
+assert(startLoop.includes('wixData.insert(DECISION_LOOPS'), 'Decision Loop start must insert into DecisionLoops');
+const dailySave = backend.slice(backend.indexOf('async function saveLegacy'), backend.indexOf('export async function getCheckins'));
+assert(dailySave.includes('wixData.insert(CHECKINS'), 'Daily Check-In must remain in MoodCheckIns');
+assert(!dailySave.includes('DECISION_LOOPS'), 'Daily Check-In must not write to DecisionLoops');
+
+console.log('Decision Loop regression tests: 10/10 PASS');
 console.log(`Canonical routed ID validation: ${canonicalIds.size} skills, ${frontendRouteIds.length} frontend route slots, ${backendRouteIds.length} backend route slots PASS`);
 console.log(`Skill-specific rationale validation: ${rationaleCount} outcome-skill combinations PASS`);
 console.log('memberId + submissionId idempotency enforcement: PASS');
