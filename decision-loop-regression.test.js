@@ -95,7 +95,15 @@ assert(startLoop.indexOf('idempotentReplay: true') > submissionQuery, 'existing 
 assert(submissionQuery < startLoop.indexOf('const items = await memberItems(memberId)'), 'idempotency query must run before active-loop and insert logic');
 assert(submissionQuery < startLoop.indexOf('wixData.insert'), 'idempotency query must run before insert');
 
-console.log('Decision Loop regression tests: 8/8 PASS');
+// 9. Practice-stage failures retain the original action, Retry resubmits it,
+// and a failed Learn handoff cannot be mislabeled as a failed check-in save.
+assert(frontend.includes('st.retryAction=function(){begin(open)}'), 'Practice/Save action must be retained for Retry');
+assert(frontend.includes('st.retryAction=none'), 'no-skill action must be retained for Retry');
+assert(frontend.includes('if(st.retryAction){var retry=st.retryAction;st.saving=false;retry()}'), 'Retry must resubmit the retained action');
+assert(frontend.includes('Your check-in was saved, but the practice page could not open.'), 'post-save handoff failure must be distinguished from save failure');
+assert(frontend.includes('Error: "+code'), 'the Wix backend error code must be visible for diagnosis');
+
+console.log('Decision Loop regression tests: 9/9 PASS');
 console.log(`Canonical routed ID validation: ${canonicalIds.size} skills, ${frontendRouteIds.length} frontend route slots, ${backendRouteIds.length} backend route slots PASS`);
 console.log(`Skill-specific rationale validation: ${rationaleCount} outcome-skill combinations PASS`);
 console.log('memberId + submissionId idempotency enforcement: PASS');
