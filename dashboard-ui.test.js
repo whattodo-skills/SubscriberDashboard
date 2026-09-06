@@ -3,6 +3,7 @@ const assert = require('assert');
 const fs = require('fs');
 
 const dashboard = fs.readFileSync('subscriber-dashboard-shell.html', 'utf8');
+const decision = fs.readFileSync('daily-check-in.html', 'utf8');
 
 assert(dashboard.includes('sectionOrder=["daily-check-in","help-me-decide","stack","practice","learning","learning-progress","deeper","support"]'));
 for (const id of ['daily-check-in', 'help-me-decide', 'practice', 'learning']) {
@@ -13,6 +14,11 @@ assert(dashboard.includes('window.open(url,"_blank","noopener,noreferrer")'));
 assert(dashboard.includes('Search more skills here'));
 assert(!dashboard.includes('Explore More Skills'));
 assert(!dashboard.includes('Browse by category'));
+assert(!dashboard.includes('checkin-panel-head"><h3>Help Me Decide</h3>'));
+assert(!decision.includes('<h1>Help Me Decide</h1>'));
+assert(!dashboard.includes('Choose something to practice'));
+assert(decision.includes('"_blank","noopener,noreferrer"'));
+assert(!decision.includes('"_top"'));
 assert(dashboard.includes('Practice history could not load. Please retry.'));
 assert(dashboard.includes('Your Skills Stack could not load. Please retry.'));
 assert(dashboard.includes('Learning summary could not load. Please retry.'));
