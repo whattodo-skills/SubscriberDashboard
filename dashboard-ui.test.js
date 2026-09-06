@@ -29,4 +29,12 @@ assert(backend.includes("item.status === 'completed' && item.completedAt"));
 assert(backend.includes("wixData.query(COMPLETIONS).eq('memberId', memberId)"));
 assert(backend.includes("allQueryItems(wixData.query(STACKS).eq('memberId', memberId)"));
 
+const completionPage = fs.readFileSync('src/pages/Skills.ndfyp.js', 'utf8');
+const completionBackend = fs.readFileSync('wix-backend/skill-completion-addon.js', 'utf8');
+assert(completionPage.includes("data.type !== 'skillComplete'"));
+assert(completionPage.includes('recordSkillCompletion'));
+assert(completionBackend.includes('Permissions.SiteMember'));
+assert(completionBackend.includes(".eq('memberId', entitlement.memberId).eq('sessionKey', sessionKey)"));
+assert(completionBackend.includes('duplicate:true'));
+
 console.log('Dashboard order, accordion, navigation, and error-state checks: PASS');
