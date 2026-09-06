@@ -21,6 +21,7 @@ assert(!decision.includes('<h1>Help Me Decide</h1>'));
 assert(!dashboard.includes('Choose something to practice'));
 assert(decision.includes('"_blank","noopener,noreferrer"'));
 assert(!decision.includes('"_top"'));
+assert(dashboard.includes('if(button.dataset.collapse==="help-me-decide")setDecisionOpen(opening)'));
 assert(dashboard.includes('Practice history could not load. Please retry.'));
 assert(dashboard.includes('Your Skills Stack could not load. Please retry.'));
 assert(dashboard.includes('Learning summary could not load. Please retry.'));
