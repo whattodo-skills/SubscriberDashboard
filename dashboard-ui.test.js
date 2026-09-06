@@ -40,6 +40,8 @@ assert(backend.includes("const COMPLETIONS = 'SkillCompletions'"));
 assert(backend.includes("item.status === 'completed' && item.completedAt"));
 assert(backend.includes("wixData.query(COMPLETIONS).eq('memberId', memberId)"));
 assert(backend.includes("allQueryItems(wixData.query(STACKS).eq('memberId', memberId)"));
+const dailyWeb = fs.readFileSync('wix-backend/daily-check-in.web.js', 'utf8');
+assert(dailyWeb.includes("input[key] !== '' && input[key] !== 0"));
 
 const completionPage = fs.readFileSync('src/pages/Skills.ndfyp.js', 'utf8');
 const completionBackend = fs.readFileSync('wix-backend/skill-completion-addon.js', 'utf8');
