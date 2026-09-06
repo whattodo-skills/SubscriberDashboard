@@ -1,5 +1,6 @@
 import { Permissions, webMethod } from 'wix-web-module';
 import { currentMember } from 'wix-members-backend';
+import { getCurrentEntitlement } from 'backend/subscriberAccess';
 import { listForMember, saveCheckinForMember, previewForMember, startForMember, markSkillOpenedForMember, completeForMember, dismissForMember, getReflectionForMember } from './daily-check-in-service';
 import { saveStackForMember, removeStackForMember } from './http-functions';
 
@@ -55,6 +56,11 @@ export const dailyCheckIn = webMethod(Permissions.SiteMember, async ({ action, e
   if (!ACTIONS.has(action)) throw new Error('unsupported_action');
   const member = await currentMember.getMember();
   if (!member?._id) throw new Error('authenticated_member_required');
+  if (action === 'saveStack' || action === 'removeStack') {
+    const entitlement = await getCurrentEntitlement();
+    if (!entitlement.memberId || entitlement.memberId !== member._id) throw new Error('authenticated_member_required');
+    if (!entitlement.paid) throw new Error('paid_plan_required');
+  }
   const source = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : legacyEntry;
   const safe = validate(action, { ...source });
   // Service functions must query/update by both check-in ID and this member ID.

@@ -11,6 +11,8 @@ assert(web.includes('currentMember.getMember()'));
 assert(web.includes("if (!member?._id) throw new Error('authenticated_member_required')"));
 assert(web.includes("const source = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : legacyEntry;"));
 assert(web.includes("const safe = validate(action, { ...source });"));
+assert(web.includes("action === 'saveStack' || action === 'removeStack'"));
+assert(web.includes("if (!entitlement.paid) throw new Error('paid_plan_required')"));
 assert(web.includes('never spread `safe` into a record'));
 assert(page.includes("data.type !== 'dashboardBridgeReady'"));
 assert(page.includes("component.postMessage({ type: 'bridgeReady' })"));

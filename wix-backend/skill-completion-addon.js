@@ -6,6 +6,7 @@ const SKILL_COMPLETIONS = 'SkillCompletions';
 export const recordSkillCompletion = webMethod(Permissions.SiteMember, async (entry) => {
   const entitlement = await getCurrentEntitlement();
   if (!entitlement.memberId) throw safeError('LOGIN_REQUIRED');
+  if (!entitlement.paid) throw safeError('PAID_PLAN_REQUIRED');
   const skillSlug = String(entry?.skillSlug || '').trim().slice(0, 120);
   const skillTitle = String(entry?.skillTitle || '').trim().slice(0, 200);
   const completionType = String(entry?.completionType || 'finish').trim().slice(0, 80);

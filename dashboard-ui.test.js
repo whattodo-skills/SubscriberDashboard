@@ -34,6 +34,7 @@ const completionBackend = fs.readFileSync('wix-backend/skill-completion-addon.js
 assert(completionPage.includes("data.type !== 'skillComplete'"));
 assert(completionPage.includes('recordSkillCompletion'));
 assert(completionBackend.includes('Permissions.SiteMember'));
+assert(completionBackend.includes("if (!entitlement.paid) throw safeError('PAID_PLAN_REQUIRED')"));
 assert(completionBackend.includes(".eq('memberId', entitlement.memberId).eq('sessionKey', sessionKey)"));
 assert(completionBackend.includes('duplicate:true'));
 
