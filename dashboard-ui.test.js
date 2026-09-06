@@ -7,8 +7,8 @@ const decision = fs.readFileSync('daily-check-in.html', 'utf8');
 const decisionCompact = decision.replace(/\s+/g, '');
 const dailyCheckin = fs.readFileSync('emotion-feeling-check-in.html', 'utf8');
 
-assert(dashboard.includes('sectionOrder=["daily-check-in","help-me-decide","stack","practice","learning","learning-progress","deeper","support"]'));
-for (const id of ['daily-check-in', 'help-me-decide', 'practice', 'learning']) {
+assert(dashboard.includes('sectionOrder=["daily-check-in","help-me-decide","stack","learning","learning-progress","deeper","support"]'));
+for (const id of ['daily-check-in', 'help-me-decide', 'learning']) {
   assert(dashboard.includes(`ensureCollapsible("${id}"`), `${id} must be an accordion`);
 }
 assert(dashboard.includes('toggle.textContent=open?"▲":"▼"'));
@@ -34,7 +34,16 @@ assert(dashboard.includes('Learning summary could not load. Please retry.'));
 assert(dashboard.includes('feeling:String(item&&item.feeling||"").trim()'));
 assert(dashboard.includes('No skill practice has been recorded yet.'));
 assert(dashboard.includes('document.getElementById("learningMood").textContent=latest'));
-assert(dashboard.includes('Saved and archived skills ('));
+assert(dashboard.includes("Skills you've practiced"));
+assert(!dashboard.includes('Saved and archived skills'));
+assert(!dashboard.includes('Close Decision Loop'));
+assert(!dashboard.includes('ensureCollapsible("practice"'));
+assert.strictEqual((dashboard.match(/id="practice"/g) || []).length, 1);
+assert.strictEqual((dashboard.match(/id="practice-history"/g) || []).length, 1);
+assert(dashboard.indexOf('id="practice"') > dashboard.indexOf('id="stackContent"'));
+assert(dashboard.indexOf('id="practice-history"') > dashboard.indexOf('id="practice"'));
+assert(dashboard.indexOf("Skills you've practiced") > dashboard.indexOf('id="practice-history"'));
+assert(dashboard.includes('data-replaced-skill-url'));
 assert(dashboard.includes('data-practice-id='));
 assert(dashboard.includes('Array.isArray(DASHBOARD_DATA.practiceHistory)'));
 assert(dashboard.includes('renderDeeperResources()'));
@@ -57,6 +66,7 @@ assert(backend.includes("wixData.query(COMPLETIONS).eq('memberId', memberId)"));
 assert(backend.includes("allQueryItems(wixData.query(STACKS).eq('memberId', memberId)"));
 const dailyWeb = fs.readFileSync('wix-backend/daily-check-in.web.js', 'utf8');
 assert(dailyWeb.includes("action === 'startLoop' && key === 'intensityBefore'"));
+assert(dailyWeb.includes("restartLoop: ['checkinId']"));
 
 const completionPage = fs.readFileSync('src/pages/Skills.ndfyp.js', 'utf8');
 const completionBackend = fs.readFileSync('wix-backend/skill-completion-addon.js', 'utf8');

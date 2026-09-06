@@ -1,4 +1,4 @@
-import { getCheckins, getValues, getStacks, getArchivedStacks, getPracticeHistory, getPendingLoop, saveCheckin, previewRecommendations, startLoop, updateStatus, completeLoop, getReflection } from './http-functions';
+import { getCheckins, getValues, getStacks, getArchivedStacks, getPracticeHistory, getPendingLoop, saveCheckin, previewRecommendations, startLoop, updateStatus, restartLoop, completeLoop, getReflection } from './http-functions';
 import { learningResourcesForMember } from './learning-resources';
 
 export async function listForMember(memberId, access = {}) {
@@ -12,4 +12,5 @@ export function startForMember(memberId, entry) { return startLoop(memberId, ent
 export function markSkillOpenedForMember(memberId, entry) { return updateStatus(memberId, entry.checkinId, 'learn_pending'); }
 export function completeForMember(memberId, entry) { return completeLoop(memberId, entry, false); }
 export function dismissForMember(memberId, entry) { return completeLoop(memberId, entry, true); }
+export function restartForMember(memberId, entry) { return restartLoop(memberId, entry.checkinId); }
 export function getReflectionForMember(memberId, entry) { return getReflection(memberId, entry.checkinId); }

@@ -204,6 +204,7 @@ export async function post_dailyCheckIn(request) {
     else if (action === 'markSkillOpened') result = await updateStatus(subscriber.id, entry.checkinId, 'learn_pending');
     else if (action === 'completeLoop') result = await completeLoop(subscriber.id, entry, false);
     else if (action === 'dismissLoop') result = await completeLoop(subscriber.id, entry, true);
+    else if (action === 'restartLoop') result = await restartLoop(subscriber.id, entry.checkinId);
     else if (action === 'getReflection') return response(ok, await getReflection(subscriber.id, entry.checkinId));
     else if (action === 'saveStack') result = await saveStackForMember(subscriber.id, entry.skill);
     else if (action === 'removeStack') result = await removeStackForMember(subscriber.id, entry.catKey);
@@ -286,7 +287,7 @@ export async function startLoop(memberId, entry) {
     }
   }
   const items = await memberLoops(memberId);
-  const active = items.find(item => item.loopVersion === 'decision-loop-v1' && item.loopStatus !== 'complete');
+  const active = items.find(item => item.loopVersion === 'decision-loop-v1' && ['recommended', 'learn_pending'].includes(item.loopStatus));
   if (active) return { checkinId: active._id, resumedExisting: true };
   const today = dateKey(entry.date || new Date());
   if (!today || !entry.noticeSelection || !entry.understandInfluence || !entry.understandPriority || !entry.selectedCategory || !entry.selectedOutcome) throw new Error('invalid_loop');
@@ -343,6 +344,15 @@ export async function updateStatus(memberId, checkinId, status) {
   return { checkinId: item._id };
 }
 
+export async function restartLoop(memberId, checkinId) {
+  const item = await owned(memberId, checkinId);
+  if (item.loopStatus === 'complete') throw new Error('completed_loop_cannot_restart');
+  item.loopStatus = 'restarted';
+  item.restartedDate = new Date();
+  await wixData.update(DECISION_LOOPS, item, OPTIONS);
+  return { checkinId: item._id, restarted: true };
+}
+
 export async function completeLoop(memberId, entry, dismissed) {
   const item = await owned(memberId, entry.checkinId);
   item.loopStatus = 'complete';
@@ -374,7 +384,7 @@ export async function getReflection(memberId, id) {
 
 export async function getPendingLoop(memberId) {
   const items = await memberLoops(memberId);
-  const item = items.filter(x => x.loopVersion === 'decision-loop-v1' && x.loopStatus !== 'complete').sort((a, b) => new Date(b._updatedDate).getTime() - new Date(a._updatedDate).getTime())[0];
+  const item = items.filter(x => x.loopVersion === 'decision-loop-v1' && ['recommended', 'learn_pending'].includes(x.loopStatus)).sort((a, b) => new Date(b._updatedDate).getTime() - new Date(a._updatedDate).getTime())[0];
   if (!item) return null;
   let selectedSkill = null;
   if (item.selectedSkillId) {
@@ -476,9 +486,11 @@ export async function getStacks(memberId) {
 
 export async function getArchivedStacks(memberId) {
   const items = await allQueryItems(wixData.query(STACKS).eq('memberId', memberId), READ_OPTIONS);
-  return items.filter(item => item.stacked !== true || item.status === 'archived').map(item => ({
+  return items.filter(item => item.stacked !== true && item.status === 'archived').map(item => ({
     ...stackPayload(item, null),
-    status: item.status || 'archived'
+    status: 'archived',
+    replacedAt: receiptDate(item.replacedAt || item.lastActionAt || item._updatedDate),
+    replacedBySkillId: item.replacedBySkillId || ''
   })).sort((a, b) => String(b.lastActionAt || b.stackedAt || '').localeCompare(String(a.lastActionAt || a.stackedAt || '')));
 }
 
@@ -547,12 +559,19 @@ export async function saveStackForMember(memberId, requestedSkill = {}) {
   const catLabel = STACK_CATEGORIES.get(catKey);
   if (!catLabel) throw new Error('invalid_skill_category');
   const result = await wixData.query(STACKS).eq('memberId', memberId).eq('catKey', catKey).limit(100).find(READ_OPTIONS);
-  const existing = result.items.sort((a, b) => Date.parse(String(b.lastActionAt || b._updatedDate || 0)) - Date.parse(String(a.lastActionAt || a._updatedDate || 0)))[0];
+  const current = result.items.filter(item => item.stacked === true && item.status !== 'removed').sort((a, b) => Date.parse(String(b.lastActionAt || b._updatedDate || 0)) - Date.parse(String(a.lastActionAt || a._updatedDate || 0)))[0];
   const now = new Date();
   const values = { memberId, skillId: skill._id, skillName: clean(skill.name, 200), skillSlug: clean(skill.slug, 200), catKey, catLabel, practiceUrl: clean(canonicalUrl(skill), 500), status: 'stacked', stacked: true, lastActionAt: now, stackedAt: now };
-  const saved = existing ? await wixData.update(STACKS, { ...existing, ...values }, OPTIONS) : await wixData.insert(STACKS, values, OPTIONS);
-  await Promise.all(result.items.filter(item => item._id !== saved._id).map(item => wixData.update(STACKS, { ...item, ...normalizedPracticeUrlFields(item), stacked: false, status: 'archived', lastActionAt: now }, OPTIONS)));
-  return { ok: true, replaced: existing && existing.skillId !== skill._id ? stackPayload(existing, null) : null, saved: stackPayload(saved, skill), stacks: await getStacks(memberId) };
+  if (current && current.skillId === skill._id) {
+    const saved = await wixData.update(STACKS, { ...current, ...values, stackedAt: current.stackedAt || now }, OPTIONS);
+    const stranded = result.items.filter(item => item.stacked === true && item._id !== saved._id && item.skillId !== skill._id);
+    await Promise.all(stranded.map(item => wixData.update(STACKS, { ...item, ...normalizedPracticeUrlFields(item), stacked: false, status: 'archived', lastActionAt: now, replacedAt: now, replacedBySkillId: skill._id }, OPTIONS)));
+    return { ok: true, duplicate: true, replaced: null, saved: stackPayload(saved, skill), stacks: await getStacks(memberId), archivedStacks: await getArchivedStacks(memberId) };
+  }
+  const replaced = current || null;
+  const saved = await wixData.insert(STACKS, values, OPTIONS);
+  await Promise.all(result.items.filter(item => item.stacked === true).map(item => wixData.update(STACKS, { ...item, ...normalizedPracticeUrlFields(item), stacked: false, status: 'archived', lastActionAt: now, replacedAt: now, replacedBySkillId: skill._id }, OPTIONS)));
+  return { ok: true, duplicate: false, replaced: replaced ? stackPayload(replaced, null) : null, saved: stackPayload(saved, skill), stacks: await getStacks(memberId), archivedStacks: await getArchivedStacks(memberId) };
 }
 
 export async function removeStackForMember(memberId, catKeyValue) {

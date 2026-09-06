@@ -20,7 +20,7 @@ assert(page.includes("data.type !== 'dailyCheckInBridgeRequest'"));
 assert(page.includes('seen.has(data.requestId)'));
 assert(page.includes('seen.add(data.requestId)'));
 assert(page.includes('requestId: data.requestId'));
-for (const action of ['list', 'previewRecommendations', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop', 'getReflection']) {
+for (const action of ['list', 'previewRecommendations', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop', 'restartLoop', 'getReflection']) {
   assert(web.includes(`'${action}'`), `web method missing ${action}`);
   assert(page.includes(`'${action}'`), `bridge allowlist missing ${action}`);
 }

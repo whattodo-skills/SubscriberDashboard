@@ -113,7 +113,17 @@ assert(dailySave.includes('wixData.insert(CHECKINS'), 'Daily Check-In must remai
 assert(!dailySave.includes('DECISION_LOOPS'), 'Daily Check-In must not write to DecisionLoops');
 assert(webValidator.includes("input[key] !== undefined && input[key] !== null"), 'optional intensity ratings must allow null');
 
-console.log('Decision Loop regression tests: 10/10 PASS');
+// 11. Exit restarts an unfinished loop at Notice without closing the dashboard,
+// and a failed restart preserves the current answers for Retry.
+assert(frontend.includes('function resetToNotice()'), 'Exit reset helper missing');
+assert(frontend.includes('api("restartLoop",{checkinId:st.checkinId})'), 'persisted unfinished loop must be restarted through Wix');
+assert(frontend.includes('st.retryAction=exit'), 'failed restart must retain the Exit action for Retry');
+assert(frontend.includes('Your answers are still here so you can retry.'), 'failed restart must preserve answers');
+assert(!frontend.includes('post({type:"dailyCheckInClose"})'), 'Exit must not close Help Me Decide');
+assert(backend.includes("item.loopStatus = 'restarted'"), 'backend restart state missing');
+assert(backend.includes("['recommended', 'learn_pending'].includes(x.loopStatus)"), 'restarted loops must not resume after reload');
+
+console.log('Decision Loop regression tests: 11/11 PASS');
 console.log(`Canonical routed ID validation: ${canonicalIds.size} skills, ${frontendRouteIds.length} frontend route slots, ${backendRouteIds.length} backend route slots PASS`);
 console.log(`Skill-specific rationale validation: ${rationaleCount} outcome-skill combinations PASS`);
 console.log('memberId + submissionId idempotency enforcement: PASS');
