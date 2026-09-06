@@ -1,8 +1,10 @@
 import { getCheckins, getValues, getStacks, getArchivedStacks, getPracticeHistory, getPendingLoop, saveCheckin, previewRecommendations, startLoop, updateStatus, completeLoop, getReflection } from './http-functions';
+import { learningResourcesForMember } from './learning-resources';
 
-export async function listForMember(memberId) {
+export async function listForMember(memberId, access = {}) {
   const [checkins, values, stacks, archivedStacks, practiceHistory, pendingLoop] = await Promise.all([getCheckins(memberId), getValues(memberId), getStacks(memberId), getArchivedStacks(memberId), getPracticeHistory(memberId), getPendingLoop(memberId)]);
-  return { checkins, values, stacks, archivedStacks, practiceHistory, recentActivity: practiceHistory, pendingLoop };
+  const learningResources = learningResourcesForMember({ pendingLoop, practiceHistory, stacks, archivedStacks, paid: access.paid });
+  return { checkins, values, stacks, archivedStacks, practiceHistory, recentActivity: practiceHistory, pendingLoop, learningResources };
 }
 export function saveCheckinForMember(memberId, entry) { return saveCheckin(memberId, entry); }
 export function previewForMember(entry) { return previewRecommendations(entry); }

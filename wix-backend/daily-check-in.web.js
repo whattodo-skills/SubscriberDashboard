@@ -75,7 +75,11 @@ export const dailyCheckIn = webMethod(Permissions.SiteMember, async ({ action, e
 });
 
 async function dispatchAction(action, memberId, entry) {
-  if (action === 'list') return listForMember(memberId);
+  if (action === 'list') {
+    const entitlement = await getCurrentEntitlement();
+    if (!entitlement.memberId || entitlement.memberId !== memberId) throw new Error('authenticated_member_required');
+    return listForMember(memberId, entitlement);
+  }
   if (action === 'saveCheckin') return saveCheckinForMember(memberId, entry);
   if (action === 'previewRecommendations') return previewForMember(entry);
   if (action === 'startLoop') return startForMember(memberId, entry);

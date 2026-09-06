@@ -35,6 +35,8 @@ assert(dashboard.includes('document.getElementById("learningMood").textContent=l
 assert(dashboard.includes('Saved and archived skills ('));
 assert(dashboard.includes('data-practice-id='));
 assert(dashboard.includes('Array.isArray(DASHBOARD_DATA.practiceHistory)'));
+assert(dashboard.includes('renderDeeperResources()'));
+assert(dashboard.includes('learningResources'));
 
 const backend = fs.readFileSync('wix-backend/http-functions.js', 'utf8');
 assert(backend.includes("const COMPLETIONS = 'SkillCompletions'"));
