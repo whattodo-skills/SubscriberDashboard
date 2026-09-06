@@ -1,6 +1,7 @@
 import { ok, badRequest, serverError } from 'wix-http-functions';
 import wixData from 'wix-data';
 import { currentMember } from 'wix-members-backend';
+import { createCheckinPersistence } from './check-in-idempotency';
 
 const CHECKINS = 'MoodCheckIns';
 const DECISION_LOOPS = 'DecisionLoops';
@@ -196,6 +197,7 @@ export async function post_dailyCheckIn(request) {
     const entry = body?.entry || {};
     let result = {};
     if (action === 'save') result = await saveLegacy(subscriber.id, entry);
+    else if (action === 'saveCheckin') result = await saveCheckin(subscriber.id, entry);
     else if (action === 'previewRecommendations') result = await previewRecommendations(entry);
     else if (action === 'startLoop') result = await startLoop(subscriber.id, entry);
     else if (action === 'markSkillOpened') result = await updateStatus(subscriber.id, entry.checkinId, 'learn_pending');
@@ -235,12 +237,22 @@ async function getSubscriber(body) {
   return { id: '', firstName: '' };
 }
 
+async function allQueryItems(query, options = OPTIONS) {
+  let result = await query.limit(1000).find(options);
+  const items = [...result.items];
+  while (result.hasNext()) {
+    result = await result.next();
+    items.push(...result.items);
+  }
+  return items;
+}
+
 async function memberItems(memberId) {
-  return (await wixData.query(CHECKINS).eq('memberId', memberId).limit(1000).find(OPTIONS)).items;
+  return allQueryItems(wixData.query(CHECKINS).eq('memberId', memberId), READ_OPTIONS);
 }
 
 async function memberLoops(memberId) {
-  return (await wixData.query(DECISION_LOOPS).eq('memberId', memberId).limit(1000).find(OPTIONS)).items;
+  return allQueryItems(wixData.query(DECISION_LOOPS).eq('memberId', memberId), READ_OPTIONS);
 }
 
 export async function previewRecommendations(entry) {
@@ -396,9 +408,59 @@ async function saveLegacy(memberId, entry) {
   return { checkinId: saved._id };
 }
 
+function normalizedCheckin(item) {
+  return {
+    _id: item._id,
+    submissionId: item.submissionId || item._id,
+    date: dateKey(item.date),
+    emotion: item.emotion || '',
+    feeling: item.feeling || item.emotion || ''
+  };
+}
+
+function sameCheckinSubmission(item, expected) {
+  return dateKey(item.date) === expected.date &&
+    clean(item.emotion, 80) === expected.emotion &&
+    clean(item.feeling, 80) === expected.feeling;
+}
+
+async function findCheckinSubmission(memberId, submissionId) {
+  const result = await wixData.query(CHECKINS)
+    .eq('_id', submissionId)
+    .eq('memberId', memberId)
+    .limit(1)
+    .find(READ_OPTIONS);
+  return result.items[0] || null;
+}
+
+export async function saveCheckin(memberId, entry) {
+  if (!memberId || !entry?.submissionId || !entry.emotion || !entry.feeling) throw new Error('invalid_checkin');
+  const submissionId = clean(entry.submissionId, 120);
+  if (!/^[A-Za-z0-9_-]{1,80}$/.test(submissionId)) throw new Error('invalid_submission_id');
+  const expected = {
+    date: dateKey(entry.date || new Date()),
+    emotion: clean(entry.emotion, 80),
+    feeling: clean(entry.feeling, 80)
+  };
+  if (!expected.date || !expected.emotion || !expected.feeling) throw new Error('invalid_checkin');
+
+  const persist = createCheckinPersistence({
+    findOwned: findCheckinSubmission,
+    insert: record => wixData.insert(CHECKINS, record, OPTIONS),
+    listHistory: getCheckins,
+    normalize: normalizedCheckin,
+    matches: sameCheckinSubmission
+  });
+  return persist({
+    memberId,
+    submissionId,
+    record: { date: dateValue(expected.date), emotion: expected.emotion, feeling: expected.feeling }
+  });
+}
+
 export async function getCheckins(memberId) {
   const items = await memberItems(memberId);
-  return items.map(item => ({ date: dateKey(item.date), emotion: item.emotion || '', feeling: item.feeling || item.emotion || '', loopStatus: item.loopStatus || '', selectedOutcome: item.selectedOutcome || '', selectedSkillTitle: item.selectedSkillTitleSnapshot || '' })).filter(x => x.date).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30);
+  return items.map(item => ({ _id: item._id, submissionId: item.submissionId || '', date: dateKey(item.date), emotion: item.emotion || '', feeling: item.feeling || item.emotion || '', loopStatus: item.loopStatus || '', selectedOutcome: item.selectedOutcome || '', selectedSkillTitle: item.selectedSkillTitleSnapshot || '' })).filter(x => x.date).sort((a, b) => b.date.localeCompare(a.date));
 }
 export async function getValues(memberId) {
   const item = (await wixData.query(VALUES).eq('memberId', memberId).limit(1).find(OPTIONS)).items[0];

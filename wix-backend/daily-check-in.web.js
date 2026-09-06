@@ -1,9 +1,9 @@
 import { Permissions, webMethod } from 'wix-web-module';
 import { currentMember } from 'wix-members-backend';
-import { listForMember, previewForMember, startForMember, markSkillOpenedForMember, completeForMember, dismissForMember, getReflectionForMember } from './daily-check-in-service';
+import { listForMember, saveCheckinForMember, previewForMember, startForMember, markSkillOpenedForMember, completeForMember, dismissForMember, getReflectionForMember } from './daily-check-in-service';
 import { saveStackForMember, removeStackForMember } from './http-functions';
 
-const ACTIONS = new Set(['list', 'previewRecommendations', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop', 'getReflection', 'saveStack', 'removeStack']);
+const ACTIONS = new Set(['list', 'saveCheckin', 'previewRecommendations', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop', 'getReflection', 'saveStack', 'removeStack']);
 const MAX = { submissionId: 120, checkinId: 80, selectedSkillId: 80, selectedCategory: 40, selectedOutcome: 120, reflection: 600 };
 const IDS = /^[A-Za-z0-9_-]{1,80}$/;
 const STATUS = new Set(['recommended', 'learn_pending', 'complete']);
@@ -16,16 +16,18 @@ function id(value) { const result = text(value, MAX.checkinId); if (!IDS.test(re
 function validate(action, input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('invalid_entry');
   const allowed = {
-    list: [], previewRecommendations: ['selectedCategory', 'selectedOutcome'],
+    list: [], saveCheckin: ['submissionId', 'date', 'emotion', 'feeling'], previewRecommendations: ['selectedCategory', 'selectedOutcome'],
     startLoop: ['submissionId', 'date', 'noticeSelection', 'emotion', 'intensityBefore', 'understandInfluence', 'understandPriority', 'selectedCategory', 'selectedOutcome', 'recommendedSkillIds', 'selectedSkillId', 'practiceAction', 'completeWithoutSkill'],
     markSkillOpened: ['checkinId'], completeLoop: ['checkinId', 'learnResult', 'intensityAfter', 'carryForward', 'reflectionSaved', 'privateReflection'],
     dismissLoop: ['checkinId'], getReflection: ['checkinId'], saveStack: ['skill'], removeStack: ['catKey']
   }[action];
-  const required = { list: [], previewRecommendations: ['selectedCategory', 'selectedOutcome'], startLoop: ['submissionId'], markSkillOpened: ['checkinId'], completeLoop: ['checkinId'], dismissLoop: ['checkinId'], getReflection: ['checkinId'], saveStack: ['skill'], removeStack: ['catKey'] }[action];
+  const required = { list: [], saveCheckin: ['submissionId', 'emotion', 'feeling'], previewRecommendations: ['selectedCategory', 'selectedOutcome'], startLoop: ['submissionId'], markSkillOpened: ['checkinId'], completeLoop: ['checkinId'], dismissLoop: ['checkinId'], getReflection: ['checkinId'], saveStack: ['skill'], removeStack: ['catKey'] }[action];
   required.forEach((key) => { if (input[key] === undefined || input[key] === null || input[key] === '') throw new Error(`missing_${key}`); });
   Object.keys(input).forEach((key) => { if (!allowed.includes(key)) throw new Error('unknown_field'); });
   if (input.checkinId !== undefined) input.checkinId = id(input.checkinId);
   if (input.submissionId !== undefined) input.submissionId = text(input.submissionId, MAX.submissionId);
+  if (input.emotion !== undefined) input.emotion = text(input.emotion, 80);
+  if (input.feeling !== undefined) input.feeling = text(input.feeling, 80);
   if (input.selectedSkillId !== undefined) input.selectedSkillId = id(input.selectedSkillId);
   if (input.selectedCategory !== undefined) input.selectedCategory = text(input.selectedCategory, MAX.selectedCategory);
   if (input.selectedOutcome !== undefined) input.selectedOutcome = text(input.selectedOutcome, MAX.selectedOutcome);
@@ -61,6 +63,7 @@ export const dailyCheckIn = webMethod(Permissions.SiteMember, async ({ action, e
 
 async function dispatchAction(action, memberId, entry) {
   if (action === 'list') return listForMember(memberId);
+  if (action === 'saveCheckin') return saveCheckinForMember(memberId, entry);
   if (action === 'previewRecommendations') return previewForMember(entry);
   if (action === 'startLoop') return startForMember(memberId, entry);
   if (action === 'markSkillOpened') return markSkillOpenedForMember(memberId, entry);
