@@ -8,6 +8,7 @@ const DECISION_LOOPS = 'DecisionLoops';
 const SKILLS = 'Skills';
 const VALUES = 'MemberValues';
 const STACKS = 'WTD-FavoriteSkills';
+const COMPLETIONS = 'SkillCompletions';
 const OPTIONS = { suppressAuth: true };
 const READ_OPTIONS = { suppressAuth: true, consistentRead: true };
 const CORS = {
@@ -214,6 +215,8 @@ export async function post_dailyCheckIn(request) {
       checkins: await getCheckins(subscriber.id),
       values: subscriber.id.startsWith('client:') ? [] : await getValues(subscriber.id),
       stacks: subscriber.id.startsWith('client:') ? [] : await getStacks(subscriber.id),
+      archivedStacks: subscriber.id.startsWith('client:') ? [] : await getArchivedStacks(subscriber.id),
+      practiceHistory: subscriber.id.startsWith('client:') ? [] : await getPracticeHistory(subscriber.id),
       pendingLoop: await getPendingLoop(subscriber.id),
       ...result
     });
@@ -467,8 +470,30 @@ export async function getValues(memberId) {
   return item ? [item.value1, item.value2, item.value3].map(x => clean(x, 80)).filter(Boolean).slice(0, 3) : [];
 }
 export async function getStacks(memberId) {
-  const items = (await wixData.query(STACKS).eq('memberId', memberId).eq('stacked', true).limit(100).find(READ_OPTIONS)).items;
+  const items = await allQueryItems(wixData.query(STACKS).eq('memberId', memberId).eq('stacked', true), READ_OPTIONS);
   return items.map(item => stackPayload(item, null));
+}
+
+export async function getArchivedStacks(memberId) {
+  const items = await allQueryItems(wixData.query(STACKS).eq('memberId', memberId), READ_OPTIONS);
+  return items.filter(item => item.stacked !== true || item.status === 'archived').map(item => ({
+    ...stackPayload(item, null),
+    status: item.status || 'archived'
+  })).sort((a, b) => String(b.lastActionAt || b.stackedAt || '').localeCompare(String(a.lastActionAt || a.stackedAt || '')));
+}
+
+export async function getPracticeHistory(memberId) {
+  const items = await allQueryItems(wixData.query(COMPLETIONS).eq('memberId', memberId), READ_OPTIONS);
+  return items.filter(item => item.status === 'completed' && item.completedAt).map(item => ({
+    _id: item._id,
+    memberId: item.memberId,
+    skillId: item.skillId || '',
+    skillSlug: item.skillSlug || '',
+    skillName: item.skillTitle || item.skillName || 'Completed skill',
+    completedAt: receiptDate(item.completedAt),
+    status: 'completed',
+    completionType: item.notes || ''
+  })).sort((a, b) => String(b.completedAt || '').localeCompare(String(a.completedAt || '')));
 }
 
 const STACK_CATEGORIES = new Map([
@@ -522,7 +547,7 @@ export async function saveStackForMember(memberId, requestedSkill = {}) {
   const catLabel = STACK_CATEGORIES.get(catKey);
   if (!catLabel) throw new Error('invalid_skill_category');
   const result = await wixData.query(STACKS).eq('memberId', memberId).eq('catKey', catKey).limit(100).find(READ_OPTIONS);
-  const existing = result.items.sort((a, b) => new Date(b.lastActionAt || b._updatedDate || 0) - new Date(a.lastActionAt || a._updatedDate || 0))[0];
+  const existing = result.items.sort((a, b) => Date.parse(String(b.lastActionAt || b._updatedDate || 0)) - Date.parse(String(a.lastActionAt || a._updatedDate || 0)))[0];
   const now = new Date();
   const values = { memberId, skillId: skill._id, skillName: clean(skill.name, 200), skillSlug: clean(skill.slug, 200), catKey, catLabel, practiceUrl: clean(canonicalUrl(skill), 500), status: 'stacked', stacked: true, lastActionAt: now, stackedAt: now };
   const saved = existing ? await wixData.update(STACKS, { ...existing, ...values }, OPTIONS) : await wixData.insert(STACKS, values, OPTIONS);

@@ -19,5 +19,14 @@ assert(dashboard.includes('Learning summary could not load. Please retry.'));
 assert(dashboard.includes('feeling:String(item&&item.feeling||"").trim()'));
 assert(dashboard.includes('No skill practice has been recorded yet.'));
 assert(dashboard.includes('document.getElementById("learningMood").textContent=latest'));
+assert(dashboard.includes('Saved and archived skills ('));
+assert(dashboard.includes('data-practice-id='));
+assert(dashboard.includes('Array.isArray(DASHBOARD_DATA.practiceHistory)'));
+
+const backend = fs.readFileSync('wix-backend/http-functions.js', 'utf8');
+assert(backend.includes("const COMPLETIONS = 'SkillCompletions'"));
+assert(backend.includes("item.status === 'completed' && item.completedAt"));
+assert(backend.includes("wixData.query(COMPLETIONS).eq('memberId', memberId)"));
+assert(backend.includes("allQueryItems(wixData.query(STACKS).eq('memberId', memberId)"));
 
 console.log('Dashboard order, accordion, navigation, and error-state checks: PASS');
