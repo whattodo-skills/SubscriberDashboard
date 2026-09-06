@@ -4,6 +4,8 @@ const fs = require('fs');
 
 const dashboard = fs.readFileSync('subscriber-dashboard-shell.html', 'utf8');
 const decision = fs.readFileSync('daily-check-in.html', 'utf8');
+const decisionCompact = decision.replace(/\s+/g, '');
+const dailyCheckin = fs.readFileSync('emotion-feeling-check-in.html', 'utf8');
 
 assert(dashboard.includes('sectionOrder=["daily-check-in","help-me-decide","stack","practice","learning","learning-progress","deeper","support"]'));
 for (const id of ['daily-check-in', 'help-me-decide', 'practice', 'learning']) {
@@ -20,8 +22,8 @@ assert(!dashboard.includes('Browse by category'));
 assert(!dashboard.includes('checkin-panel-head"><h3>Help Me Decide</h3>'));
 assert(!decision.includes('<h1>Help Me Decide</h1>'));
 assert(!decision.includes('emotion:st.emotion||null'));
-assert(decision.includes('if(st.emotion)p.emotion=st.emotion'));
-assert(decision.includes('if(Number.isInteger(st.before))p.intensityBefore=st.before'));
+assert(decisionCompact.includes('if(st.emotion)p.emotion=st.emotion'));
+assert(decisionCompact.includes('if(Number.isInteger(st.before))p.intensityBefore=st.before'));
 assert(!dashboard.includes('Choose something to practice'));
 assert(decision.includes('"_blank","noopener,noreferrer"'));
 assert(!decision.includes('"_top"'));
@@ -37,6 +39,16 @@ assert(dashboard.includes('data-practice-id='));
 assert(dashboard.includes('Array.isArray(DASHBOARD_DATA.practiceHistory)'));
 assert(dashboard.includes('renderDeeperResources()'));
 assert(dashboard.includes('learningResources'));
+assert(!dashboard.includes('id="dailyTitle"'));
+assert(!dashboard.includes('id="dailyCopy"'));
+assert(!dashboard.includes('Open Daily Check-In'));
+assert(!dashboard.includes('Close Daily Check-In'));
+assert(!dailyCheckin.includes('DEBUG BUILD:'));
+assert(dailyCheckin.includes('historyDate(x.date)'));
+assert(dailyCheckin.replace(/\s+/g, '').includes("match[2]+'/'+match[3]+'/'+match[1]"));
+assert(decisionCompact.includes('if(st.saveReflection)p.privateReflection=st.reflection'));
+assert(!decisionCompact.includes('privateReflection:save?document.getElementById("reflection").value:null'));
+assert(decision.includes('Learn did not save. Your response is retained so you can retry. Error:'));
 
 const backend = fs.readFileSync('wix-backend/http-functions.js', 'utf8');
 assert(backend.includes("const COMPLETIONS = 'SkillCompletions'"));

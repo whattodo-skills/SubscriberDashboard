@@ -91,8 +91,8 @@ test('member identity cannot be supplied by the iframe and authentication is enf
 
 test('interface confirms only a complete backend receipt and distinguishes history errors', () => {
   const html = fs.readFileSync(path.join(__dirname, 'emotion-feeling-check-in.html'), 'utf8');
-  assert.match(html, /if\(!result\.checkinId\|\|!result\.savedRecord\)throw Error\('invalid_save_confirmation'\)/);
-  assert.match(html, /updateMood\(result\);sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
+  assert.match(html, /if\s*\(!result\.checkinId\s*\|\|\s*!result\.savedRecord\)\s*throw Error\(['"]invalid_save_confirmation['"]\)/);
+  assert.match(html, /updateMood\(result\);\s*sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
   assert.match(html, /Mood history could not load/);
   assert.match(html, /History error:/);
   assert.match(html, /rows\.slice\(0,10\)/);

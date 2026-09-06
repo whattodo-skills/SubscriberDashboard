@@ -16,8 +16,8 @@ function contextFor(code) {
   return context;
 }
 
-const frontStart = frontend.indexOf('var CATS=');
-const frontEnd = frontend.indexOf('var LEARN=');
+const frontStart = Math.max(frontend.indexOf('var CATS ='), frontend.indexOf('var CATS='));
+const frontEnd = Math.max(frontend.indexOf('var LEARN ='), frontend.indexOf('var LEARN='));
 const front = contextFor(frontend.slice(frontStart, frontEnd));
 const backStart = backend.indexOf('const ROUTES =');
 const backEnd = backend.indexOf('export function options_dailyCheckIn');
@@ -86,7 +86,7 @@ for (const [outcome, ids] of Object.entries(back.ROUTES)) {
 assert.strictEqual(rationaleCount, 81, 'all 81 outcome-skill rationale combinations must be present');
 assert(backend.includes("APPROVED_RATIONALES[outcome]?.[skill?._id]"), 'backend must resolve rationale by outcome and skill ID');
 assert(backend.includes("action === 'previewRecommendations'"), 'frontend rationale preview endpoint missing');
-assert(frontend.includes('api("previewRecommendations",{selectedCategory:st.category,selectedOutcome:st.outcome})'), 'Practice must load backend-approved rationales');
+assert(/api\("previewRecommendations",\s*\{\s*selectedCategory:\s*st\.category,\s*selectedOutcome:\s*st\.outcome/.test(frontend), 'Practice must load backend-approved rationales');
 assert(!frontend.includes('var WHY='), 'generic browser rationale map must be removed');
 
 // 8. startLoop queries authenticated memberId + submissionId before other insert paths.
@@ -98,9 +98,9 @@ assert(submissionQuery < startLoop.indexOf('wixData.insert'), 'idempotency query
 
 // 9. Practice-stage failures retain the original action, Retry resubmits it,
 // and a failed Learn handoff cannot be mislabeled as a failed check-in save.
-assert(frontend.includes('st.retryAction=function(){begin(open)}'), 'Practice/Save action must be retained for Retry');
-assert(frontend.includes('st.retryAction=none'), 'no-skill action must be retained for Retry');
-assert(frontend.includes('if(st.retryAction){var retry=st.retryAction;st.saving=false;retry()}'), 'Retry must resubmit the retained action');
+assert(/st\.retryAction\s*=\s*function\s*\(\)\s*\{\s*begin\(open\)/.test(frontend), 'Practice/Save action must be retained for Retry');
+assert(/st\.retryAction\s*=\s*none/.test(frontend), 'no-skill action must be retained for Retry');
+assert(/if\s*\(st\.retryAction\)\s*\{\s*var retry\s*=\s*st\.retryAction;\s*st\.saving\s*=\s*false;\s*retry\(\)/.test(frontend), 'Retry must resubmit the retained action');
 assert(frontend.includes('Your check-in was saved, but the practice page could not open.'), 'post-save handoff failure must be distinguished from save failure');
 assert(frontend.includes('Error: "+code'), 'the Wix backend error code must be visible for diagnosis');
 
