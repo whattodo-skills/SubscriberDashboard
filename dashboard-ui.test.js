@@ -10,6 +10,7 @@ for (const id of ['daily-check-in', 'help-me-decide', 'practice', 'learning']) {
   assert(dashboard.includes(`ensureCollapsible("${id}"`), `${id} must be an accordion`);
 }
 assert(dashboard.includes('toggle.textContent=open?"▲":"▼"'));
+assert(dashboard.includes('.progress-overview{margin:16px 0 14px'));
 assert(dashboard.includes('window.open(url,"_blank","noopener,noreferrer")'));
 assert(dashboard.includes('terribot:"https://www.whattodo.coach/terribot-premium"'));
 assert(dashboard.includes('button.disabled=state.allowed===false'));
