@@ -31,11 +31,21 @@ assert(backend.includes("allQueryItems(wixData.query(STACKS).eq('memberId', memb
 
 const completionPage = fs.readFileSync('src/pages/Skills.ndfyp.js', 'utf8');
 const completionBackend = fs.readFileSync('wix-backend/skill-completion-addon.js', 'utf8');
+const accessBackend = fs.readFileSync('wix-backend/skill-action-access-addon.js', 'utf8');
 assert(completionPage.includes("data.type !== 'skillComplete'"));
 assert(completionPage.includes('recordSkillCompletion'));
+assert(completionPage.includes("data.type === 'skillReady'"));
+assert(completionPage.includes("data.type === 'skillAction'"));
+assert(completionPage.includes('getSkillActionAccess'));
+assert(completionPage.includes("dailyCheckIn({ action: 'saveStack'"));
+assert(completionPage.includes("wixLocationFrontend.to('/terribot-premium')"));
 assert(completionBackend.includes('Permissions.SiteMember'));
 assert(completionBackend.includes("if (!entitlement.paid) throw safeError('PAID_PLAN_REQUIRED')"));
 assert(completionBackend.includes(".eq('memberId', entitlement.memberId).eq('sessionKey', sessionKey)"));
 assert(completionBackend.includes('duplicate:true'));
+assert(accessBackend.includes('getCurrentEntitlement'));
+assert(accessBackend.includes('canSaveToSkillsStack: true'));
+assert(accessBackend.includes('canAskTerriBot: true'));
+assert(accessBackend.includes("status: 'error'"));
 
 console.log('Dashboard order, accordion, navigation, and error-state checks: PASS');
