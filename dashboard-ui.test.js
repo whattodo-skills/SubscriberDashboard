@@ -36,6 +36,7 @@ assert(completionPage.includes("data.type !== 'skillComplete'"));
 assert(completionPage.includes('recordSkillCompletion'));
 assert(completionPage.includes("data.type === 'skillReady'"));
 assert(completionPage.includes("data.type === 'skillAction'"));
+assert(completionPage.includes("data.type === 'skillPracticeSave' && data.action === 'saveToSkillsStack'"));
 assert(completionPage.includes('getSkillActionAccess'));
 assert(completionPage.includes("dailyCheckIn({ action: 'saveStack'"));
 assert(completionPage.includes("wixLocationFrontend.to('/terribot-premium')"));

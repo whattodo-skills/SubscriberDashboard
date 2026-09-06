@@ -40,7 +40,7 @@ $w.onReady(() => {
       return;
     }
 
-    if (data.type === 'skillAction') {
+    if (data.type === 'skillAction' || (data.type === 'skillPracticeSave' && data.action === 'saveToSkillsStack')) {
       const action = String(data.action || '');
       const requestId = String(data.requestId || '');
       try {
