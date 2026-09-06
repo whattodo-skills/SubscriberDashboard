@@ -51,11 +51,12 @@ function validate(action, input) {
   return input;
 }
 
-export const dailyCheckIn = webMethod(Permissions.SiteMember, async ({ action, entry = {} } = {}) => {
+export const dailyCheckIn = webMethod(Permissions.SiteMember, async ({ action, entry, requestId, ...legacyEntry } = {}) => {
   if (!ACTIONS.has(action)) throw new Error('unsupported_action');
   const member = await currentMember.getMember();
   if (!member?._id) throw new Error('authenticated_member_required');
-  const safe = validate(action, { ...entry });
+  const source = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : legacyEntry;
+  const safe = validate(action, { ...source });
   // Service functions must query/update by both check-in ID and this member ID.
   // They must construct CMS records explicitly; never spread `safe` into a record.
   return dispatchAction(action, member._id, safe);

@@ -76,6 +76,7 @@ test('bridge and backend preserve Decision Loop actions and add saveCheckin', ()
   assert.match(html, /api\('saveCheckin',\{submissionId:submissionId\(\),date:/);
   assert.match(html, /sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
   assert.match(web, /currentMember\.getMember\(\)/);
+  assert.match(web, /entry, requestId, \.\.\.legacyEntry/);
 });
 
 test('member identity cannot be supplied by the iframe and authentication is enforced', () => {
