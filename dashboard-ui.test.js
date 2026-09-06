@@ -20,6 +20,7 @@ assert(!dashboard.includes('checkin-panel-head"><h3>Help Me Decide</h3>'));
 assert(!decision.includes('<h1>Help Me Decide</h1>'));
 assert(!decision.includes('emotion:st.emotion||null'));
 assert(decision.includes('if(st.emotion)p.emotion=st.emotion'));
+assert(decision.includes('if(Number.isInteger(st.before))p.intensityBefore=st.before'));
 assert(!dashboard.includes('Choose something to practice'));
 assert(decision.includes('"_blank","noopener,noreferrer"'));
 assert(!decision.includes('"_top"'));
