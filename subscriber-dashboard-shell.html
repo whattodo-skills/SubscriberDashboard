@@ -181,7 +181,7 @@ var dashboardResizeFrame=0;
 function reportDashboardHeight(){
   cancelAnimationFrame(dashboardResizeFrame);
   dashboardResizeFrame=requestAnimationFrame(function(){
-    var height=Math.ceil(Math.max(document.documentElement.scrollHeight,document.body.scrollHeight));
+    var height=Math.ceil(document.body.scrollHeight);
     post({type:"dashboardContentHeight",height:height});
   });
 }
