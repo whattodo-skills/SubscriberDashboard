@@ -18,6 +18,8 @@ assert(!dashboard.includes('Explore More Skills'));
 assert(!dashboard.includes('Browse by category'));
 assert(!dashboard.includes('checkin-panel-head"><h3>Help Me Decide</h3>'));
 assert(!decision.includes('<h1>Help Me Decide</h1>'));
+assert(!decision.includes('emotion:st.emotion||null'));
+assert(decision.includes('if(st.emotion)p.emotion=st.emotion'));
 assert(!dashboard.includes('Choose something to practice'));
 assert(decision.includes('"_blank","noopener,noreferrer"'));
 assert(!decision.includes('"_top"'));
