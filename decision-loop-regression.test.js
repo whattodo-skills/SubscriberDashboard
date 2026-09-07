@@ -49,16 +49,15 @@ assert(startLoop.indexOf('alreadyCompletedToday: true') > completedGuard);
 assert(completedGuard < startLoop.indexOf('wixData.get(SKILLS'), 'completed guard must precede skill lookup');
 assert(completedGuard < startLoop.indexOf('Object.assign(item'), 'completed guard must precede mutation');
 
-// 4. Dashboard navigation occurs only after markSkillOpened succeeds.
-const practiceHandler = dashboard.slice(dashboard.indexOf('document.getElementById("practiceButton").addEventListener'), dashboard.indexOf('renderValuesCompass({})'));
+// 4. Decision Loop navigation occurs only after markSkillOpened succeeds.
+const practiceHandler = frontend.slice(frontend.indexOf('function begin('), frontend.indexOf('function none('));
 assert(!practiceHandler.includes('.finally('), 'navigation must not occur in finally');
-assert(practiceHandler.indexOf('.then(function(){button.disabled=false;var skill=') > -1);
-assert(practiceHandler.includes('The skill could not open because the Learn handoff did not save. Please try again.'));
-assert(practiceHandler.includes('loopStatus:"learn_pending"'), 'successful Practice handoff must update local pending state');
-assert(practiceHandler.includes('Practice handoff saved. Return here to finish the Learn stage.'), 'handoff status must settle before navigation');
+assert(practiceHandler.indexOf('api("markSkillOpened",{checkinId:st.checkinId}).then(function(){') > -1);
+assert(practiceHandler.indexOf('window.open(') > practiceHandler.indexOf('api("markSkillOpened"'), 'skill navigation must follow the saved handoff');
+assert(practiceHandler.includes('the practice page could not open'), 'failed handoff must provide a useful error');
 assert(dashboard.includes('window.addEventListener("pageshow",function(){loadLiveProgress()})'), 'browser back/forward must refresh read-only progress');
 assert(dashboard.includes('document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")loadLiveProgress()})'), 'visibility return must refresh read-only progress');
-assert(dashboard.includes('button.textContent="Finish the Check-In"'), 'learn-pending refresh must expose Finish the Check-In');
+assert(!dashboard.includes('button.textContent="Finish the Check-In"'), 'the removed Learn prompt must not be reconstructed');
 
 // 5. Completed and no-skill messages clear stale Practice state.
 assert(dashboard.includes('function resetPracticeHandoff()'));

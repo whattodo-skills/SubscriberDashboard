@@ -6,6 +6,7 @@ const dashboard = fs.readFileSync('subscriber-dashboard-shell.html', 'utf8');
 const decision = fs.readFileSync('daily-check-in.html', 'utf8');
 const decisionCompact = decision.replace(/\s+/g, '');
 const dailyCheckin = fs.readFileSync('emotion-feeling-check-in.html', 'utf8');
+const dailyCheckinText = dailyCheckin.replace(/\s+/g, ' ');
 
 assert(dashboard.includes('sectionOrder=["daily-check-in","help-me-decide","stack","learning","learning-progress","deeper","support"]'));
 for (const id of ['daily-check-in', 'help-me-decide', 'learning']) {
@@ -25,6 +26,11 @@ assert(!decision.includes('emotion:st.emotion||null'));
 assert(decisionCompact.includes('if(st.emotion)p.emotion=st.emotion'));
 assert(decisionCompact.includes('if(Number.isInteger(st.before))p.intensityBefore=st.before'));
 assert(!dashboard.includes('Choose something to practice'));
+assert(dashboard.includes('data-open-skill-chooser>Choose A Skill</button>'));
+assert(dashboard.includes('setSectionOpen("stack",true);var chooser=document.getElementById("skillChooser")'));
+assert(!dashboard.includes('Choose a skill to work on now, or continue the one already in progress.'));
+assert(!dashboard.includes('You practiced "+skill.title+". What did you learn?'));
+assert(!dashboard.includes('Finish the Learn stage of your Daily Check-In.'));
 assert(decision.includes('"_blank","noopener,noreferrer"'));
 assert(!decision.includes('"_top"'));
 assert(dashboard.includes('if(button.dataset.collapse==="help-me-decide")setDecisionOpen(opening)'));
@@ -53,11 +59,15 @@ assert(!dashboard.includes('id="dailyCopy"'));
 assert(!dashboard.includes('Open Daily Check-In'));
 assert(!dashboard.includes('Close Daily Check-In'));
 assert(!dailyCheckin.includes('DEBUG BUILD:'));
+assert(!dailyCheckin.includes('<h1>Daily Check-In</h1>'));
+assert(dailyCheckinText.includes('Notice the difference between an Emotion, a Feeling, and your longer-term Mood pattern.'));
 assert(dailyCheckin.includes('historyDate(x.date)'));
-assert(dailyCheckin.replace(/\s+/g, '').includes("match[2]+'/'+match[3]+'/'+match[1]"));
+assert(dailyCheckin.replace(/\s+/g, '').includes('match[2]+"/"+match[3]+"/"+match[1]'));
 assert(decisionCompact.includes('if(st.saveReflection)p.privateReflection=st.reflection'));
 assert(!decisionCompact.includes('privateReflection:save?document.getElementById("reflection").value:null'));
 assert(decision.includes('Learn did not save. Your response is retained so you can retry. Error:'));
+assert(decision.includes('completion_receipt_missing'));
+assert(decision.includes('checkinId:d.checkinId'));
 
 const backend = fs.readFileSync('wix-backend/http-functions.js', 'utf8');
 assert(backend.includes("const COMPLETIONS = 'SkillCompletions'"));

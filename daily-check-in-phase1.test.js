@@ -69,12 +69,13 @@ test('bridge and backend preserve Decision Loop actions and add saveCheckin', ()
   const web = fs.readFileSync(path.join(__dirname, 'wix-backend/daily-check-in.web.js'), 'utf8');
   const bridge = fs.readFileSync(path.join(__dirname, 'wix-backend/daily-check-in-bridge-page.js'), 'utf8');
   const html = fs.readFileSync(path.join(__dirname, 'emotion-feeling-check-in.html'), 'utf8');
+  const compactHtml = html.replace(/\s+/g, '');
   for (const action of ['saveCheckin', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop']) {
     assert.match(web, new RegExp(`['\"]${action}['\"]`));
   }
   assert.match(bridge, /['"]saveCheckin['"]/);
-  assert.match(html, /api\('saveCheckin',\{submissionId:submissionId\(\),date:/);
-  assert.match(html, /sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
+  assert.match(compactHtml, /api\(["']saveCheckin["'],\{submissionId:submissionId\(\),date:/);
+  assert.match(compactHtml, /sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
   assert.match(web, /currentMember\.getMember\(\)/);
   assert.match(web, /entry, requestId, \.\.\.legacyEntry/);
 });
@@ -91,11 +92,12 @@ test('member identity cannot be supplied by the iframe and authentication is enf
 
 test('interface confirms only a complete backend receipt and distinguishes history errors', () => {
   const html = fs.readFileSync(path.join(__dirname, 'emotion-feeling-check-in.html'), 'utf8');
-  assert.match(html, /if\s*\(!result\.checkinId\s*\|\|\s*!result\.savedRecord\)\s*throw Error\(['"]invalid_save_confirmation['"]\)/);
-  assert.match(html, /updateMood\(result\);\s*sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
+  const compactHtml = html.replace(/\s+/g, '');
+  assert.match(compactHtml, /if\(!result\.checkinId\|\|!result\.savedRecord\)throwError\(['"]invalid_save_confirmation['"]\)/);
+  assert.match(compactHtml, /updateMood\(result\);sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
   assert.match(html, /Mood history could not load/);
   assert.match(html, /History error:/);
-  assert.match(html, /rows\.slice\(0,10\)/);
+  assert.match(compactHtml, /rows\.slice\(0,10\)/);
 });
 
 test('legacy HTTP save action remains separate from canonical idempotent saveCheckin', () => {

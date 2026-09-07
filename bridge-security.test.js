@@ -5,6 +5,7 @@ const fs = require('fs');
 const web = fs.readFileSync('wix-backend/daily-check-in.web.js', 'utf8');
 const page = fs.readFileSync('wix-backend/daily-check-in-bridge-page.js', 'utf8');
 const dashboard = fs.readFileSync('subscriber-dashboard-shell.html', 'utf8');
+const decision = fs.readFileSync('daily-check-in.html', 'utf8');
 
 assert(web.includes('Permissions.SiteMember'));
 assert(web.includes('currentMember.getMember()'));
@@ -26,7 +27,7 @@ for (const action of ['list', 'previewRecommendations', 'startLoop', 'markSkillO
 }
 assert(!web.includes('client:'));
 
-assert(dashboard.includes('bridgeRequest("markSkillOpened",{checkinId:pending.checkinId||pending._id||""})'));
+assert(decision.includes('api("markSkillOpened",{checkinId:st.checkinId})'));
 assert(dashboard.includes('bridgePending.delete(m.requestId)'));
 assert(dashboard.includes('checkinFrame.contentWindow.postMessage({type:"bridgeReady"},DAILY_CHECKIN_ORIGIN)'));
 
