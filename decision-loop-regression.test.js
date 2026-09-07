@@ -41,13 +41,13 @@ assert(!backend.includes('c9fc833f-d210-46be-9dfe-3dcaab6c3287'));
 assert(frontend.includes("'https://www.whattodo.coach'+url"), 'frontend absolute URL normalization missing');
 assert(backend.includes('https://www.whattodo.coach${value}'), 'backend absolute URL normalization missing');
 
-// 3. A completed same-day loop returns before route resolution or mutation.
+// 3. A new submission always receives a distinct record, even on the same day.
 const startLoop = backend.slice(backend.indexOf('async function startLoop'), backend.indexOf('async function updateStatus'));
-const completedGuard = startLoop.indexOf("sameDay?.loopVersion === 'decision-loop-v1' && sameDay.loopStatus === 'complete'");
-assert(completedGuard > -1);
-assert(startLoop.indexOf('alreadyCompletedToday: true') > completedGuard);
-assert(completedGuard < startLoop.indexOf('wixData.get(SKILLS'), 'completed guard must precede skill lookup');
-assert(completedGuard < startLoop.indexOf('Object.assign(item'), 'completed guard must precede mutation');
+assert(!startLoop.includes('alreadyCompletedToday'), 'same-day completion guard must not block a new submission');
+assert(!startLoop.includes('const sameDay ='), 'new loops must not select a writable record by member and date');
+assert(!startLoop.includes('resumedExisting'), 'a different submission identity must not reuse another unfinished record');
+assert(startLoop.includes('const item = {};'), 'new submissions must build a new record');
+assert(startLoop.includes('wixData.insert(DECISION_LOOPS, item, OPTIONS)'), 'new submissions must insert a distinct DecisionLoops record');
 
 // 4. Decision Loop navigation occurs only after markSkillOpened succeeds.
 const practiceHandler = frontend.slice(frontend.indexOf('function begin('), frontend.indexOf('function none('));
@@ -92,7 +92,7 @@ assert(!frontend.includes('var WHY='), 'generic browser rationale map must be re
 const submissionQuery = startLoop.indexOf(".eq('memberId', memberId)\n      .eq('submissionId', submissionId)");
 assert(submissionQuery > -1, 'memberId + submissionId query missing');
 assert(startLoop.indexOf('idempotentReplay: true') > submissionQuery, 'existing submission must be returned');
-assert(submissionQuery < startLoop.indexOf('const items = await memberLoops(memberId)'), 'idempotency query must run before active-loop and insert logic');
+assert(!startLoop.includes('memberLoops(memberId)'), 'new submission identities must not reuse a different active loop');
 assert(submissionQuery < startLoop.indexOf('wixData.insert'), 'idempotency query must run before insert');
 
 // 9. Practice-stage failures retain the original action, Retry resubmits it,
@@ -111,6 +111,9 @@ const dailySave = backend.slice(backend.indexOf('async function saveLegacy'), ba
 assert(dailySave.includes('wixData.insert(CHECKINS'), 'Daily Check-In must remain in MoodCheckIns');
 assert(!dailySave.includes('DECISION_LOOPS'), 'Daily Check-In must not write to DecisionLoops');
 assert(webValidator.includes("input[key] !== undefined && input[key] !== null"), 'optional intensity ratings must allow null');
+assert(frontend.includes('if(st.saveReflection)p.privateReflection=st.reflection'), 'supplied optional reflection must be included only when selected');
+assert(frontend.includes('var p={checkinId:st.checkinId,reflectionSaved:false}'), 'omitted optional reflection must submit an explicit false state');
+assert(backend.includes('if (!dismissed && entry.reflectionSaved === true)'), 'backend must store optional reflection only when explicitly selected');
 
 // 11. Help Me Decide relies only on its dashboard accordion for closing.
 assert(!frontend.includes('data-exit'), 'Help Me Decide must not render an Exit control');
