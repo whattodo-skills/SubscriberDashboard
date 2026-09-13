@@ -117,6 +117,7 @@ test('every spreadsheet feeling has a specific definition and opens the five-par
   for (const section of ['What this feeling is', 'How it feels in your body', 'Thoughts it brings', 'If it feels uncomfortable', 'How to put it into words']) assert.match(html, new RegExp(section, 'i'));
   assert.match(html, /feelingGuide\(state\.emotion,state\.feeling,parentGuide\)/);
   assert.match(html, /FEELING_DEFINITIONS\[label\]/);
+  assert.doesNotMatch(html, /None of these fit|Skip this step/);
 });
 
 test('legacy HTTP save action remains separate from canonical idempotent saveCheckin', () => {
