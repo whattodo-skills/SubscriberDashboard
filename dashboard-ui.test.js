@@ -37,6 +37,8 @@ assert(dashboard.includes('id="valuesCompassToggle"'));
 assert(dashboard.includes('id="decisionLoopToggle"'));
 assert(dashboard.includes('if(open&&!valuesComplete)'));
 assert(dashboard.includes('dashboardValuesSaveRequest'));
+assert(dashboard.includes('storageMode:DASHBOARD_DATA.loggedIn===true?"cms":"local"'));
+assert(dashboard.includes('localNamespace:"guest"'));
 assert(decision.includes('Which of your values should guide this decision?'));
 assert(decision.includes('Which outcome would put '));
 assert(!decision.includes('What seems to be influencing this most?'));
