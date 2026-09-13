@@ -5,7 +5,7 @@ import { listForMember, saveCheckinForMember, previewForMember, startForMember, 
 import { saveStackForMember, removeStackForMember } from './http-functions';
 
 const ACTIONS = new Set(['list', 'saveCheckin', 'previewRecommendations', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop', 'restartLoop', 'getReflection', 'saveStack', 'removeStack']);
-const MAX = { submissionId: 120, checkinId: 80, selectedSkillId: 80, selectedCategory: 40, selectedOutcome: 120, reflection: 600 };
+const MAX = { submissionId: 120, checkinId: 80, selectedSkillId: 80, selectedCategory: 40, selectedOutcome: 120, reflection: 600, note: 600 };
 const IDS = /^[A-Za-z0-9_-]{1,80}$/;
 const STATUS = new Set(['recommended', 'learn_pending', 'complete']);
 
@@ -17,18 +17,21 @@ function id(value) { const result = text(value, MAX.checkinId); if (!IDS.test(re
 function validate(action, input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('invalid_entry');
   const allowed = {
-    list: [], saveCheckin: ['submissionId', 'date', 'emotion', 'feeling'], previewRecommendations: ['selectedCategory', 'selectedOutcome'],
+    list: [], saveCheckin: ['submissionId', 'date', 'timezone', 'status', 'emotionId', 'emotion', 'feelingId', 'feeling', 'contextWordId', 'contextWord', 'bodyStateId', 'bodyState', 'note', 'schemaVersion'], previewRecommendations: ['selectedCategory', 'selectedOutcome'],
     startLoop: ['submissionId', 'date', 'noticeSelection', 'emotion', 'intensityBefore', 'understandInfluence', 'understandPriority', 'selectedCategory', 'selectedOutcome', 'recommendedSkillIds', 'selectedSkillId', 'practiceAction', 'completeWithoutSkill'],
     markSkillOpened: ['checkinId'], completeLoop: ['checkinId', 'learnResult', 'intensityAfter', 'carryForward', 'reflectionSaved', 'privateReflection'],
     dismissLoop: ['checkinId'], restartLoop: ['checkinId'], getReflection: ['checkinId'], saveStack: ['skill'], removeStack: ['catKey']
   }[action];
-  const required = { list: [], saveCheckin: ['submissionId', 'emotion', 'feeling'], previewRecommendations: ['selectedCategory', 'selectedOutcome'], startLoop: ['submissionId'], markSkillOpened: ['checkinId'], completeLoop: ['checkinId'], dismissLoop: ['checkinId'], restartLoop: ['checkinId'], getReflection: ['checkinId'], saveStack: ['skill'], removeStack: ['catKey'] }[action];
+  const required = { list: [], saveCheckin: ['submissionId', 'emotion'], previewRecommendations: ['selectedCategory', 'selectedOutcome'], startLoop: ['submissionId'], markSkillOpened: ['checkinId'], completeLoop: ['checkinId'], dismissLoop: ['checkinId'], restartLoop: ['checkinId'], getReflection: ['checkinId'], saveStack: ['skill'], removeStack: ['catKey'] }[action];
   required.forEach((key) => { if (input[key] === undefined || input[key] === null || input[key] === '') throw new Error(`missing_${key}`); });
   Object.keys(input).forEach((key) => { if (!allowed.includes(key)) throw new Error('unknown_field'); });
   if (input.checkinId !== undefined) input.checkinId = id(input.checkinId);
   if (input.submissionId !== undefined) input.submissionId = text(input.submissionId, MAX.submissionId);
   if (input.emotion !== undefined && input.emotion !== null) input.emotion = text(input.emotion, 80);
   if (input.feeling !== undefined) input.feeling = text(input.feeling, 80);
+  ['timezone', 'status', 'emotionId', 'feelingId', 'contextWordId', 'contextWord', 'bodyStateId', 'bodyState', 'schemaVersion'].forEach((key) => { if (input[key] !== undefined) input[key] = text(input[key], 80); });
+  if (input.note !== undefined) input.note = text(input.note, MAX.note);
+  if (action === 'saveCheckin' && input.status !== undefined && input.status !== 'completed') throw new Error('invalid_status');
   if (input.selectedSkillId !== undefined) input.selectedSkillId = id(input.selectedSkillId);
   if (input.selectedCategory !== undefined) input.selectedCategory = text(input.selectedCategory, MAX.selectedCategory);
   if (input.selectedOutcome !== undefined) input.selectedOutcome = text(input.selectedOutcome, MAX.selectedOutcome);

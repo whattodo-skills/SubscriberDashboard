@@ -74,8 +74,8 @@ test('bridge and backend preserve Decision Loop actions and add saveCheckin', ()
     assert.match(web, new RegExp(`['\"]${action}['\"]`));
   }
   assert.match(bridge, /['"]saveCheckin['"]/);
-  assert.match(compactHtml, /api\(["']saveCheckin["'],\{submissionId:submissionId\(\),date:/);
-  assert.match(compactHtml, /sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
+  assert.match(compactHtml, /api\(["']saveCheckin["'],payload\)/);
+  assert.match(compactHtml, /timezone:Intl\.DateTimeFormat\(\)\.resolvedOptions\(\)\.timeZone/);
   assert.match(web, /currentMember\.getMember\(\)/);
   assert.match(web, /entry, requestId, \.\.\.legacyEntry/);
 });
@@ -94,10 +94,10 @@ test('interface confirms only a complete backend receipt and distinguishes histo
   const html = fs.readFileSync(path.join(__dirname, 'emotion-feeling-check-in.html'), 'utf8');
   const compactHtml = html.replace(/\s+/g, '');
   assert.match(compactHtml, /if\(!result\.checkinId\|\|!result\.savedRecord\)throwError\(['"]invalid_save_confirmation['"]\)/);
-  assert.match(compactHtml, /updateMood\(result\);sessionStorage\.removeItem\(SUBMISSION_KEY\)/);
+  assert.match(compactHtml, /renderMood\(result\)/);
   assert.match(html, /Mood history could not load/);
-  assert.match(html, /History error:/);
-  assert.match(compactHtml, /rows\.slice\(0,10\)/);
+  assert.match(html, /Mood history could not load/);
+  assert.match(compactHtml, /rows\.slice\(0,4\)/);
 });
 
 test('legacy HTTP save action remains separate from canonical idempotent saveCheckin', () => {

@@ -422,7 +422,8 @@ function normalizedCheckin(item) {
     submissionId: item.submissionId || item._id,
     date: dateKey(item.date),
     emotion: item.emotion || '',
-    feeling: item.feeling || item.emotion || ''
+    feeling: item.feeling || '',
+    emotionId: item.emotionId || '', feelingId: item.feelingId || '', contextWordId: item.contextWordId || '', contextWord: item.contextWord || '', bodyStateId: item.bodyStateId || '', bodyState: item.bodyState || '', note: item.note || '', timezone: item.timezone || '', status: item.status || 'completed', schemaVersion: item.schemaVersion || ''
   };
 }
 
@@ -442,7 +443,7 @@ async function findCheckinSubmission(memberId, submissionId) {
 }
 
 export async function saveCheckin(memberId, entry) {
-  if (!memberId || !entry?.submissionId || !entry.emotion || !entry.feeling) throw new Error('invalid_checkin');
+  if (!memberId || !entry?.submissionId || !entry.emotion || (entry.status && entry.status !== 'completed')) throw new Error('invalid_checkin');
   const submissionId = clean(entry.submissionId, 120);
   if (!/^[A-Za-z0-9_-]{1,80}$/.test(submissionId)) throw new Error('invalid_submission_id');
   const expected = {
@@ -450,7 +451,16 @@ export async function saveCheckin(memberId, entry) {
     emotion: clean(entry.emotion, 80),
     feeling: clean(entry.feeling, 80)
   };
-  if (!expected.date || !expected.emotion || !expected.feeling) throw new Error('invalid_checkin');
+  if (!expected.date || !expected.emotion) throw new Error('invalid_checkin');
+
+  const sameDay = (await wixData.query(CHECKINS).eq('memberId', memberId).eq('date', dateValue(expected.date)).limit(1).find(READ_OPTIONS)).items[0];
+  const now = new Date();
+  const canonicalEmotionId = clean(entry.emotionId, 80) || expected.emotion.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const record = { ...(sameDay ? { _id: sameDay._id, _createdDate: sameDay._createdDate } : { _id: submissionId, submissionId }), memberId, date: dateValue(expected.date), completedAt: sameDay?.completedAt || now, updatedAt: now, status: 'completed', emotionId: canonicalEmotionId, emotion: expected.emotion, feelingId: clean(entry.feelingId, 80), feeling: expected.feeling, contextWordId: clean(entry.contextWordId, 80), contextWord: clean(entry.contextWord, 80), bodyStateId: clean(entry.bodyStateId, 80), bodyState: clean(entry.bodyState, 80), note: clean(entry.note, 600), timezone: clean(entry.timezone, 80), schemaVersion: clean(entry.schemaVersion, 80) };
+  if (sameDay) {
+    const saved = await wixData.update(CHECKINS, record, OPTIONS);
+    return { checkinId: saved._id, savedRecord: normalizedCheckin(saved), checkins: await getCheckins(memberId), updatedExistingDay: true };
+  }
 
   const persist = createCheckinPersistence({
     findOwned: findCheckinSubmission,
@@ -462,13 +472,13 @@ export async function saveCheckin(memberId, entry) {
   return persist({
     memberId,
     submissionId,
-    record: { date: dateValue(expected.date), emotion: expected.emotion, feeling: expected.feeling }
+    record
   });
 }
 
 export async function getCheckins(memberId) {
   const items = await memberItems(memberId);
-  return items.map(item => ({ _id: item._id, submissionId: item.submissionId || '', date: dateKey(item.date), emotion: item.emotion || '', feeling: item.feeling || item.emotion || '', loopStatus: item.loopStatus || '', selectedOutcome: item.selectedOutcome || '', selectedSkillTitle: item.selectedSkillTitleSnapshot || '' })).filter(x => x.date).sort((a, b) => b.date.localeCompare(a.date));
+  return items.map(item => ({ ...normalizedCheckin(item), loopStatus: item.loopStatus || '', selectedOutcome: item.selectedOutcome || '', selectedSkillTitle: item.selectedSkillTitleSnapshot || '', completedAt: item.completedAt || item._createdDate || '', updatedAt: item.updatedAt || item._updatedDate || '' })).filter(x => x.date).sort((a, b) => `${b.date}|${b.completedAt}`.localeCompare(`${a.date}|${a.completedAt}`));
 }
 export async function getValues(memberId) {
   const item = (await wixData.query(VALUES).eq('memberId', memberId).limit(1).find(OPTIONS)).items[0];
