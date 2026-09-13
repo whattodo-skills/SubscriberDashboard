@@ -20,10 +20,10 @@ const CORS = {
 const STATUSES = ['recommended', 'learn_pending', 'complete'];
 const ROUTES = {
   'Be present': ['662740aa-3cb3-4470-a5a5-fadad9baea5e', 'c991b7f7-90f2-4e68-9921-63027bd999ab', 'fe4493ea-a69b-4821-b39d-da7d88aee57c'],
-  'Start something': ['ab3a87ad-140c-449a-b79a-7f1c421e5a12', '32f9b822-9a9e-4274-a02e-1bbb8146c210', 'fe4493ea-a69b-4821-b39d-da7d88aee57c'],
+  'Start something': ['ab3a87ad-140c-449a-b79a-7f1c421e5a12', 'd59a24fa-ee8a-445c-b570-804d54d573a8', 'fe4493ea-a69b-4821-b39d-da7d88aee57c'],
   'Stay with something': ['d59a24fa-ee8a-445c-b570-804d54d573a8', 'fe4493ea-a69b-4821-b39d-da7d88aee57c', '662740aa-3cb3-4470-a5a5-fadad9baea5e'],
-  'Organize my attention': ['fe4493ea-a69b-4821-b39d-da7d88aee57c', 'c991b7f7-90f2-4e68-9921-63027bd999ab', '32f9b822-9a9e-4274-a02e-1bbb8146c210'],
-  'Make a decision': ['32f9b822-9a9e-4274-a02e-1bbb8146c210', '6ca17d5b-b054-47fc-8b52-3d1f8988c6ce', 'bb6c165e-c3c8-4fe9-b404-d1b2e93202a1'],
+  'Organize my attention': ['fe4493ea-a69b-4821-b39d-da7d88aee57c', 'c991b7f7-90f2-4e68-9921-63027bd999ab', '662740aa-3cb3-4470-a5a5-fadad9baea5e'],
+  'Make a decision': ['fe4ab622-2342-45dd-83eb-c2c04cc2414b', '6ca17d5b-b054-47fc-8b52-3d1f8988c6ce', 'bb6c165e-c3c8-4fe9-b404-d1b2e93202a1'],
   'Follow through': ['d59a24fa-ee8a-445c-b570-804d54d573a8', 'ab3a87ad-140c-449a-b79a-7f1c421e5a12', 'fe4493ea-a69b-4821-b39d-da7d88aee57c'],
   'Get steadier': ['639ad66e-4f21-43a0-a9a2-00e754656cb5', '631d5ba5-19d4-43ed-a938-863e33b7010c', '5068e864-e4df-473e-a159-ae385872ce26'],
   'Tolerate something I cannot change': ['e3b58240-ca1d-4d74-b74e-46bd16ed80fc', '5068e864-e4df-473e-a159-ae385872ce26', '12e7a522-325e-4ff6-a97a-49ddcfc69d47'],
@@ -55,7 +55,7 @@ const APPROVED_RATIONALES = {
   },
   'Start something': {
     'ab3a87ad-140c-449a-b79a-7f1c421e5a12': 'turn avoidance or uncertainty into a cue and tiny first action',
-    '32f9b822-9a9e-4274-a02e-1bbb8146c210': 'clarify why beginning matters to you',
+    'd59a24fa-ee8a-445c-b570-804d54d573a8': 'choose a realistic way to begin and return if momentum slips',
     'fe4493ea-a69b-4821-b39d-da7d88aee57c': 'reduce the start to one visible physical action'
   },
   'Stay with something': {
@@ -66,10 +66,10 @@ const APPROVED_RATIONALES = {
   'Organize my attention': {
     'fe4493ea-a69b-4821-b39d-da7d88aee57c': 'narrow competing pulls to one visible action',
     'c991b7f7-90f2-4e68-9921-63027bd999ab': 'choose and return to one attention anchor',
-    '32f9b822-9a9e-4274-a02e-1bbb8146c210': 'prioritize your attention according to what matters'
+    '662740aa-3cb3-4470-a5a5-fadad9baea5e': 'return attention to the one present task that matters now'
   },
   'Make a decision': {
-    '32f9b822-9a9e-4274-a02e-1bbb8146c210': 'use your values to decide where attention and effort belong',
+    'fe4ab622-2342-45dd-83eb-c2c04cc2414b': 'compare options and consequences before choosing a response',
     '6ca17d5b-b054-47fc-8b52-3d1f8988c6ce': 'separate facts and inner signals from judgment',
     'bb6c165e-c3c8-4fe9-b404-d1b2e93202a1': 'create enough space to choose rather than react'
   },
