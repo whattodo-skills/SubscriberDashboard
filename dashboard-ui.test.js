@@ -33,7 +33,13 @@ assert(!dashboard.includes('You practiced "+skill.title+". What did you learn?')
 assert(!dashboard.includes('Finish the Learn stage of your Daily Check-In.'));
 assert(decision.includes('"_blank","noopener,noreferrer"'));
 assert(!decision.includes('"_top"'));
-assert(dashboard.includes('if(button.dataset.collapse==="help-me-decide")setDecisionOpen(opening)'));
+assert(dashboard.includes('id="valuesCompassToggle"'));
+assert(dashboard.includes('id="decisionLoopToggle"'));
+assert(dashboard.includes('if(open&&!valuesComplete)'));
+assert(dashboard.includes('dashboardValuesSaveRequest'));
+assert(decision.includes('Which of your values should guide this decision?'));
+assert(decision.includes('Which outcome would put '));
+assert(!decision.includes('What seems to be influencing this most?'));
 assert(dashboard.includes('Practice history could not load. Please retry.'));
 assert(dashboard.includes('Your Skills Stack could not load. Please retry.'));
 assert(dashboard.includes('Learning summary could not load. Please retry.'));
