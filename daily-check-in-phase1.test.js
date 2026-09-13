@@ -8,15 +8,14 @@ const createCheckinPersistence = new Function(`${persistenceSource.replace('expo
 
 function harness() {
   const records = new Map();
-  const findOwned = async (memberId, id) => {
-    const item = records.get(id);
-    return item?.memberId === memberId ? { ...item } : null;
-  };
+  let nextId = 1;
+  const findOwned = async (memberId, submissionId) => [...records.values()].find(item => item.memberId === memberId && item.submissionId === submissionId) || null;
   const insert = async item => {
     await Promise.resolve();
-    if (records.has(item._id)) throw new Error('duplicate_item_id');
-    records.set(item._id, { ...item });
-    return { ...item };
+    if ([...records.values()].some(existing => existing.memberId === item.memberId && existing.submissionId === item.submissionId)) throw new Error('duplicate_submission');
+    const saved = { ...item, _id: `wix-${nextId++}` };
+    records.set(saved._id, saved);
+    return { ...saved };
   };
   const listHistory = async memberId => [...records.values()].filter(item => item.memberId === memberId).map(item => ({ ...item }));
   const normalize = item => ({ _id: item._id, submissionId: item.submissionId, date: item.date, emotion: item.emotion, feeling: item.feeling });
@@ -29,8 +28,8 @@ const request = { memberId: 'member-a', submissionId: 'submission-1', record: { 
 test('first save returns record ID, normalized record, and refreshed history', async () => {
   const { save } = harness();
   const result = await save(request);
-  assert.equal(result.checkinId, request.submissionId);
-  assert.deepEqual(result.savedRecord, { _id: 'submission-1', submissionId: 'submission-1', ...request.record });
+  assert.equal(result.checkinId, 'wix-1');
+  assert.deepEqual(result.savedRecord, { _id: 'wix-1', submissionId: 'submission-1', ...request.record });
   assert.equal(result.checkins.length, 1);
   assert.equal(result.idempotentReplay, false);
 });
@@ -40,7 +39,7 @@ test('retry after a lost response reuses the same logical submission', async () 
   await save(request);
   const retry = await save(request);
   assert.equal(retry.idempotentReplay, true);
-  assert.equal(retry.checkinId, request.submissionId);
+  assert.equal(retry.checkinId, 'wix-1');
   assert.equal(records.size, 1);
 });
 
@@ -48,7 +47,7 @@ test('concurrent requests create only one record', async () => {
   const { save, records } = harness();
   const results = await Promise.all([save(request), save(request)]);
   assert.equal(records.size, 1);
-  assert.deepEqual(results.map(result => result.checkinId), ['submission-1', 'submission-1']);
+  assert.deepEqual(results.map(result => result.checkinId), ['wix-1', 'wix-1']);
   assert.equal(results.filter(result => result.idempotentReplay).length, 1);
 });
 
@@ -58,11 +57,12 @@ test('same key with different contents is rejected', async () => {
   await assert.rejects(() => save({ ...request, record: { ...request.record, feeling: 'Peaceful' } }), /idempotency_conflict/);
 });
 
-test('another member cannot retrieve or overwrite a submission ID', async () => {
+test('submission IDs are scoped to the authenticated member', async () => {
   const { save, records } = harness();
   await save(request);
-  await assert.rejects(() => save({ ...request, memberId: 'member-b' }), /duplicate_item_id/);
-  assert.equal(records.get(request.submissionId).memberId, 'member-a');
+  const other = await save({ ...request, memberId: 'member-b' });
+  assert.equal(other.checkinId, 'wix-2');
+  assert.deepEqual([...records.values()].map(item => item.memberId), ['member-a', 'member-b']);
 });
 
 test('bridge and backend preserve Decision Loop actions and add saveCheckin', () => {

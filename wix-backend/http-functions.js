@@ -435,7 +435,7 @@ function sameCheckinSubmission(item, expected) {
 
 async function findCheckinSubmission(memberId, submissionId) {
   const result = await wixData.query(CHECKINS)
-    .eq('_id', submissionId)
+    .eq('submissionId', submissionId)
     .eq('memberId', memberId)
     .limit(1)
     .find(READ_OPTIONS);
@@ -456,7 +456,7 @@ export async function saveCheckin(memberId, entry) {
   const sameDay = (await wixData.query(CHECKINS).eq('memberId', memberId).eq('date', dateValue(expected.date)).limit(1).find(READ_OPTIONS)).items[0];
   const now = new Date();
   const canonicalEmotionId = clean(entry.emotionId, 80) || expected.emotion.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  const record = { ...(sameDay ? { _id: sameDay._id, _createdDate: sameDay._createdDate } : { _id: submissionId, submissionId }), memberId, date: dateValue(expected.date), completedAt: sameDay?.completedAt || now, updatedAt: now, status: 'completed', emotionId: canonicalEmotionId, emotion: expected.emotion, feelingId: clean(entry.feelingId, 80), feeling: expected.feeling, contextWordId: clean(entry.contextWordId, 80), contextWord: clean(entry.contextWord, 80), bodyStateId: clean(entry.bodyStateId, 80), bodyState: clean(entry.bodyState, 80), note: clean(entry.note, 600), timezone: clean(entry.timezone, 80), schemaVersion: clean(entry.schemaVersion, 80) };
+  const record = { ...(sameDay ? { _id: sameDay._id, _createdDate: sameDay._createdDate } : { submissionId }), memberId, date: dateValue(expected.date), completedAt: sameDay?.completedAt || now, updatedAt: now, status: 'completed', emotionId: canonicalEmotionId, emotion: expected.emotion, feelingId: clean(entry.feelingId, 80), feeling: expected.feeling, contextWordId: clean(entry.contextWordId, 80), contextWord: clean(entry.contextWord, 80), bodyStateId: clean(entry.bodyStateId, 80), bodyState: clean(entry.bodyState, 80), note: clean(entry.note, 600), timezone: clean(entry.timezone, 80), schemaVersion: clean(entry.schemaVersion, 80) };
   if (sameDay) {
     const saved = await wixData.update(CHECKINS, record, OPTIONS);
     return { checkinId: saved._id, savedRecord: normalizedCheckin(saved), checkins: await getCheckins(memberId), updatedExistingDay: true };

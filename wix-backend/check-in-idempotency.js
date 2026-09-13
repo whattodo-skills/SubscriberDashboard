@@ -18,7 +18,7 @@ export function createCheckinPersistence({ findOwned, insert, listHistory, norma
     let saved;
     let idempotentReplay = false;
     try {
-      saved = await insert({ ...record, _id: submissionId, submissionId, memberId });
+      saved = await insert({ ...record, submissionId, memberId });
     } catch (error) {
       const raced = await findOwned(memberId, submissionId);
       if (!raced) throw error;
