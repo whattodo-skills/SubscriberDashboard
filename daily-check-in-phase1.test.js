@@ -118,6 +118,7 @@ test('every spreadsheet feeling has a specific definition and opens the five-par
   assert.match(html, /feelingGuide\(state\.emotion,state\.feeling,parentGuide\)/);
   assert.match(html, /FEELING_DEFINITIONS\[label\]/);
   assert.doesNotMatch(html, /None of these fit|Skip this step/);
+  assert.doesNotMatch(html, /panel\.scrollIntoView/);
 });
 
 test('legacy HTTP save action remains separate from canonical idempotent saveCheckin', () => {
