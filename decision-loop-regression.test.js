@@ -111,8 +111,9 @@ const dailySave = backend.slice(backend.indexOf('async function saveLegacy'), ba
 assert(dailySave.includes('wixData.insert(CHECKINS'), 'Daily Check-In must remain in MoodCheckIns');
 assert(!dailySave.includes('DECISION_LOOPS'), 'Daily Check-In must not write to DecisionLoops');
 assert(webValidator.includes("input[key] !== undefined && input[key] !== null"), 'optional intensity ratings must allow null');
-assert(frontend.includes('if(st.saveReflection)p.privateReflection=st.reflection'), 'supplied optional reflection must be included only when selected');
-assert(frontend.includes('var p={checkinId:st.checkinId,reflectionSaved:false}'), 'omitted optional reflection must submit an explicit false state');
+assert(!frontend.includes('privateReflection=st.reflection'), 'Decision Loop must not offer private-reflection saving');
+assert(frontend.includes('reflectionSaved:false'), 'reflection saving must remain disabled');
+assert(frontend.includes('data-start-over>Start Over'), 'the final Decision Loop step must offer Start Over');
 assert(backend.includes('if (!dismissed && entry.reflectionSaved === true)'), 'backend must store optional reflection only when explicitly selected');
 
 // 11. Help Me Decide relies only on its dashboard accordion for closing.
