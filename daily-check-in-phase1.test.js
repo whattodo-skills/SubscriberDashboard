@@ -100,6 +100,25 @@ test('interface confirms only a complete backend receipt and distinguishes histo
   assert.match(compactHtml, /rows\.slice\(0,4\)/);
 });
 
+test('every spreadsheet feeling has a specific definition and opens the five-part Feelings Wheel card', () => {
+  const vm = require('node:vm');
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(`${fs.readFileSync(path.join(__dirname, 'daily-check-in-library.js'), 'utf8')};this.library=DAILY_CHECKIN_LIBRARY`, context);
+  vm.runInContext(`${fs.readFileSync(path.join(__dirname, 'feeling-guides.js'), 'utf8')};this.definitions=FEELING_DEFINITIONS`, context);
+  const feelings = Object.values(context.library.emotions).flatMap(emotion => emotion.f);
+  assert.equal(Object.keys(context.library.emotions).length, 18);
+  assert.equal(feelings.length, 262);
+  for (const feeling of feelings) {
+    assert.ok(context.definitions[feeling], `missing definition for ${feeling}`);
+    assert.doesNotMatch(context.definitions[feeling], /more precise feeling associated with/i);
+  }
+  const html = fs.readFileSync(path.join(__dirname, 'emotion-feeling-check-in.html'), 'utf8');
+  for (const section of ['What this feeling is', 'How it feels in your body', 'Thoughts it brings', 'If it feels uncomfortable', 'How to put it into words']) assert.match(html, new RegExp(section, 'i'));
+  assert.match(html, /feelingGuide\(state\.emotion,state\.feeling,parentGuide\)/);
+  assert.match(html, /FEELING_DEFINITIONS\[label\]/);
+});
+
 test('legacy HTTP save action remains separate from canonical idempotent saveCheckin', () => {
   const backend = fs.readFileSync(path.join(__dirname, 'wix-backend/http-functions.js'), 'utf8');
   assert.match(backend, /if \(action === 'save'\) result = await saveLegacy/);
