@@ -31,6 +31,7 @@ assert(dashboard.includes('class="orientation-link" type="button" data-open-chec
 assert(dashboard.includes('class="orientation-link" type="button" data-open-decision>Decide</button>'));
 assert(dashboard.includes('class="orientation-link" type="button" data-open-skill-chooser>Practice</button>'));
 assert(dashboard.includes('id="continueSkillsButton">Build</button>'));
+assert(dashboard.includes('<div class="section-head"><h2>Notice</h2><p>Name the Emotion and Feeling of the day with the Daily Check-In and see a pattern develop over time</p></div>'));
 assert(dashboard.includes('setSectionOpen("stack",true);var chooser=document.getElementById("skillChooser")'));
 assert(!dashboard.includes('Choose a skill to work on now, or continue the one already in progress.'));
 assert(!dashboard.includes('You practiced "+skill.title+". What did you learn?'));
