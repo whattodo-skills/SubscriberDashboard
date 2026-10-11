@@ -28,6 +28,7 @@ assert(decisionCompact.includes('if(st.emotion)p.emotion=st.emotion'));
 assert(decisionCompact.includes('if(Number.isInteger(st.before))p.intensityBefore=st.before'));
 assert(!dashboard.includes('Choose something to practice'));
 assert(dashboard.includes('class="orientation-link" type="button" data-open-checkin aria-expanded="false" aria-controls="dailyCheckinPanel">Notice</button>'));
+assert(!dashboard.includes('<span class="notice-word"'));
 assert(dashboard.includes('class="orientation-link" type="button" data-open-decision>Decide</button>'));
 assert(dashboard.includes('class="orientation-link" type="button" data-open-skill-chooser>Practice</button>'));
 assert(dashboard.includes('id="continueSkillsButton">Build</button>'));
