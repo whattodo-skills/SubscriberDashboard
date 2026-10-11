@@ -12,8 +12,8 @@ assert(web.includes('currentMember.getMember()'));
 assert(web.includes("if (!member?._id) throw new Error('authenticated_member_required')"));
 assert(web.includes("const source = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : legacyEntry;"));
 assert(web.includes("const safe = validate(action, { ...source });"));
-assert(web.includes("action === 'saveStack' || action === 'removeStack'"));
 assert(web.includes("if (!entitlement.paid) throw new Error('paid_plan_required')"));
+assert(web.includes("return { bridgeError: error?.message || 'daily_check_in_failed' }"));
 assert(web.includes('never spread `safe` into a record'));
 assert(page.includes("data.type !== 'dashboardBridgeReady'"));
 assert(page.includes("component.postMessage({ type: 'bridgeReady' })"));
@@ -21,6 +21,7 @@ assert(page.includes("data.type !== 'dailyCheckInBridgeRequest'"));
 assert(page.includes('seen.has(data.requestId)'));
 assert(page.includes('seen.add(data.requestId)'));
 assert(page.includes('requestId: data.requestId'));
+assert(page.includes('if (result?.bridgeError) throw new Error(result.bridgeError)'));
 for (const action of ['list', 'previewRecommendations', 'startLoop', 'markSkillOpened', 'completeLoop', 'dismissLoop', 'restartLoop', 'getReflection']) {
   assert(web.includes(`'${action}'`), `web method missing ${action}`);
   assert(page.includes(`'${action}'`), `bridge allowlist missing ${action}`);

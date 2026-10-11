@@ -56,7 +56,7 @@ No production CMS row was created because production writes were explicitly out 
 
 ## Paid-plan decision
 
-The current Daily Check-In contract is signed-in-member-only, not paid-plan-only. No existing paid-plan check was found on this route, so Phase 1 does not silently add one. If Daily Check-In should require an active paid plan, that is a separate product/access decision and must be added and tested before release.
+Daily Check-In is paid-plan-only. The web method derives the current member and entitlement on the backend, rejects every action when `entitlement.paid` is false, and returns the portable `paid_plan_required` code because Wix masks thrown web-method errors. The iframe translates that code into a clear active-subscription message instead of displaying Wix's generic request failure.
 
 ## Separate containment plan (not implemented)
 

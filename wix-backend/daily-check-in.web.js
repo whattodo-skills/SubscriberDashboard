@@ -62,25 +62,27 @@ function validate(action, input) {
 }
 
 export const dailyCheckIn = webMethod(Permissions.SiteMember, async ({ action, entry, requestId, ...legacyEntry } = {}) => {
-  if (!ACTIONS.has(action)) throw new Error('unsupported_action');
-  const member = await currentMember.getMember();
-  if (!member?._id) throw new Error('authenticated_member_required');
-  if (action === 'saveStack' || action === 'removeStack') {
+  try {
+    if (!ACTIONS.has(action)) throw new Error('unsupported_action');
+    const member = await currentMember.getMember();
+    if (!member?._id) throw new Error('authenticated_member_required');
     const entitlement = await getCurrentEntitlement();
     if (!entitlement.memberId || entitlement.memberId !== member._id) throw new Error('authenticated_member_required');
     if (!entitlement.paid) throw new Error('paid_plan_required');
+    const source = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : legacyEntry;
+    const safe = validate(action, { ...source });
+    // Service functions must query/update by both check-in ID and this member ID.
+    // They must construct CMS records explicitly; never spread `safe` into a record.
+    return await dispatchAction(action, member._id, safe, entitlement);
+  } catch (error) {
+    // Wix masks thrown web-method errors. Return a narrow portable code so the
+    // bridge can show an actionable message without exposing backend details.
+    return { bridgeError: error?.message || 'daily_check_in_failed' };
   }
-  const source = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : legacyEntry;
-  const safe = validate(action, { ...source });
-  // Service functions must query/update by both check-in ID and this member ID.
-  // They must construct CMS records explicitly; never spread `safe` into a record.
-  return dispatchAction(action, member._id, safe);
 });
 
-async function dispatchAction(action, memberId, entry) {
+async function dispatchAction(action, memberId, entry, entitlement) {
   if (action === 'list') {
-    const entitlement = await getCurrentEntitlement();
-    if (!entitlement.memberId || entitlement.memberId !== memberId) throw new Error('authenticated_member_required');
     return listForMember(memberId, entitlement);
   }
   if (action === 'saveCheckin') return saveCheckinForMember(memberId, entry);
