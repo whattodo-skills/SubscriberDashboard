@@ -62,7 +62,7 @@ assert(decision.includes('Which outcome would put '));
 assert(!decision.includes('What seems to be influencing this most?'));
 assert(dashboard.includes('Practice history could not load. Please retry.'));
 assert(dashboard.includes('Your Skills Stack could not load. Please retry.'));
-assert(dashboard.includes('Learning summary could not load. Please retry.'));
+assert(!dashboard.includes('Learning summary could not load. Please retry.'));
 assert(dashboard.includes('feeling:String(item&&item.feeling||"").trim()'));
 assert(dashboard.includes('No skill practice has been recorded yet.'));
 assert(dashboard.includes('document.getElementById("learningMood").textContent=recent.length>=2'));
