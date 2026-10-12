@@ -68,6 +68,7 @@ assert(dashboard.includes('No skill practice has been recorded yet.'));
 assert(dashboard.includes('document.getElementById("learningMood").textContent=recent.length>=2'));
 assert(dashboard.includes('See what you’ve noticed, the decisions you’ve worked through, the skills you’ve practiced, and what you’re building over time.'));
 ['Notice', 'Decide', 'Practice', 'Build', 'Latest Check-In', 'Mood Pattern', 'Values I’m Using', 'Recent Decision', 'Skill I’m Practicing', 'Recent Practice', 'My Skills Stack', 'What’s Helping'].forEach(label => assert(dashboard.includes(label)));
+assert(!dashboard.includes('Review your check-ins, points, badges, and streak.'));
 assert(dashboard.includes('document.getElementById("learningDecision")'));
 assert(dashboard.includes('document.getElementById("learningHelping")'));
 assert(!dashboard.includes('<h3>Current Mood</h3>'));
