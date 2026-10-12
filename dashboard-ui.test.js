@@ -39,6 +39,8 @@ assert(!dashboard.includes('>Recently practiced<'));
 assert(!dashboard.includes('id="recentSkillChoices"'));
 assert(dashboard.includes('<h3>What would be most useful right now?</h3>'));
 assert(dashboard.includes('<h3 id="buildTitleHeading">Build</h3><p>My Skills Stack</p><div class="stack-states" id="stackSlots"'));
+assert.strictEqual((dashboard.match(/<section class="practice-build-panel"/g) || []).length, 2);
+assert(dashboard.indexOf("Skills you've practiced") < dashboard.indexOf('</section>\n      <section class="practice-build-panel" aria-labelledby="buildTitleHeading"'));
 assert(dashboard.indexOf('id="practice"') < dashboard.indexOf('id="stackSlots"'));
 assert(dashboard.includes('<div class="section-head"><h2>Notice</h2><p>Name the Emotion and Feeling of the day with the Daily Check-In and see a pattern develop over time</p></div>'));
 assert(dashboard.includes('<div class="section-head"><h2>Decide</h2><p>First choose the values that guide you then use them to decide your next step.</p></div>'));
