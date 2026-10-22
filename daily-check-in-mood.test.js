@@ -22,7 +22,11 @@ test('complete check-in flow keeps categories separate and supplies hover defini
   assert.match(ui, /Which word describes it more precisely/);
   assert.match(ui, /What does the situation feel like/);
   assert.match(ui, /What do you notice in your body/);
-  assert.match(ui, /What was happening when you noticed this/);
+  assert.match(ui, /What do this emotion, mood, and body response mean to you/);
+  assert.match(ui, /CONTEXT_BY_EMOTION/);
+  assert.match(ui, /BODY_BY_EMOTION/);
+  assert.match(ui, /FEELING_REFINEMENTS/);
+  assert.match(ui, /My interpretation/);
   assert.match(ui, /data-definition/);
   assert.match(ui, /kind==="feeling"/);
   assert.match(ui, /id="feelingDetail"/);

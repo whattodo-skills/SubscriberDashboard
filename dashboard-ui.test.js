@@ -16,7 +16,7 @@ assert(dashboard.includes('toggle.textContent=open?"▲":"▼"'));
 assert(dashboard.includes('.progress-overview{margin:16px 0 14px'));
 assert(dashboard.includes('window.open(url,"_blank","noopener,noreferrer")'));
 assert(dashboard.includes('terribot:"https://www.whattodo.coach/terribot-premium"'));
-assert(dashboard.includes('emotion-feeling-check-in.html?v=inactive-subscription-ee560e8'));
+assert(dashboard.includes('emotion-feeling-check-in.html?v=adaptive-checkin-20261022'));
 assert(dashboard.includes('button.disabled=state.allowed===false'));
 assert(dashboard.includes('Search more skills here'));
 assert(!dashboard.includes('Explore More Skills'));
