@@ -32,7 +32,7 @@ const needToday = dashboard.slice(needTodayStart, needTodayEnd);
 assert(needToday.includes('class="section-head need-today-head"'));
 assert.strictEqual((needToday.match(/id="orientationUpgrade"/g) || []).length, 1);
 assert.strictEqual((needToday.match(/>Upgrade Subscription<\/a>/g) || []).length, 1);
-assert(needToday.includes('href="https://www.whattodo.coach/pricing-plans/the-subscription" target="_top"'));
+assert(needToday.includes('href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top"'));
 const orientationCards = needToday.match(/<article class="orientation-card[^]*?<\/article>/g) || [];
 assert.strictEqual(orientationCards.length, 4);
 assert.strictEqual(orientationCards.slice(0, 3).filter((card) => card.includes('Upgrade Subscription')).length, 0);
