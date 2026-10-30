@@ -12,7 +12,7 @@
 :root{--navy:#182047;--cream:#f7f4ed;--white:#fff;--ink:#1f2433;--muted:#667085;--line:#ddd8ce;--mint:#b4dacd;--purple:#4f5dad;--rose:#bd3a59;--gold:#e8c547;--orange:#f4a261;--teal:#3dbfa8}
 html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:"Source Sans 3",Arial,sans-serif}
 button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.subscription-locked{position:relative;box-sizing:border-box;filter:grayscale(.88);opacity:.48}.subscription-locked button,.subscription-locked input,.subscription-locked select,.subscription-locked textarea,.subscription-locked iframe,.subscription-locked a{pointer-events:none}.subscription-lock-note{position:relative;z-index:21;margin:10px 0 0;border:1px solid #cfd4ea;border-radius:9px;background:#fff;padding:10px 12px;color:var(--navy);font-size:.86rem;font-weight:800}
+.subscription-locked{position:relative;box-sizing:border-box}.subscription-locked>*:not(.upgrade-subscription-cta):not(.subscription-lock-note){filter:grayscale(.88);opacity:.48}.subscription-locked button,.subscription-locked input,.subscription-locked select,.subscription-locked textarea,.subscription-locked iframe,.subscription-locked a{pointer-events:none}.subscription-locked .upgrade-subscription-cta{pointer-events:auto}.subscription-lock-note{position:relative;z-index:21;margin:10px 0 0;border:1px solid #cfd4ea;border-radius:9px;background:#fff;padding:10px 12px;color:var(--navy);font-size:.86rem;font-weight:800}
 .dashboard{max-width:1120px;margin:auto;padding:clamp(16px,3vw,34px)}
 .header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;border-radius:18px;background:var(--navy);padding:clamp(22px,4vw,38px);color:#fff;box-shadow:0 12px 30px rgba(24,32,71,.14)}
 .eyebrow{margin-bottom:7px;color:var(--mint);font-size:.72rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase}.header h1{margin:0 0 6px;font-size:clamp(2rem,5vw,3.25rem);line-height:1}.header p{margin:0;color:rgba(255,255,255,.74);font-size:1.05rem}
@@ -25,7 +25,7 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
 .checkin-panel{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--cream);padding:12px}.checkin-panel[hidden]{display:none}.checkin-panel-head{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:10px}.checkin-panel-head h3{margin:0}.checkin-frame{display:block;width:100%;height:760px;border:0;border-radius:9px;background:var(--cream)}.checkin-status{margin:10px 2px 0;color:var(--navy);font-weight:800}
 .pathway{position:relative;margin-top:16px}.section{position:relative;margin-bottom:14px;border:1px solid var(--line);border-radius:16px;background:var(--white);padding:clamp(20px,3.5vw,34px);box-shadow:0 6px 20px rgba(24,32,71,.05)}
 .section-head{margin-bottom:22px}.section h2,.section h3{margin-top:0;color:var(--navy);line-height:1.15}.section h2{margin-bottom:5px;font-size:clamp(1.45rem,3vw,2rem)}.section-head p{margin:0;color:var(--muted);line-height:1.45}
-.need-today-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.need-today-copy{min-width:0}.upgrade-subscription-cta{display:inline-flex;min-height:40px;flex:0 0 auto;align-items:center;justify-content:center;border:1px solid #7b84b8;border-radius:999px;background:#fff;padding:8px 14px;color:var(--navy);font-size:.78rem;font-weight:900;letter-spacing:.04em;text-align:center;text-decoration:none;white-space:nowrap}.upgrade-subscription-cta:hover{border-color:var(--purple);background:#edf1f8}.upgrade-subscription-cta[hidden]{display:none}
+.need-today-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.need-today-copy{min-width:0}.upgrade-subscription-cta{display:inline-flex;min-height:42px;flex:0 0 auto;align-items:center;justify-content:center;border:2px solid var(--gold);border-radius:999px;background:linear-gradient(135deg,var(--navy),var(--purple));box-shadow:0 7px 18px rgba(24,32,71,.22);padding:9px 16px;color:#fff;font-size:.8rem;font-weight:900;letter-spacing:.04em;text-align:center;text-decoration:none;white-space:nowrap}.upgrade-subscription-cta:hover{border-color:#ffd95d;background:linear-gradient(135deg,#222d63,#6573c4);transform:translateY(-1px)}.upgrade-subscription-cta[hidden]{display:none}.has-upgrade-cta{position:relative;padding-top:76px!important}.section-upgrade-cta{position:absolute;z-index:30;top:16px;right:18px}
 .collapsible-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:0}.progress-overview .collapsible-head h2{margin:0;color:var(--navy);font-size:clamp(1.45rem,3vw,2rem);line-height:1.15}.collapse-toggle{flex:0 0 auto;width:42px;height:42px;border:1px solid #ccd5ee;border-radius:50%;background:#edf1f8;padding:0;color:var(--purple);cursor:pointer;font-size:1.1rem;font-weight:900}.collapsible-content:not([hidden]){margin-top:18px}.collapsible-content[hidden]{display:none}
 .category-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.category{display:flex;min-height:190px;flex-direction:column;border:2px solid var(--line);border-radius:12px;background:#fff;padding:16px;text-align:left;cursor:pointer}.category:hover{border-color:var(--mint);background:#f5fbf9}.category strong{display:block;margin-bottom:5px;color:var(--navy);font-size:1.18rem}.category-description{display:block;color:var(--muted);font-size:.9rem;line-height:1.32}.value-anchor{margin-top:auto;padding-top:16px}.value-label{display:block;color:var(--muted);font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.value-name{display:block;margin-top:2px;color:var(--navy);font-size:1.08rem;font-weight:900;line-height:1.2}.value-empty{display:block;margin-top:2px;color:var(--muted);font-size:.85rem;line-height:1.25}.category-action{display:block;margin-top:12px;color:var(--purple);font-size:.84rem;font-weight:900}
 .compass{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;margin-top:14px;border-left:5px solid var(--mint);border-radius:10px;background:#f5fbf9;padding:16px 18px}.compass h3{margin-bottom:3px;font-size:1.08rem}.compass p{margin:0;color:var(--muted);line-height:1.4}.compass-progress{font-weight:800;color:var(--navy)}
@@ -56,7 +56,7 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
 
   <div class="pathway">
     <section class="section" id="find">
-      <div class="section-head need-today-head"><div class="need-today-copy"><h2>What do you need today?</h2><p>Choose the path that fits where you are right now.</p></div><a class="upgrade-subscription-cta" id="orientationUpgrade" href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Upgrade Subscription</a></div>
+      <div class="section-head need-today-head"><div class="need-today-copy"><h2>What do you need today?</h2><p>Choose the path that fits where you are right now.</p></div><a class="upgrade-subscription-cta" id="orientationUpgrade" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a></div>
       <nav class="orientation" aria-label="Dashboard pathways">
         <div class="orientation-grid">
           <article class="orientation-card daily-card"><h3>Daily Check-In</h3><p>How am I feeling today?</p><p>Notice and label your emotion and feeling, then see your 14-day mood pattern.</p><div class="orientation-links"><button class="orientation-link" type="button" data-open-checkin aria-expanded="false" aria-controls="dailyCheckinPanel">Notice</button></div></article>
@@ -68,7 +68,8 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
     </section>
   </div>
 
-  <section class="progress-overview" id="learning-progress" aria-label="Skills Points and badges">
+  <section class="progress-overview has-upgrade-cta" id="learning-progress" aria-label="Skills Points and badges">
+    <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
     <div class="section-head collapsible-head"><div><h2>Progress</h2></div><button class="collapse-toggle" type="button" data-collapse="learning-progress" aria-expanded="false" aria-controls="progressContent">Show Progress</button></div>
     <div class="collapsible-content" id="progressContent" hidden>
     <div class="reinforcement" aria-label="Progress reinforcement"><div class="metric"><span>Skills Points</span><strong id="points">Loading…</strong></div><div class="metric"><span>Badges</span><strong id="badges">Loading…</strong></div><div class="metric"><span>Current Streak</span><strong id="streak">Loading…</strong></div></div>
@@ -92,7 +93,8 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
   </section>
 
   <div class="pathway">
-    <section class="section" id="daily-check-in">
+    <section class="section has-upgrade-cta" id="daily-check-in">
+      <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
       <div class="section-head"><h2>Notice</h2><p>Name the Emotion and Feeling of the day with the Daily Check-In and see a pattern develop over time</p></div>
       <div class="checkin-panel" id="dailyCheckinPanel">
         <iframe class="checkin-frame" id="dailyCheckinFrame" title="Daily Check-In" data-src="emotion-feeling-check-in.html?v=adaptive-checkin-20261022"></iframe>
@@ -100,7 +102,8 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
       </div>
     </section>
 
-    <section class="section" id="help-me-decide">
+    <section class="section has-upgrade-cta" id="help-me-decide">
+      <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
       <div class="section-head"><h2>Decide</h2><p>First choose the values that guide you then use them to decide your next step.</p></div>
       <div class="values-decision"><button class="nested-toggle" id="valuesCompassToggle" type="button" aria-expanded="false" aria-controls="valuesCompassPanel"><span><strong>1. Choose the values that will guide you</strong><br><span id="valuesCompassStatus">Complete the Values Compass before starting the Decision Loop.</span></span><span aria-hidden="true">▼</span></button><div class="nested-panel" id="valuesCompassPanel" hidden><iframe class="values-frame" id="valuesCompassFrame" title="Values Compass" data-src="https://whattodo-skills.github.io/skills/values-compass.html?v=decision-values-20260913"></iframe></div></div>
       <div class="decision-gate" id="decisionGate" aria-disabled="true"><button class="nested-toggle" id="decisionLoopToggle" type="button" aria-expanded="false" aria-controls="decisionLoopPanel"><span><strong>2. Use your values to choose the next step</strong><br><span id="decisionGateStatus">Finish the Values Compass first.</span></span><span aria-hidden="true">▼</span></button><div class="checkin-panel nested-panel" id="decisionLoopPanel" hidden>
@@ -112,7 +115,8 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
     <section class="section" id="stack">
       <div class="section-head collapsible-head"><div><h2>Practice &amp; Build</h2><span id="stackFlowStatus" hidden role="status" aria-live="polite"></span></div><button class="collapse-toggle" type="button" data-collapse="stack" aria-expanded="true" aria-controls="stackContent">Hide Practice &amp; Build</button></div>
       <div class="collapsible-content" id="stackContent">
-      <section class="practice-build-panel" id="practice" aria-labelledby="practiceTitleHeading">
+      <section class="practice-build-panel has-upgrade-cta" id="practice" aria-labelledby="practiceTitleHeading">
+        <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
         <h3 id="practiceTitleHeading">Practice</h3>
         <span id="practiceHistory" hidden aria-hidden="true"></span>
         <div class="skill-chooser" id="skillChooser"><div class="section-head"><h3>What would be most useful right now?</h3></div><div class="chooser-needs"><button class="secondary" type="button" data-need="focus">I need to focus</button><button class="secondary" type="button" data-need="coping">I need help coping</button><button class="secondary" type="button" data-need="feelings">I want to understand what I’m feeling</button><button class="secondary" type="button" data-need="connecting">I need help connecting with someone</button><button class="secondary" type="button" data-open-checkin>I’m not sure</button></div><div class="chooser-footer"><button class="text-action" type="button" data-action="explore-skills">Search more skills here</button></div></div>
@@ -123,14 +127,16 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
       </div>
     </section>
 
-    <section class="section" id="deeper">
+    <section class="section has-upgrade-cta" id="deeper">
+      <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
       <div class="section-head collapsible-head"><div><h2>Go Deeper</h2><p>Build on the skills you're practicing.</p></div><button class="collapse-toggle" type="button" data-collapse="deeper" aria-expanded="false" aria-controls="deeperContent">Show Go Deeper</button></div>
       <div class="collapsible-content" id="deeperContent" hidden>
       <div id="deeperStatus" class="status" role="status" aria-live="polite">Loading related learning…</div><div id="deeperResources" class="learning-links" aria-live="polite"></div><div class="stack-footer"><button class="secondary" type="button" data-action="explore-learning">Browse all learning</button></div>
       </div>
     </section>
 
-    <section class="section" id="support">
+    <section class="section has-upgrade-cta" id="support">
+      <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
       <div class="section-head collapsible-head"><div><h2>Get Support</h2><p>Get help applying what you're learning.</p></div><button class="collapse-toggle" type="button" data-collapse="support" aria-expanded="false" aria-controls="supportContent">Show Get Support</button></div>
       <div class="collapsible-content" id="supportContent" hidden>
       <div class="resource-row"><div><h3>TerriBot</h3><p>Get help choosing, practicing, or applying a skill.</p></div><div class="resource-actions"><span class="access" data-access="terribot">Checking access…</span><button class="primary" type="button" data-action="terribot">Ask TerriBot</button></div></div>
@@ -139,7 +145,8 @@ button,a{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var
       </div>
     </section>
 
-    <section class="section" id="learning">
+    <section class="section has-upgrade-cta" id="learning">
+      <a class="upgrade-subscription-cta section-upgrade-cta" data-upgrade-subscription href="https://www.whattodo.coach/pricing-plans/the-subscription#comp-mooipe8i" target="_top">Unlock Your Next Step</a>
       <div class="section-head"><h2>What I’m Learning About Myself</h2><p>See what you’ve noticed, the decisions you’ve worked through, the skills you’ve practiced, and what you’re building over time.</p></div>
       <div class="learning-summary">
         <section class="learning-path" aria-labelledby="learningNoticeHeading"><h3 id="learningNoticeHeading">Notice</h3><div class="learning-measures"><article class="learning-link"><h4>Latest Check-In</h4><p id="learningCheckin">No check-in yet. Complete a Daily Check-In to begin noticing patterns in how you feel.</p></article><article class="learning-link"><h4>Mood Pattern</h4><p id="learningMood">Complete a few check-ins to see which feelings appear most often.</p></article></div></section>
@@ -211,7 +218,7 @@ var checkinFrame=document.getElementById("dailyCheckinFrame");
 var decisionPanel=document.getElementById("decisionLoopPanel"),decisionFrame=document.getElementById("decisionLoopFrame"),valuesPanel=document.getElementById("valuesCompassPanel"),valuesFrame=document.getElementById("valuesCompassFrame"),valuesToggle=document.getElementById("valuesCompassToggle"),decisionToggle=document.getElementById("decisionLoopToggle"),decisionGate=document.getElementById("decisionGate"),valuesComplete=false;
 var dashboardPaidAccess=false,dashboardAccessResolved=false;
 var paidFeatureRoots=[document.querySelector(".progress-overview")].concat(Array.prototype.slice.call(document.querySelectorAll(".orientation-card")).slice(0,3),[document.getElementById("daily-check-in"),document.getElementById("help-me-decide"),document.querySelector("#stack .practice-build-panel"),document.getElementById("learning"),document.getElementById("learning-progress"),document.getElementById("deeper"),document.getElementById("support")]).filter(Boolean);
-function applyDashboardSubscriptionAccess(paid){dashboardAccessResolved=true;dashboardPaidAccess=paid===true;var upgrade=document.getElementById("orientationUpgrade");if(upgrade)upgrade.hidden=dashboardPaidAccess;paidFeatureRoots.forEach(function(root){root.classList.toggle("subscription-locked",!dashboardPaidAccess);root.setAttribute("aria-disabled",String(!dashboardPaidAccess));root.querySelectorAll("button,input,select,textarea").forEach(function(control){if(!control.hasAttribute("data-subscription-initial-disabled"))control.setAttribute("data-subscription-initial-disabled",control.disabled?"true":"false");control.disabled=!dashboardPaidAccess||control.getAttribute("data-subscription-initial-disabled")==="true"});root.querySelectorAll("iframe,a").forEach(function(item){item.setAttribute("aria-disabled",String(!dashboardPaidAccess));if(!dashboardPaidAccess)item.setAttribute("tabindex","-1");else item.removeAttribute("tabindex")});var note=root.querySelector(".subscription-lock-note");if(!dashboardPaidAccess&&!note){note=document.createElement("p");note.className="subscription-lock-note";note.textContent="Available with a paid subscription.";root.appendChild(note)}else if(dashboardPaidAccess&&note)note.remove()});renderStack(checkinProgress(DASHBOARD_DATA));applyStackCustomizationAccess();reportDashboardHeight()}
+function applyDashboardSubscriptionAccess(paid){dashboardAccessResolved=true;dashboardPaidAccess=paid===true;document.querySelectorAll("[data-upgrade-subscription]").forEach(function(upgrade){upgrade.hidden=dashboardPaidAccess});paidFeatureRoots.forEach(function(root){root.classList.toggle("subscription-locked",!dashboardPaidAccess);root.setAttribute("aria-disabled",String(!dashboardPaidAccess));root.querySelectorAll("button,input,select,textarea").forEach(function(control){if(!control.hasAttribute("data-subscription-initial-disabled"))control.setAttribute("data-subscription-initial-disabled",control.disabled?"true":"false");control.disabled=!dashboardPaidAccess||control.getAttribute("data-subscription-initial-disabled")==="true"});root.querySelectorAll("iframe,a").forEach(function(item){if(item.hasAttribute("data-upgrade-subscription")){item.removeAttribute("aria-disabled");item.removeAttribute("tabindex");return}item.setAttribute("aria-disabled",String(!dashboardPaidAccess));if(!dashboardPaidAccess)item.setAttribute("tabindex","-1");else item.removeAttribute("tabindex")});var note=root.querySelector(".subscription-lock-note");if(!dashboardPaidAccess&&!note){note=document.createElement("p");note.className="subscription-lock-note";note.textContent="Available with a paid subscription.";root.appendChild(note)}else if(dashboardPaidAccess&&note)note.remove()});renderStack(checkinProgress(DASHBOARD_DATA));applyStackCustomizationAccess();reportDashboardHeight()}
 applyDashboardSubscriptionAccess(false);
 var checkinOpener=null;
 var COLLAPSE_LABELS={"daily-check-in":"Daily Check-In","help-me-decide":"Help Me Decide",practice:"Practice","learning-progress":"My Progress",stack:"Practice & Build",deeper:"Go Deeper",support:"Get Support",learning:"What I’m Learning About Myself"};
