@@ -22,6 +22,8 @@ assert(dashboard.includes('function applyDashboardSubscriptionAccess(paid)'));
 assert(dashboard.includes('applyDashboardSubscriptionAccess(false)'));
 assert(dashboard.includes('message.access.dashboard&&message.access.dashboard.allowed'));
 assert(dashboard.includes('.subscription-locked{'));
+assert(dashboard.includes('.subscription-locked iframe,.subscription-locked a{pointer-events:none}'));
+assert(!dashboard.includes('.subscription-locked iframe{visibility:hidden}'));
 assert(dashboard.includes('.learning-summary,.orientation-grid{grid-template-columns:1fr}'));
 assert(dashboard.includes('Available with a paid subscription.'));
 assert(dashboard.includes('!["list","saveStack","removeStack"].includes(action)'));
