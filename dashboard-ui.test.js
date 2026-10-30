@@ -24,9 +24,11 @@ assert(dashboard.includes('message.access.dashboard&&message.access.dashboard.al
 assert(dashboard.includes('.subscription-locked{'));
 assert(dashboard.includes('.subscription-locked iframe,.subscription-locked a{pointer-events:none}'));
 assert(!dashboard.includes('.subscription-locked iframe{visibility:hidden}'));
+assert(dashboard.includes('Four starter skills are included with Free. Upgrade to replace or remove skills.'));
+assert(dashboard.includes('button.hidden=false;button.disabled=!dashboardPaidAccess'));
+assert(dashboard.includes('dashboardAccessResolved&&!dashboardPaidAccess&&action!=="list"'));
 assert(dashboard.includes('.learning-summary,.orientation-grid{grid-template-columns:1fr}'));
 assert(dashboard.includes('Available with a paid subscription.'));
-assert(dashboard.includes('!["list","saveStack","removeStack"].includes(action)'));
 assert(dashboard.includes('Search more skills here'));
 assert(!dashboard.includes('Explore More Skills'));
 assert(!dashboard.includes('Browse by category'));
